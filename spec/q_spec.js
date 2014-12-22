@@ -902,65 +902,29 @@ describe(
     'toString',
     function ()
     {
-        describe(
-            'Contextless',
-            function ()
-            {
-                it(
-                    '0 parameters',
-                    function ()
-                    {
-                        expect(Q.toString()).toBeString();
-                    }
-                );
-                
-                it(
-                    '1 parameter',
-                    function ()
-                    {
-                        var q = Q(12345);
-                        expect(Q.toString(q)).toBe(q.toString());
-                    }
-                );
-            }
-        );
+        function test(description, value, expected)
+        {
+            it(description, function () { expect(Q.toString(value)).toBe(expected); });
+        }
         
+        test('with arg 1', 1, '1');
+        test('with arg -1', -1, '-1');
+        test('with arg 0', 0, '0');
+        test('with positive rational arg', 98 / 75, '2⋅3⁻¹⋅5⁻²⋅7²');
+        test('with negative rational arg', -98 / 75, '-2⋅3⁻¹⋅5⁻²⋅7²');
+        test('with large prime arg', 100000000003, '100000000003');
+        test('with arg with a large positive exp', Q(2).pow(Q.MAX_EXP), '2⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
+        test('with arg with a large negative exp', Q(2).pow(Q.MIN_EXP), '2⁻⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
+        it('on instance', function () { expect(Q(-2 / 3).toString()).toBe('-2⋅3⁻¹'); });
         it(
-            'Prime over 2^32',
-            function ()
-            {
-                var n1 = 100000000003;
-                var n2 = 20000000089;
-                expect(Q(n1).toString()).toBe(n1 + '');
-                expect(Q(n1).times(n2).toString()).toBe(n2 + '⋅' + n1);
-            }
+            'on constructor with Q arg',
+            function () { expect(Q.toString(Q(-0.1))).toBe('-2⁻¹⋅5⁻¹'); }
         );
-        
         it(
-            'Small numbers',
-            function ()
-            {
-                expect(Q(0).toString()).toBe('0');
-                expect(Q(1).toString()).toBe('1');
-                expect(Q(-1).toString()).toBe('-1');
-            }
+            'on constructor with decimal string arg',
+            function () { expect(Q.toString('-0.1')).toBe('-2⁻¹⋅5⁻¹'); }
         );
-        
-        it(
-            'Composite numbers',
-            function ()
-            {
-                expect(Q(360).toString()).toBe('2³⋅3²⋅5');
-            }
-        );
-        
-        it(
-            'Fraction',
-            function ()
-            {
-                expect(Q(-0.5).toString()).toBe('-2⁻¹');
-            }
-        );
+        it('on constructor without args', function () { expect(Q.toString()).toBeString(); });
     }
 );
 
@@ -968,56 +932,20 @@ describe(
     'valueOf',
     function ()
     {
-        it(
-            'Positive number',
-            function ()
-            {
-                expect(Q(1).valueOf()).toBe(1);
-                expect(Q(8).valueOf()).toBe(8);
-                expect(Q(14 / 15).valueOf()).toBe(14 / 15);
-            }
-        );
+        function test(description, q, expected)
+        {
+            it(description, function () { expect(q.valueOf()).toBe(expected); });
+        }
         
-        it(
-            'Negative number',
-            function ()
-            {
-                expect(Q(-1).valueOf()).toBe(-1);
-                expect(Q(-21).valueOf()).toBe(-21);
-                expect(Q(-8 / 9).valueOf()).toBe(-8 / 9);
-            }
-        );
-        
-        it('Zero', function () { expect(Q(0).valueOf()).toBe(0); });
-        
-        it(
-            'Very large positive integer',
-            function () { expect(Q.pow(2, Q.MAX_EXP).valueOf()).toBe(Infinity); }
-        );
-        
-        it(
-            'Very large negative integer',
-            function () { expect(Q.pow(-3, Q.MAX_EXP).valueOf()).toBe(-Infinity); }
-        );
-        
-        it(
-            'Very large fraction',
-            function () { expect(Q.pow(1.5, Q.MAX_EXP).valueOf()).toBe(Infinity); }
-        );
-        
-        it(
-            'Very small positive integer',
-            function () { expect(Q.pow(3, Q.MIN_EXP).valueOf()).toBe(0); }
-        );
-        
-        it(
-            'Very small negative integer',
-            function () { expect(Q.pow(-2, Q.MIN_EXP).valueOf()).toBe(0); }
-        );
-        
-        it(
-            'Very small fraction',
-            function () { expect(Q.pow(1.5, Q.MIN_EXP).valueOf()).toBe(0); }
-        );
+        test('with arg 1', Q(1), 1);
+        test('with arg -1', Q(-1), -1);
+        test('with arg 0', Q(0), 0);
+        test('with large prime arg', Q(100000000003), 100000000003);
+        test('with positive rational arg', Q(98 / 75), 98 / 75);
+        test('with negative rational arg', Q(-98 / 75), -98 / 75);
+        test('with very small positive arg', Q(3 / 2).pow(Q.MIN_EXP), 0);
+        test('with very small negative arg', Q(-3 / 2).pow(Q.MIN_EXP), 0);
+        test('with very large positive arg', Q(3 / 2).pow(Q.MAX_EXP), Infinity);
+        test('with very large negative arg', Q(-3 / 2).pow(Q.MAX_EXP), -Infinity);
     }
 );
