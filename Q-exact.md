@@ -15,10 +15,15 @@
   * [q.negate()](#Q#negate)
   * [Q.negate(operand)](#Q.negate)
   * [q.over(divisor)](#Q#over)
+  * [q.pow(exp)](#Q#pow)
+  * [Q.pow(base, exp)](#Q.pow)
   * [q.plus(addend)](#Q#plus)
   * [q.subtract(subtrahend)](#Q#subtract)
   * [Q.subtract(minuend, subtrahend)](#Q.subtract)
   * [q.times(factor)](#Q#times)
+  * [q.toString()](#Q#toString)
+  * [Q.toString(q)](#Q.toString)
+  * [q.valueOf()](#Q#valueOf)
   * [const: Q.MAX_EXP](#Q.MAX_EXP)
   * [const: Q.MAX_PRIME](#Q.MAX_PRIME)
   * [const: Q.MIN_EXP](#Q.MIN_EXP)
@@ -110,6 +115,21 @@ A synonym of [divide](#Q#divide).
 - divisor <code>[Q](#Q)</code>  
 
 **Returns**: [Q](#Q) - The quotient.  
+<a name="Q#pow"></a>
+##q.pow(exp)
+**Params**
+
+- exp <code>[Q](#Q)</code> - The exponent.  
+
+**Returns**: [Q](#Q) - `this` raised to the power of the exponent.  
+<a name="Q.pow"></a>
+##Q.pow(base, exp)
+**Params**
+
+- base <code>[Q](#Q)</code> - The base.  
+- exp <code>[Q](#Q)</code> - The exponent.  
+
+**Returns**: [Q](#Q) - The base raised to the power of the exponent.  
 <a name="Q#plus"></a>
 ##q.plus(addend)
 A synonym of [add](#Q#add).
@@ -143,6 +163,23 @@ A synonym of [multiply](#Q#multiply).
 - factor <code>[Q](#Q)</code> - Rational to multiply by `this`.  
 
 **Returns**: [Q](#Q) - The product.  
+<a name="Q#toString"></a>
+##q.toString()
+**Returns**:  - A string representation of `this`.  
+<a name="Q.toString"></a>
+##Q.toString(q)
+**Params**
+
+- q <code>[Q](#Q)</code>  
+
+**Returns**:  - A string representation of the argument.  
+<a name="Q#valueOf"></a>
+##q.valueOf()
+**Returns**:  - A numeric representation of `this`.
+
+The number returned by this function is subject to rounding: rationals with very large
+absolute value will be rounded to positive or negative infinity, and very small rationals
+will be rounded to 0.  
 <a name="Q.MAX_EXP"></a>
 ##const: Q.MAX_EXP
 The maximum exponent for a prime factor.
