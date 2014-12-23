@@ -741,15 +741,40 @@ describe(
 );
 
 describe(
+    'invert',
+    function ()
+    {
+        it('1', function () { expect(Q.invert(1)).toBeQ(1); });
+        it('-1', function () { expect(Q.invert(-1)).toBeQ(-1); });
+        it(
+            '0',
+            function () { expect(function () { Q.invert(0); }).toThrow(NoRationalResultError); }
+        );
+        it('positive rational', function () { expect(Q.invert(75 / 28)).toBeQ(28 / 75); });
+        it('negative rational', function () { expect(Q.invert(-75 / 28)).toBeQ(-28 / 75); });
+        it('on instance', function () { expect(Q(-2 / 3).invert()).toBeQ(-3 / 2); });
+        it(
+            'on constructor with Q arg',
+            function () { expect(Q.invert(Q(75 / 28))).toBeQ(28 / 75); }
+        );
+        it(
+            'on constructor with decimal string arg',
+            function () { expect(Q.invert('0.1')).toBeQ(10); }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.invert(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
     'multiply',
     function ()
     {
         var test = createTestCall('multiply');
         
-        it(
-            'is also named times',
-            function () { expect(Q.prototype.plus).toBe(Q.prototype.add); }
-        );
+        it('is also named times', function () { expect(Q.prototype.plus).toBe(Q.prototype.add); });
         test('1 × 1', 1, 1, 1);
         test('-1 × -1', -1, -1, 1);
         test('0 × 0', 0, 0, 0);
@@ -824,7 +849,7 @@ describe(
         it('0', function () { expect(Q.negate(0)).toBeQ(0); });
         it('positive rational', function () { expect(Q.negate(123)).toBeQ(-123); });
         it('negative rational', function () { expect(Q.negate(-Math.PI)).toBeQ(Math.PI); });
-        it('on instance', function () { expect(Q(- 75 / 28).negate()).toBeQ(75 / 28); });
+        it('on instance', function () { expect(Q(-75 / 28).negate()).toBeQ(75 / 28); });
         it(
             'on constructor with Q arg',
             function () { expect(Q.negate(Q(75 / 28))).toBeQ(-75 / 28); }

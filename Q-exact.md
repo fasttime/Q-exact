@@ -13,6 +13,8 @@ otherwise.
   * [Q.divide(divisor, dividend)](#Q.divide)
   * [q.equals(comparand)](#Q#equals)
   * [Q.equals([...comparands])](#Q.equals)
+  * [q.invert()](#Q#invert)
+  * [Q.invert(operand)](#Q.invert)
   * [q.minus(subtrahend)](#Q#minus)
   * [q.multiply(factor)](#Q#multiply)
   * [Q.multiply([...factors])](#Q.multiply)
@@ -39,7 +41,12 @@ The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)
 
 **Params**
 
-- value  - The numeric value of the object being created.  
+- value  - The numeric value of the object being created.
+
+**Errors**
+
+The constructor throws an "Invalid argument" error if the argument cannot be converted to a
+finite numeric value.  
 
 <a name="Q#add"></a>
 ##q.add(addend)
@@ -86,9 +93,19 @@ Divides `this` by a specified quantity.
 - \[...comparands\] <code>[Q](#Q)</code> - Optional rationals to compare for equality.  
 
 **Returns**: `boolean` - `true` if all comparands are equal.  
+<a name="Q#invert"></a>
+##q.invert()
+**Returns**: [Q](#Q) - The reciprocal of `this`.  
+<a name="Q.invert"></a>
+##Q.invert(operand)
+**Params**
+
+- operand <code>[Q](#Q)</code>  
+
+**Returns**: [Q](#Q) - The reciprocal of the operand.  
 <a name="Q#minus"></a>
 ##q.minus(subtrahend)
-Asynonym of [subtract](#Q#subtract).
+A synonym of [subtract](#Q#subtract).
 
 **Params**
 
@@ -188,11 +205,13 @@ A synonym of [multiply](#Q#multiply).
 **Returns**:  - A string representation of the argument.  
 <a name="Q#valueOf"></a>
 ##q.valueOf()
-**Returns**:  - A numeric representation of `this`.
+Returns a numeric representation of this rational.
 
 The number returned by this function is subject to rounding: the result is *not exact*.
 Rationals with very large absolute value will be rounded to positive or negative infinity,
-and very small rationals will be rounded to 0.  
+and very small rationals will be rounded to 0.
+
+**Returns**:  - A numeric representation of `this`.  
 <a name="Q.MAX_EXP"></a>
 ##const: Q.MAX_EXP
 The maximum exponent for a prime factor.
