@@ -5,7 +5,7 @@
 var Q = require('../lib/q');
 
 var ArithmeticOverflowError = new Error('Arithmetic overflow');
-var InvalidArgumentsError = new Error('Invalid arguments');
+var InvalidArgumentError = new Error('Invalid argument');
 var NoRationalResultError = new Error('No rational result');
 
 var ERR_NR = { };
@@ -232,8 +232,8 @@ describe(
                 description,
                 function ()
                 {
-                    expect(function () { Q(value); }).toThrow(InvalidArgumentsError);
-                    expect(function () { new Q(value); }).toThrow(InvalidArgumentsError);
+                    expect(function () { Q(value); }).toThrow(InvalidArgumentError);
+                    expect(function () { new Q(value); }).toThrow(InvalidArgumentError);
                 }
             );
         }
@@ -256,8 +256,8 @@ describe(
             'without args',
             function ()
             {
-                expect(function () { Q(); }).toThrow(InvalidArgumentsError);
-                expect(function () { new Q(); }).toThrow(InvalidArgumentsError);
+                expect(function () { Q(); }).toThrow(InvalidArgumentError);
+                expect(function () { new Q(); }).toThrow(InvalidArgumentError);
             }
         );
     }
@@ -425,17 +425,17 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).pow(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).pow(); }).toThrow(InvalidArgumentError); }
         );
         test('on constructor with Q args', Q(-0.1), Q(2), 0.01);
         test('on constructor with decimal string args', '-0.1', '2', 0.01);
         it(
             'on constructor without args',
-            function () { expect(function () { Q.pow(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.pow(); }).toThrow(InvalidArgumentError); }
         );
         it(
             'on constructor with one arg',
-            function () { expect(function () { Q.pow(1); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.pow(1); }).toThrow(InvalidArgumentError); }
         );
     }
 );
@@ -479,7 +479,7 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).add(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).add(); }).toThrow(InvalidArgumentError); }
         );
         test('on constructor with Q args', Q(-0.1), Q(2), 1.9);
         test('on constructor with decimal string args', '-0.1', '2', 1.9);
@@ -650,17 +650,17 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).divide(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).divide(); }).toThrow(InvalidArgumentError); }
         );
         test('on constructor with Q args', Q(-0.1), Q(2), -0.05);
         test('on constructor with decimal string args', '-0.1', '2', -0.05);
         it(
             'on constructor without args',
-            function () { expect(function () { Q.divide(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.divide(); }).toThrow(InvalidArgumentError); }
         );
         it(
             'on constructor with one arg',
-            function () { expect(function () { Q.divide(1); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.divide(1); }).toThrow(InvalidArgumentError); }
         );
     }
 );
@@ -709,7 +709,7 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).equals(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).equals(); }).toThrow(InvalidArgumentError); }
         );
         it(
             'on constructor with Q args',
@@ -799,7 +799,7 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).multiply(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).multiply(); }).toThrow(InvalidArgumentError); }
         );
         test('on constructor with Q args', Q(-0.1), Q(2), -0.2);
         test('on constructor with decimal string args', '-0.1', '2', -0.2);
@@ -835,7 +835,7 @@ describe(
         );
         it(
             'on constructor without args',
-            function () { expect(function () { Q.negate(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.negate(); }).toThrow(InvalidArgumentError); }
         );
     }
 );
@@ -883,17 +883,17 @@ describe(
         );
         it(
             'on instance without args',
-            function () { expect(function () { Q(1).subtract(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q(1).subtract(); }).toThrow(InvalidArgumentError); }
         );
         test('on constructor with Q args', Q(-0.1), Q(2), -2.1);
         test('on constructor with decimal string args', '-0.1', '2', -2.1);
         it(
             'on constructor without args',
-            function () { expect(function () { Q.subtract(); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.subtract(); }).toThrow(InvalidArgumentError); }
         );
         it(
             'on constructor with one arg',
-            function () { expect(function () { Q.subtract(1); }).toThrow(InvalidArgumentsError); }
+            function () { expect(function () { Q.subtract(1); }).toThrow(InvalidArgumentError); }
         );
     }
 );

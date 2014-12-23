@@ -1,8 +1,12 @@
 <a name="Q"></a>
 #class: Q
+Represents a rational number. All operations involving `Q`s are *exact*, unless explicitly noted
+otherwise.
+
 **Members**
 
 * [class: Q](#Q)
+  * [new Q(value)](#new_Q)
   * [q.add(addend)](#Q#add)
   * [Q.add([...addends])](#Q.add)
   * [q.divide(divisor)](#Q#divide)
@@ -27,6 +31,15 @@
   * [const: Q.MAX_EXP](#Q.MAX_EXP)
   * [const: Q.MAX_PRIME](#Q.MAX_PRIME)
   * [const: Q.MIN_EXP](#Q.MIN_EXP)
+
+<a name="new_Q"></a>
+##new Q(value)
+Creates a new instance of `Q` with a specified value.
+The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)` or `Q(2.5)`.
+
+**Params**
+
+- value  - The numeric value of the object being created.  
 
 <a name="Q#add"></a>
 ##q.add(addend)
@@ -177,9 +190,9 @@ A synonym of [multiply](#Q#multiply).
 ##q.valueOf()
 **Returns**:  - A numeric representation of `this`.
 
-The number returned by this function is subject to rounding: rationals with very large
-absolute value will be rounded to positive or negative infinity, and very small rationals
-will be rounded to 0.  
+The number returned by this function is subject to rounding: the result is *not exact*.
+Rationals with very large absolute value will be rounded to positive or negative infinity,
+and very small rationals will be rounded to 0.  
 <a name="Q.MAX_EXP"></a>
 ##const: Q.MAX_EXP
 The maximum exponent for a prime factor.
