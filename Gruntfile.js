@@ -6,6 +6,7 @@ function (grunt)
     // Project configuration.
     grunt.initConfig(
         {
+            clean: ['coverage', 'lib/**/*.min.js'],
             jasmine_node:
             {
                 main: '**/*.js',
@@ -59,11 +60,12 @@ function (grunt)
     );
     
     // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-jasmine-node-coverage');
     grunt.loadNpmTasks('grunt-jsdoc-to-markdown');
     
     // Default task.
-    grunt.registerTask('default', ['jshint', 'jasmine_node', 'jsdoc2md', 'uglify']);
+    grunt.registerTask('default', ['clean', 'jshint', 'jasmine_node', 'jsdoc2md', 'uglify']);
 };
