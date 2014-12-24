@@ -8,24 +8,20 @@ function (grunt)
         {
             jasmine_node:
             {
-                options: { },
-                src: ['**/*.js']
+                main: '**/*.js',
+                options: { }
             },
             jsdoc2md:
             {
-                withOptions:
-                {
-                    dest: 'Q-exact.md',
-                    options: { index: false },
-                    src: 'lib/q.js',
-                }
+                main: { dest: 'Q-exact.md', src: 'lib/q.js' },
+                options: { }
             },
             jshint:
             {
                 any:
                 {
                     options: { globals: { module: true, self: true } },
-                    src: ['lib/q.js']
+                    src: 'lib/q.js'
                 },
                 node:
                 {
@@ -56,7 +52,7 @@ function (grunt)
             },
             uglify:
             {
-                main: { files: { 'lib/q.min.js': ['lib/q.js'] } },
+                main: { files: { 'lib/q.min.js': 'lib/q.js' } },
                 options: { compress: { global_defs: { DEBUG: false } } }
             }
         }
