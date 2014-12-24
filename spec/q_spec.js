@@ -35,7 +35,7 @@ function compareFactors(factors1, factors2)
     return result;
 }
 
-function createTestCall(operationName, symmetric)
+function createTestCall(operationName, symmetric, asQ)
 {
     function test(description, op1, op2, expected)
     {
@@ -95,7 +95,7 @@ function createTestCall(operationName, symmetric)
         }
         else
         {
-            var matcherName = typeof expected === 'boolean' ? 'toBe' : 'toBeQ';
+            var matcherName = asQ ? 'toBeQ' : 'toBe';
             if (symmetric && op1 !== op2)
             {
                 testCase =
@@ -267,7 +267,7 @@ describe(
     'pow',
     function ()
     {
-        var test = createTestCall('pow');
+        var test = createTestCall('pow', false, true);
         
         function setBase(base)
         {
@@ -444,7 +444,7 @@ describe(
     'add',
     function ()
     {
-        var test = createTestCall('add', true);
+        var test = createTestCall('add', true, true);
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         
@@ -464,6 +464,12 @@ describe(
         test('-1 + too small negative', -1, -Math.pow(2, -53), ERR_AO);
         test('1 + too large positive', 1, Math.pow(2, 53), ERR_AO);
         test('-1 + too large negative', -1, -Math.pow(2, 53), ERR_AO);
+        test(
+            'fails if common numerator cannot be represented exactly',
+            Math.pow(3, 16),
+            Q(5).pow(-12),
+            ERR_AO
+        );
         test('fails if an exp would be too large', maxPow2, maxPow2, ERR_AO);
         it(
             'on instance with numeric arg',
@@ -490,10 +496,161 @@ describe(
 );
 
 describe(
+    'compare/compareTo',
+    function ()
+    {
+        var test = createTestCall('compare', false, false);
+        
+        var maxPow2 = Q(2).pow(Q.MAX_EXP);
+        var maxPow3 = Q(3).pow(Q.MAX_EXP);
+        var maxPowMinus2 = Q(-2).pow(Q.MAX_EXP);
+        var maxPowMinus3 = Q(-3).pow(Q.MAX_EXP);
+        var minPow2 = Q(2).pow(Q.MIN_EXP);
+        var minPowMinus2 = Q(-2).pow(Q.MIN_EXP);
+        
+        function setFirstComparand(comparand1)
+        {
+            var result =
+                function (description, comparand2, expected)
+                {
+                    test(description, comparand1, comparand2, expected);
+                };
+            return result;
+        }
+        
+        describe(
+            '0',
+            function ()
+            {
+                var test = setFirstComparand(0);
+                test('to 0', 0, 0);
+                test('to positive rational', 75 / 28, -1);
+                test('to negative rational', -75 / 28, 1);
+                test('to very small positive', minPow2, -1);
+                test('to very small negative', minPowMinus2, 1);
+                test('to very large positive', maxPow2, -1);
+                test('to very large negative', maxPowMinus2, 1);
+            }
+        );
+        
+        describe(
+            'positive rational',
+            function ()
+            {
+                var test = setFirstComparand(2 / 3);
+                test('to 0', 0, 1);
+                test('to smaller positive rational', 0.5, 1);
+                test('to larger positive rational', 5, -1);
+                test('to equal positive rational', 2 / 3, 0);
+                test('to negative rational', -75 / 28, 1);
+                test('to very small negative', minPowMinus2, 1);
+                test('to very large negative', maxPowMinus3, 1);
+            }
+        );
+        
+        describe(
+            'negative rational',
+            function ()
+            {
+                var test = setFirstComparand(-2 / 3);
+                test('to 0', 0, -1);
+                test('to positive rational', 0.5, -1);
+                test('to smaller negative rational', -1, 1);
+                test('to larger negative rational', -0.1, -1);
+                test('to equal negative rational', -2 / 3, 0);
+                test('to very small positive', minPow2, -1);
+                test('to very large positive', maxPow3, -1);
+            }
+        );
+        
+        describe(
+            'very small positive',
+            function ()
+            {
+                var test = setFirstComparand(minPow2);
+                test('to 0', 0, 1);
+                test('to negative rational', -7 / 45, 1);
+                test('to very small negative', minPowMinus2, 1);
+                test('to very large negative', maxPowMinus3, 1);
+            }
+        );
+        
+        describe(
+            'very small negative',
+            function ()
+            {
+                var test = setFirstComparand(minPowMinus2);
+                test('to 0', 0, -1);
+                test('to positive rational', 7 / 45, -1);
+                test('to very small positive', minPow2, -1);
+                test('to very large positive', maxPow3, -1);
+            }
+        );
+        it(
+            'on instance with numeric arg',
+            function ()
+            {
+                expect(Q(2).compareTo(1)).toBe(1);
+                expect(Q(2).compareTo(7)).toBe(-1);
+                expect(Q(2).compareTo(2)).toBe(0);
+            }
+        );
+        it(
+            'on instance with Q arg',
+            function ()
+            {
+                expect(Q(2).compareTo(Q(1))).toBe(1);
+                expect(Q(2).compareTo(Q(7))).toBe(-1);
+                expect(Q(2).compareTo(Q(2))).toBe(0);
+            }
+        );
+        it(
+            'on instance with decimal string arg',
+            function ()
+            {
+                expect(Q(2).compareTo('1')).toBe(1);
+                expect(Q(2).compareTo('7')).toBe(-1);
+                expect(Q(2).compareTo('2')).toBe(0);
+            }
+        );
+        it(
+            'on instance without args',
+            function () { expect(function () { Q(1).compareTo(); }).toThrow(InvalidArgumentError); }
+        );
+        it(
+            'on constructor with Q args',
+            function ()
+            {
+                expect(Q.compare(Q(8), Q(7))).toBe(1);
+                expect(Q.compare(Q(7), Q(8))).toBe(-1);
+                expect(Q.compare(Q(7), Q(7))).toBe(0);
+            }
+        );
+        it(
+            'on constructor with decimal string args',
+            function ()
+            {
+                expect(Q.compare('8', '7')).toBe(1);
+                expect(Q.compare('7', '8')).toBe(-1);
+                expect(Q.compare('7', '7')).toBe(0);
+            }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.compare(); }).toThrow(InvalidArgumentError); }
+        );
+        it(
+            'on constructor with one arg',
+            function () { expect(function () { Q.compare(1); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
     'divide',
     function ()
     {
-        var test = createTestCall('divide');
+        var test = createTestCall('divide', false, true);
         
         function setDividend(dividend)
         {
@@ -505,12 +662,11 @@ describe(
             return result;
         }
         
+        var maxPow2 = Q(2).pow(Q.MAX_EXP);
+        var maxPowMinus2 = Q(-2).pow(Q.MAX_EXP);
         var minPow2 = Q(2).pow(Q.MIN_EXP);
         var minPow3 = Q(3).pow(Q.MIN_EXP);
-        var maxPow2 = Q(2).pow(Q.MAX_EXP);
-        var minPowMinus2 = Q(-2).pow(Q.MIN_EXP);
         var minPowMinus3 = Q(-3).pow(Q.MIN_EXP);
-        var maxPowMinus2 = Q(-2).pow(Q.MAX_EXP);
         
         it(
             'is also named over',
@@ -602,46 +758,8 @@ describe(
             }
         );
         
-        describe(
-            'too small positive',
-            function ()
-            {
-                var test = setDividend(minPow2);
-                test('by positive rational', 2 / 3, ERR_AO);
-                test('by negative rational', -2 / 3, ERR_AO);
-            }
-        );
-        
-        describe(
-            'too small negative',
-            function ()
-            {
-                var test = setDividend(minPowMinus2);
-                test('by positive rational', 2 / 3, ERR_AO);
-                test('by negative rational', -2 / 3, ERR_AO);
-            }
-        );
-        
-        describe(
-            'too large positive',
-            function ()
-            {
-                var test = setDividend(maxPow2);
-                test('by positive rational', 3 / 2, ERR_AO);
-                test('by negative rational', -3 / 2, ERR_AO);
-            }
-        );
-        
-        describe(
-            'too large negative',
-            function ()
-            {
-                var test = setDividend(maxPowMinus2);
-                test('by positive rational', 3 / 2, ERR_AO);
-                test('by negative rational', -3 / 2, ERR_AO);
-            }
-        );
-        
+        test('too small by rational', minPow2, 2 / 3, ERR_AO);
+        test('too large by rational', maxPow2, 3 / 2, ERR_AO);
         it('on instance with numeric arg', function () { expect(Q(2).divide(-2)).toBeQ(-1); });
         it('on instance with Q arg', function () { expect(Q(2).divide(Q(-2))).toBeQ(-1); });
         it(
@@ -669,7 +787,7 @@ describe(
     'equals',
     function ()
     {
-        var test = createTestCall('equals', true);
+        var test = createTestCall('equals', true, false);
         
         test('1 = 1', 1, 1, true);
         test('-1 = -1', -1, -1, true);
@@ -772,7 +890,15 @@ describe(
     'multiply',
     function ()
     {
-        var test = createTestCall('multiply');
+        var test = createTestCall('multiply', true, true);
+        
+        var maxPow2 = Q(2).pow(Q.MAX_EXP);
+        var maxPow2Third = Q(2 / 3).pow(Q.MAX_EXP);
+        var maxPow3 = Q(3).pow(Q.MAX_EXP);
+        var maxPow6 = Q(6).pow(Q.MAX_EXP);
+        var minPow2 = Q(2).pow(Q.MIN_EXP);
+        var minPow3 = Q(3).pow(Q.MIN_EXP);
+        var minPow6 = Q(6).pow(Q.MIN_EXP);
         
         it('is also named times', function () { expect(Q.prototype.plus).toBe(Q.prototype.add); });
         test('1 × 1', 1, 1, 1);
@@ -790,26 +916,11 @@ describe(
         test('-1 × negative rational', -1, -75 / 28, 75 / 28);
         test('0 × positive rational', 0, 75 / 28, 0);
         test('0 × negative rational', 0, -75 / 28, 0);
-        test(
-            'very small × very small',
-            Q(2).pow(Q.MIN_EXP),
-            Q(3).pow(Q.MIN_EXP),
-            Q(6).pow(Q.MIN_EXP)
-        );
-        test(
-            'very large × very large',
-            Q(2).pow(Q.MAX_EXP),
-            Q(3).pow(Q.MAX_EXP),
-            Q(6).pow(Q.MAX_EXP)
-        );
-        test(
-            'very small × very large',
-            Q(3).pow(Q.MIN_EXP),
-            Q(2).pow(Q.MAX_EXP),
-            Q(2 / 3).pow(Q.MAX_EXP)
-        );
-        test('fails if an exp would be too small', Q(2).pow(Q.MIN_EXP), 3 / 2, ERR_AO);
-        test('fails if an exp would be too large', Q(3).pow(Q.MAX_EXP), 3 / 2, ERR_AO);
+        test('very small × very small', minPow2, minPow3, minPow6);
+        test('very large × very large', maxPow2, maxPow3, maxPow6);
+        test('very small × very large', minPow3, maxPow2, maxPow2Third);
+        test('fails if an exp would be too small', minPow2, 3 / 2, ERR_AO);
+        test('fails if an exp would be too large', maxPow3, 3 / 2, ERR_AO);
         it(
             'on instance with numeric arg',
             function () { expect(Q(2).multiply(-0.3333333333333333)).toBeQ(-2 / 3); }
@@ -869,7 +980,7 @@ describe(
     'subtract',
     function ()
     {
-        var test = createTestCall('subtract');
+        var test = createTestCall('subtract', false, true);
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var maxPowMinus2 = Q(-2).pow(Q.MAX_EXP);
@@ -899,6 +1010,12 @@ describe(
         test('too large negative - 1', -Math.pow(2, 53), 1, ERR_AO);
         test('-1 - too large positive', -1, Math.pow(2, 53), ERR_AO);
         test('too large positive - -1', Math.pow(2, 53), -1, ERR_AO);
+        test(
+            'fails if common numerator cannot be represented exactly',
+            Math.pow(3, 16),
+            Q(5).pow(-12),
+            ERR_AO
+        );
         test('fails if an exp would be too large', maxPow2, maxPowMinus2, ERR_AO);
         it('on instance with numeric arg', function () { expect(Q(2).subtract(-2)).toBeQ(4); });
         it('on instance with Q arg', function () { expect(Q(2).subtract(Q(-2))).toBeQ(4); });
@@ -932,14 +1049,17 @@ describe(
             it(description, function () { expect(Q.toString(value)).toBe(expected); });
         }
         
+        var maxPow2 = Q(2).pow(Q.MAX_EXP);
+        var minPow2 = Q(2).pow(Q.MIN_EXP);
+        
         test('with arg 1', 1, '1');
         test('with arg -1', -1, '-1');
         test('with arg 0', 0, '0');
         test('with positive rational arg', 98 / 75, '2⋅3⁻¹⋅5⁻²⋅7²');
         test('with negative rational arg', -98 / 75, '-2⋅3⁻¹⋅5⁻²⋅7²');
         test('with large prime arg', 100000000003, '100000000003');
-        test('with arg with a large positive exp', Q(2).pow(Q.MAX_EXP), '2⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
-        test('with arg with a large negative exp', Q(2).pow(Q.MIN_EXP), '2⁻⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
+        test('with arg with a large positive exp', maxPow2, '2⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
+        test('with arg with a large negative exp', minPow2, '2⁻⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
         it('on instance', function () { expect(Q(-2 / 3).toString()).toBe('-2⋅3⁻¹'); });
         it(
             'on constructor with Q arg',

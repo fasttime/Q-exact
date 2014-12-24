@@ -9,6 +9,8 @@ otherwise.
   * [new Q(value)](#new_Q)
   * [q.add(addend)](#Q#add)
   * [Q.add([...addends])](#Q.add)
+  * [Q.compare(comparand1, comparand2)](#Q.compare)
+  * [q.compareTo(comparand)](#Q#compareTo)
   * [q.divide(divisor)](#Q#divide)
   * [Q.divide(divisor, dividend)](#Q.divide)
   * [q.equals(comparand)](#Q#equals)
@@ -62,6 +64,23 @@ finite numeric value.
 - \[...addends\] <code>[Q](#Q)</code> - Optional rationals to add.  
 
 **Returns**: [Q](#Q) - The sum.  
+<a name="Q.compare"></a>
+##Q.compare(comparand1, comparand2)
+**Params**
+
+- comparand1 <code>[Q](#Q)</code> - First rational to be compared.  
+- comparand2 <code>[Q](#Q)</code> - Second rational to be compared.  
+
+**Returns**: `number` - 1 if the first rational is large than the second one, -1 if the first rational is
+smaller than the second one, or 0 if they are equal.  
+<a name="Q#compareTo"></a>
+##q.compareTo(comparand)
+**Params**
+
+- comparand <code>[Q](#Q)</code> - Rational to compare with `this`.  
+
+**Returns**: `number` - 1 if `this` is larger than the comparand, -1 if it is smaller, or 0 if they are
+equal.  
 <a name="Q#divide"></a>
 ##q.divide(divisor)
 Divides `this` by a specified quantity.
