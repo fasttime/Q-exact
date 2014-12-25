@@ -98,11 +98,13 @@ function createTestCall(operationName, symmetric, asQ)
             var matcherName = asQ ? 'toBeQ' : 'toBe';
             if (symmetric && op1 !== op2)
             {
+                var expected1 = expected;
+                var expected2 = test.flipResult(expected);
                 testCase =
                     function ()
                     {
-                        expect(Q[operationName](op1, op2))[matcherName](expected);
-                        expect(Q[operationName](op2, op1))[matcherName](expected);
+                        expect(Q[operationName](op1, op2))[matcherName](expected1);
+                        expect(Q[operationName](op2, op1))[matcherName](expected2);
                     };
             }
             else
@@ -114,6 +116,8 @@ function createTestCall(operationName, symmetric, asQ)
         
         it(description, testCase);
     }
+    
+    test.flipResult = function (expected) { return expected; };
     
     return test;
 }
@@ -499,7 +503,8 @@ describe(
     'compare/compareTo',
     function ()
     {
-        var test = createTestCall('compare', false, false);
+        var test = createTestCall('compare', true, false);
+        test.flipResult = function (expected) { return -expected; };
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var maxPow3 = Q(3).pow(Q.MAX_EXP);
@@ -508,84 +513,33 @@ describe(
         var minPow2 = Q(2).pow(Q.MIN_EXP);
         var minPowMinus2 = Q(-2).pow(Q.MIN_EXP);
         
-        function setFirstComparand(comparand1)
-        {
-            var result =
-                function (description, comparand2, expected)
-                {
-                    test(description, comparand1, comparand2, expected);
-                };
-            return result;
-        }
+        test('0 = 0', 0, 0, 0);
+        test('0 < positive rational', 0, 75 / 28, -1);
+        test('0 > negative rational', 0, -75 / 28, 1);
+        test('0 < very small positive', 0, minPow2, -1);
+        test('0 > very small negative', 0, minPowMinus2, 1);
+        test('0 < very large positive', 0, maxPow2, -1);
+        test('0 > very large negative', 0, maxPowMinus2, 1);
         
-        describe(
-            '0',
-            function ()
-            {
-                var test = setFirstComparand(0);
-                test('to 0', 0, 0);
-                test('to positive rational', 75 / 28, -1);
-                test('to negative rational', -75 / 28, 1);
-                test('to very small positive', minPow2, -1);
-                test('to very small negative', minPowMinus2, 1);
-                test('to very large positive', maxPow2, -1);
-                test('to very large negative', maxPowMinus2, 1);
-            }
-        );
+        test('positive rational > positive rational', 2 / 3, 0.5, 1);
+        test('positive rational = positive rational', 2 / 3, 2 / 3, 0);
+        test('negative rational > negative rational', -2 / 3, -1, 1);
+        test('negative rational = negative rational', -2 / 3, -2 / 3, 0);
+        test('positive rational > negative rational', 2 / 3, -75 / 28, 1);
         
-        describe(
-            'positive rational',
-            function ()
-            {
-                var test = setFirstComparand(2 / 3);
-                test('to 0', 0, 1);
-                test('to smaller positive rational', 0.5, 1);
-                test('to larger positive rational', 5, -1);
-                test('to equal positive rational', 2 / 3, 0);
-                test('to negative rational', -75 / 28, 1);
-                test('to very small negative', minPowMinus2, 1);
-                test('to very large negative', maxPowMinus3, 1);
-            }
-        );
+        test('positive rational > very small negative', 2 / 3, minPowMinus2, 1);
+        test('positive rational < very large positive', 2 / 3, Math.pow(2, 53), -1);
+        test('positive rational > very large negative', 2 / 3, maxPowMinus3, 1);
         
-        describe(
-            'negative rational',
-            function ()
-            {
-                var test = setFirstComparand(-2 / 3);
-                test('to 0', 0, -1);
-                test('to positive rational', 0.5, -1);
-                test('to smaller negative rational', -1, 1);
-                test('to larger negative rational', -0.1, -1);
-                test('to equal negative rational', -2 / 3, 0);
-                test('to very small positive', minPow2, -1);
-                test('to very large positive', maxPow3, -1);
-            }
-        );
+        test('negative rational < very small positive', -2 / 3, minPow2, -1);
+        test('negative rational < very large positive', -2 / 3, maxPow3, -1);
+        test('negative rational > very large negative', -2 / 3, -Math.pow(2, 53), 1);
         
-        describe(
-            'very small positive',
-            function ()
-            {
-                var test = setFirstComparand(minPow2);
-                test('to 0', 0, 1);
-                test('to negative rational', -7 / 45, 1);
-                test('to very small negative', minPowMinus2, 1);
-                test('to very large negative', maxPowMinus3, 1);
-            }
-        );
+        test('very small positive > very small negative', minPow2, minPowMinus2, 1);
+        test('very small positive > very large negative', minPow2, maxPowMinus3, 1);
+        test('very small negative < very small positive', minPowMinus2, minPow2, -1);
+        test('very small negative < very large positive', minPowMinus2, maxPow3, -1);
         
-        describe(
-            'very small negative',
-            function ()
-            {
-                var test = setFirstComparand(minPowMinus2);
-                test('to 0', 0, -1);
-                test('to positive rational', 7 / 45, -1);
-                test('to very small positive', minPow2, -1);
-                test('to very large positive', maxPow3, -1);
-            }
-        );
         it(
             'on instance with numeric arg',
             function ()
