@@ -931,6 +931,31 @@ describe(
 );
 
 describe(
+    'sign',
+    function ()
+    {
+        it('of 1', function () { expect(Q.sign(1)).toBe(1); });
+        it('of -1', function () { expect(Q.sign(-1)).toBe(-1); });
+        it('of 0', function () { expect(Q.sign(0)).toBe(0); });
+        it('of positive rational', function () { expect(Q.sign(75 / 28)).toBe(1); });
+        it('of negative rational', function () { expect(Q.sign(-75 / 28)).toBe(-1); });
+        it('on instance', function () { expect(Q(-75 / 28).sign()).toBe(-1); });
+        it(
+            'on constructor with Q arg',
+            function () { expect(Q.sign(Q(75 / 28))).toBe(1); }
+        );
+        it(
+            'on constructor with decimal string arg',
+            function () { expect(Q.sign('0.1')).toBe(1); }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.sign(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
     'subtract',
     function ()
     {

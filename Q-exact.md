@@ -26,6 +26,8 @@ otherwise.
   * [q.pow(exp)](#Q#pow)
   * [Q.pow(base, exp)](#Q.pow)
   * [q.plus(addend)](#Q#plus)
+  * [q.sign()](#Q#sign)
+  * [Q.sign(operand)](#Q.sign)
   * [q.subtract(subtrahend)](#Q#subtract)
   * [Q.subtract(minuend, subtrahend)](#Q.subtract)
   * [q.times(factor)](#Q#times)
@@ -71,16 +73,15 @@ finite numeric value.
 - comparand1 <code>[Q](#Q)</code> - First rational to be compared.  
 - comparand2 <code>[Q](#Q)</code> - Second rational to be compared.  
 
-**Returns**: `number` - 1 if the first rational is large than the second one, -1 if the first rational is
-smaller than the second one, or 0 if they are equal.  
+**Returns**: `number` - -1, 0, or 1 as the first comparand is less than, equal to, or greater than the second
+comparand.  
 <a name="Q#compareTo"></a>
 ##q.compareTo(comparand)
 **Params**
 
-- comparand <code>[Q](#Q)</code> - Rational to compare with `this`.  
+- comparand <code>[Q](#Q)</code>  
 
-**Returns**: `number` - 1 if `this` is larger than the comparand, -1 if it is smaller, or 0 if they are
-equal.  
+**Returns**: `number` - -1, 0, or 1 as `this` is less than, equal to, or greater than the comparand.  
 <a name="Q#divide"></a>
 ##q.divide(divisor)
 Divides `this` by a specified quantity.
@@ -104,14 +105,14 @@ Divides `this` by a specified quantity.
 
 - comparand <code>[Q](#Q)</code> - Rational to compare for equality with `this`.  
 
-**Returns**: `boolean` - `true` if the comparand is equal.  
+**Returns**: `boolean` - `true` if `this` and the comparand are equal; otherwise, false.  
 <a name="Q.equals"></a>
 ##Q.equals([...comparands])
 **Params**
 
 - \[...comparands\] <code>[Q](#Q)</code> - Optional rationals to compare for equality.  
 
-**Returns**: `boolean` - `true` if all comparands are equal.  
+**Returns**: `boolean` - `true` if all comparands are equal; otherwise, false.  
 <a name="Q#invert"></a>
 ##q.invert()
 **Returns**: [Q](#Q) - The reciprocal of `this`.  
@@ -188,6 +189,16 @@ A synonym of [add](#Q#add).
 - addend <code>[Q](#Q)</code> - Rational to add to `this`.  
 
 **Returns**: [Q](#Q) - The sum.  
+<a name="Q#sign"></a>
+##q.sign()
+**Returns**: [Q](#Q) - -1, 0, or 1 as `this` is negative, zero, or positive.  
+<a name="Q.sign"></a>
+##Q.sign(operand)
+**Params**
+
+- operand <code>[Q](#Q)</code>  
+
+**Returns**: [Q](#Q) - -1, 0, or 1 as the operand is negative, zero, or positive.  
 <a name="Q#subtract"></a>
 ##q.subtract(subtrahend)
 **Params**
