@@ -1,5 +1,6 @@
 {
-  "name": "Q-exact",
+  "name": "q-exact",
+  "version": "0.0.0",
   "description": "A library for exact calculations with rational numbers",
   "main": "lib/q.js",
   "repository": {
@@ -13,5 +14,6 @@
     "grunt-contrib-uglify": "~0.6.0",
     "grunt-jasmine-node-coverage": "~0.3.1",
     "grunt-jsdoc-to-markdown": "~0.4.2"
-  }
+  },
+  "browserDependencies": {}
 }
