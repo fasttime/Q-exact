@@ -746,15 +746,15 @@ describe(
         test('1 = 1', 1, 1, true);
         test('-1 = -1', -1, -1, true);
         test('0 = 0', 0, 0, true);
-        test('1 = -1', 1, -1, false);
-        test('1 = 0', 1, 0, false);
-        test('-1 = 0', -1, 0, false);
+        test('1 ≠ -1', 1, -1, false);
+        test('1 ≠ 0', 1, 0, false);
+        test('-1 ≠ 0', -1, 0, false);
         test('with equal positive rationals', 75 / 28, 75 / 28, true);
         test('with equal negative rationals', -75 / 28, -75 / 28, true);
         test('with different positive rationals', 75 / 28, 3 / 2, false);
         test('with different negative rationals', -75 / 28, -3 / 2, false);
-        test('1 = positive rational', 1, 2 / 3, false);
-        test('-1 = negative rational', -1, -2 / 3, false);
+        test('1 ≠ positive rational', 1, 2 / 3, false);
+        test('-1 ≠ negative rational', -1, -2 / 3, false);
         it(
             'on instance with numeric arg',
             function ()
