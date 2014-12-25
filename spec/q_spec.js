@@ -460,10 +460,10 @@ describe(
         test('positive fractional + negative fractional', 2 / 7, -3 / 5, -11 / 35);
         test('-1 + very large positive', -1, Math.pow(2, 53), Math.pow(2, 53) - 1);
         test('1 + very large negative', 1, -Math.pow(2, 53), 1 - Math.pow(2, 53));
-        test('1 + too small positive', 1, Math.pow(2, -53), ERR_AO);
-        test('-1 + too small negative', -1, -Math.pow(2, -53), ERR_AO);
-        test('1 + too large positive', 1, Math.pow(2, 53), ERR_AO);
-        test('-1 + too large negative', -1, -Math.pow(2, 53), ERR_AO);
+        test('1 + too small positive', 1, Math.pow(2, -54), ERR_AO);
+        test('-1 + too small negative', -1, -Math.pow(2, -54), ERR_AO);
+        test('1 + too large positive', 1, Math.pow(2, 54), ERR_AO);
+        test('-1 + too large negative', -1, -Math.pow(2, 54), ERR_AO);
         test(
             'fails if common numerator cannot be represented exactly',
             Math.pow(3, 16),
