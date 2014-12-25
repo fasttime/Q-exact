@@ -143,13 +143,13 @@ beforeEach(
                         message = 'Unexpected enumerable properties set';
                         return false;
                     }
-                    if (!('factors' in actual))
+                    if (!('_factors' in actual))
                     {
                         message = 'Expected factors property not set';
                         return false;
                     }
-                    var sign = actual.sign;
-                    var factors = actual.factors;
+                    var sign = actual._sign;
+                    var factors = actual._factors;
                     if (sign === 0)
                     {
                         if (factors !== void 0)
@@ -181,8 +181,8 @@ beforeEach(
                     {
                         var expectedQ = typeof expected === 'number' ? Q(expected) : expected;
                         if (
-                            sign !== expectedQ.sign ||
-                            expectedQ.factors && !compareFactors(factors, expectedQ.factors))
+                            sign !== expectedQ._sign ||
+                            expectedQ._factors && !compareFactors(factors, expectedQ._factors))
                         {
                             message =
                                 'Expected ' +
@@ -219,7 +219,7 @@ describe(
     {
         function itShouldBeQ(description, value, factors)
         {
-            var expected = { sign: value > 0 ? 1 : value < 0 ? -1 : 0, factors: factors };
+            var expected = { _sign: value > 0 ? 1 : value < 0 ? -1 : 0, _factors: factors };
             it(
                 description,
                 function ()
@@ -337,19 +337,19 @@ describe(
                 test('and exp 1', 1, 2 / 3);
                 test('and exp -1', -1, 3 / 2);
                 test('and exp 0', 0, 1);
-                test('and positive integer exp', 6, { sign: 1, factors: { 2: 6, 3: -6 } });
-                test('and negative integer exp', -6, { sign: 1, factors: { 2: -6, 3: 6 } });
+                test('and positive integer exp', 6, { _sign: 1, _factors: { 2: 6, 3: -6 } });
+                test('and negative integer exp', -6, { _sign: 1, _factors: { 2: -6, 3: 6 } });
                 test('and positive fractional exp', 1.5, ERR_NR);
                 test('and negative fractional exp', -1.5, ERR_NR);
                 test(
                     'and very large positive exp',
                     Q.MAX_EXP,
-                    { sign: 1, factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
+                    { _sign: 1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
                 );
                 test(
                     'and very large negative exp',
                     Q.MIN_EXP,
-                    { sign: 1, factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
+                    { _sign: 1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
                 );
                 
                 describe(
@@ -382,21 +382,21 @@ describe(
                 test('and exp 1', 1, -2 / 3);
                 test('and exp -1', -1, -3 / 2);
                 test('and exp 0', 0, 1);
-                test('and positive odd exp', 7, { sign: -1, factors: { 2: 7, 3: -7 } });
-                test('and negative odd exp', -7, { sign: -1, factors: { 2: -7, 3: 7 } });
-                test('and positive even exp', 8, { sign: 1, factors: { 2: 8, 3: -8 } });
-                test('and negative even exp', -8, { sign: 1, factors: { 2: -8, 3: 8 } });
+                test('and positive odd exp', 7, { _sign: -1, _factors: { 2: 7, 3: -7 } });
+                test('and negative odd exp', -7, { _sign: -1, _factors: { 2: -7, 3: 7 } });
+                test('and positive even exp', 8, { _sign: 1, _factors: { 2: 8, 3: -8 } });
+                test('and negative even exp', -8, { _sign: 1, _factors: { 2: -8, 3: 8 } });
                 test('and positive fractional exp', 1.5, ERR_NR);
                 test('and negative fractional exp', -1.5, ERR_NR);
                 test(
                     'and very large positive exp',
                     Q.MAX_EXP,
-                    { sign: -1, factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
+                    { _sign: -1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
                 );
                 test(
                     'and very large negative exp',
                     Q.MIN_EXP,
-                    { sign: -1, factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
+                    { _sign: -1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
                 );
                 
                 describe(
@@ -646,8 +646,8 @@ describe(
                 test('by 0', 0, ERR_NR);
                 test('by positive rational', 75 / 28, 14 / 25);
                 test('by negative rational', -75 / 28, -14 / 25);
-                test('by very small positive', Number.MIN_VALUE, { sign: 1 });
-                test('by very small negative', -Number.MIN_VALUE, { sign: -1 });
+                test('by very small positive', Number.MIN_VALUE, { _sign: 1 });
+                test('by very small negative', -Number.MIN_VALUE, { _sign: -1 });
                 test('by too small positive', minPow3, ERR_AO);
                 test('by too small negative', minPowMinus3, ERR_AO);
                 test('by too large positive', maxPow2, ERR_AO);
@@ -663,8 +663,8 @@ describe(
                 test('by 0', 0, ERR_NR);
                 test('by positive rational', 75 / 28, -14 / 25);
                 test('by negative rational', -75 / 28, 14 / 25);
-                test('by very small positive', Number.MIN_VALUE, { sign: -1 });
-                test('by very small negative', -Number.MIN_VALUE, { sign: 1 });
+                test('by very small positive', Number.MIN_VALUE, { _sign: -1 });
+                test('by very small negative', -Number.MIN_VALUE, { _sign: 1 });
                 test('by too small positive', minPow3, ERR_AO);
                 test('by too small negative', minPowMinus3, ERR_AO);
                 test('by too large positive', maxPow2, ERR_AO);
@@ -677,8 +677,8 @@ describe(
             function ()
             {
                 var test = setDividend(Number.MIN_VALUE);
-                test('by positive rational', 2, { sign: 1 });
-                test('by negative rational', -2, { sign: -1 });
+                test('by positive rational', 2, { _sign: 1 });
+                test('by negative rational', -2, { _sign: -1 });
             }
         );
         
@@ -687,8 +687,8 @@ describe(
             function ()
             {
                 var test = setDividend(-Number.MIN_VALUE);
-                test('by positive rational', 2, { sign: -1 });
-                test('by negative rational', -2, { sign: 1 });
+                test('by positive rational', 2, { _sign: -1 });
+                test('by negative rational', -2, { _sign: 1 });
             }
         );
         
@@ -697,8 +697,8 @@ describe(
             function ()
             {
                 var test = setDividend(Math.pow(2, 1023));
-                test('by positive rational', 0.5, { sign: 1, factors: { 2: 1024 } });
-                test('by negative rational', -0.5, { sign: -1, factors: { 2: 1024 } });
+                test('by positive rational', 0.5, { _sign: 1, _factors: { 2: 1024 } });
+                test('by negative rational', -0.5, { _sign: -1, _factors: { 2: 1024 } });
             }
         );
         
@@ -707,8 +707,8 @@ describe(
             function ()
             {
                 var test = setDividend(-Math.pow(2, 1023));
-                test('by positive rational', 0.5, { sign: -1, factors: { 2: 1024 } });
-                test('by negative rational', -0.5, { sign: 1, factors: { 2: 1024 } });
+                test('by positive rational', 0.5, { _sign: -1, _factors: { 2: 1024 } });
+                test('by negative rational', -0.5, { _sign: 1, _factors: { 2: 1024 } });
             }
         );
         
