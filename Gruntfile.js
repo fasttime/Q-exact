@@ -54,7 +54,7 @@ function (grunt)
             uglify:
             {
                 main: { files: { 'lib/q.min.js': 'lib/q.js' } },
-                options: { compress: { global_defs: { DEBUG: false } } }
+                options: { compress: { global_defs: { DEBUG: false }, hoist_vars: true } }
             }
         }
     );
