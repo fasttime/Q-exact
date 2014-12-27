@@ -512,6 +512,8 @@ describe(
         var maxPowMinus3 = Q(-3).pow(Q.MAX_EXP);
         var minPow2 = Q(2).pow(Q.MIN_EXP);
         var minPowMinus2 = Q(-2).pow(Q.MIN_EXP);
+        var q3Pow34 = Q(3).pow(34);
+        var q5Pow23 = Q(5).pow(23);
         
         test('0 = 0', 0, 0, 0);
         test('0 < positive rational', 0, 75 / 28, -1);
@@ -528,17 +530,21 @@ describe(
         test('positive rational > negative rational', 2 / 3, -75 / 28, 1);
         
         test('positive rational > very small negative', 2 / 3, minPowMinus2, 1);
-        test('positive rational < very large positive', 2 / 3, Math.pow(2, 53), -1);
+        test('positive rational < very large positive odd', 2 / 3, maxPow3, -1);
+        test('positive rational < very large positive even', 1 / 5, maxPow2, -1);
         test('positive rational > very large negative', 2 / 3, maxPowMinus3, 1);
         
         test('negative rational < very small positive', -2 / 3, minPow2, -1);
-        test('negative rational < very large positive', -2 / 3, maxPow3, -1);
+        test('negative rational > very large negative odd', -2 / 3, maxPowMinus3, 1);
+        test('negative rational > very large negative even', -1 / 5, maxPowMinus2, 1);
         test('negative rational > very large negative', -2 / 3, -Math.pow(2, 53), 1);
         
         test('very small positive > very small negative', minPow2, minPowMinus2, 1);
         test('very small positive > very large negative', minPow2, maxPowMinus3, 1);
         test('very small negative < very small positive', minPowMinus2, minPow2, -1);
         test('very small negative < very large positive', minPowMinus2, maxPow3, -1);
+        
+        test('fails if both decomposition norms are too large', q5Pow23, q3Pow34, ERR_AO);
         
         it(
             'on instance with numeric arg',
