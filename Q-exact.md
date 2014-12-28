@@ -31,8 +31,8 @@ otherwise.
   * [q.subtract(subtrahend)](#Q#subtract)
   * [Q.subtract(minuend, subtrahend)](#Q.subtract)
   * [q.times(factor)](#Q#times)
-  * [q.toString()](#Q#toString)
-  * [Q.toString(q)](#Q.toString)
+  * [q.toString([options])](#Q#toString)
+  * [Q.toString(q, [options])](#Q.toString)
   * [q.valueOf()](#Q#valueOf)
   * [const: Q.MAX_EXP](#Q.MAX_EXP)
   * [const: Q.MAX_PRIME](#Q.MAX_PRIME)
@@ -84,8 +84,6 @@ comparand.
 **Returns**: `number` - -1, 0, or 1 as `this` is less than, equal to, or greater than the comparand.  
 <a name="Q#divide"></a>
 ##q.divide(divisor)
-Divides `this` by a specified quantity.
-
 **Params**
 
 - divisor <code>[Q](#Q)</code>  
@@ -224,15 +222,34 @@ A synonym of [multiply](#Q#multiply).
 
 **Returns**: [Q](#Q) - The product.  
 <a name="Q#toString"></a>
-##q.toString()
-**Returns**:  - A string representation of `this`.  
+##q.toString([options])
+Returns a string representation of `this`.
+
+**Params**
+
+- \[options\] `object`  
+  - \[mode\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
+"fraction" for a fractional representation (e.g. "18/5").
+The default is "factor".  
+
+**Returns**: `string` - A string.
+In "fraction" mode, if either the numerator or denominator exceed 2<sup>53</sup>-1, this
+function returns the string "(OVERFLOW)".  
 <a name="Q.toString"></a>
-##Q.toString(q)
+##Q.toString(q, [options])
+Returns a string representation of a specified rational.
+
 **Params**
 
 - q <code>[Q](#Q)</code>  
+- \[options\] `object`  
+  - \[mode\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
+"fraction" for a fractional representation (e.g. "18/5").
+The default is "factor".  
 
-**Returns**:  - A string representation of the argument.  
+**Returns**: `string` - A string.
+In "fraction" mode, if either the numerator or denominator exceed 2<sup>53</sup>-1, this
+function returns the string "(OVERFLOW)".  
 <a name="Q#valueOf"></a>
 ##q.valueOf()
 Returns a numeric representation of this rational.

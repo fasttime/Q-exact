@@ -1029,31 +1029,56 @@ describe(
     'toString',
     function ()
     {
-        function test(description, value, expected)
+        function test(description, value, factorsModeExpected, fractionModeExpected)
         {
-            it(description, function () { expect(Q.toString(value)).toBe(expected); });
+            it(
+                description,
+                function ()
+                {
+                    expect(Q.toString(value, {mode: 'factor' })).toBe(factorsModeExpected);
+                    expect(Q.toString(value, {mode: 'fraction' })).toBe(fractionModeExpected);
+                }
+            );
         }
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var minPow2 = Q(2).pow(Q.MIN_EXP);
         
-        test('with arg 1', 1, '1');
-        test('with arg -1', -1, '-1');
-        test('with arg 0', 0, '0');
-        test('with positive rational arg', 98 / 75, '2⋅3⁻¹⋅5⁻²⋅7²');
-        test('with negative rational arg', -98 / 75, '-2⋅3⁻¹⋅5⁻²⋅7²');
-        test('with large prime arg', 100000000003, '100000000003');
-        test('with arg with a large positive exp', maxPow2, '2⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
-        test('with arg with a large negative exp', minPow2, '2⁻⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹');
-        it('on instance', function () { expect(Q(-2 / 3).toString()).toBe('-2⋅3⁻¹'); });
+        test('with arg 1', 1, '1', '1');
+        test('with arg -1', -1, '-1', '-1');
+        test('with arg 0', 0, '0', '0');
+        test('with positive rational arg', 98 / 75, '2⋅3⁻¹⋅5⁻²⋅7²', '98/75');
+        test('with negative rational arg', -98 / 75, '-2⋅3⁻¹⋅5⁻²⋅7²', '-98/75');
+        test('with large prime arg', 100000000003, '100000000003', '100000000003');
+        test('with arg with a large positive exp', maxPow2, '2⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹', '(OVERFLOW)');
+        test('with arg with a large negative exp', minPow2, '2⁻⁹⁰⁰⁷¹⁹⁹²⁵⁴⁷⁴⁰⁹⁹¹', '(OVERFLOW)');
+        it(
+            'on instance',
+            function ()
+            {
+                var q = Q(-2 / 3);
+                expect(q.toString({mode: 'factor' })).toBe('-2⋅3⁻¹');
+                expect(q.toString({mode: 'fraction' })).toBe('-2/3');
+            }
+        );
         it(
             'on constructor with Q arg',
-            function () { expect(Q.toString(Q(-0.1))).toBe('-2⁻¹⋅5⁻¹'); }
+            function ()
+            {
+                var q = Q(-0.1);
+                expect(Q.toString(q, {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString(q, {mode: 'fraction' })).toBe('-1/10');
+            }
         );
         it(
             'on constructor with decimal string arg',
-            function () { expect(Q.toString('-0.1')).toBe('-2⁻¹⋅5⁻¹'); }
+            function ()
+            {
+                expect(Q.toString('-0.1', {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString('-0.1', {mode: 'fraction' })).toBe('-1/10');
+            }
         );
+        it('uses mode "factor" as default mode', function () { expect(Q.toString(4)).toBe('2²'); });
         it('on constructor without args', function () { expect(Q.toString()).toBeString(); });
     }
 );
