@@ -18,6 +18,10 @@ The numeric value of a `Q` is immutable.
   * [Q.equals([...comparands])](#Q.equals)
   * [q.invert()](#Q#invert)
   * [Q.invert(operand)](#Q.invert)
+  * [q.isInteger()](#Q#isInteger)
+  * [Q.isInteger(operand)](#Q.isInteger)
+  * [q.isPrime()](#Q#isPrime)
+  * [Q.isPrime(operand)](#Q.isPrime)
   * [q.minus(subtrahend)](#Q#minus)
   * [q.multiply(factor)](#Q#multiply)
   * [Q.multiply([...factors])](#Q.multiply)
@@ -184,6 +188,34 @@ Returns the reciprocal of a specified operand.
 **Errors**
 
 If the operand is 0, a "No rational result" error is thrown.  
+<a name="Q#isInteger"></a>
+##q.isInteger()
+Determines whether this rational is integer.
+
+**Returns**: `boolean` - `true` if this rational is integer; otherwise, `false`.  
+<a name="Q.isInteger"></a>
+##Q.isInteger(operand)
+Determines whether a specified operand is integer.
+
+**Params**
+
+- operand <code>[Q](#Q)</code> - The operand.  
+
+**Returns**: `boolean` - `true` if the operand is integer; otherwise, `false`.  
+<a name="Q#isPrime"></a>
+##q.isPrime()
+Determines whether this rational is a prime number.
+
+**Returns**: `boolean` - `true` if this rational is a prime number; otherwise, `false`.  
+<a name="Q.isPrime"></a>
+##Q.isPrime(operand)
+Determines whether a specified operand is a prime number.
+
+**Params**
+
+- operand <code>[Q](#Q)</code> - The operand.  
+
+**Returns**: `boolean` - `true` if the operand is a prime number; otherwise, `false`.  
 <a name="Q#minus"></a>
 ##q.minus(subtrahend)
 A synonym of [subtract](#Q#subtract).

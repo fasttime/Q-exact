@@ -847,6 +847,90 @@ describe(
 );
 
 describe(
+    'isInteger',
+    function ()
+    {
+        it('with arg 1', function () { expect(Q.isInteger(1)).toBe(true); });
+        it('with arg -1', function () { expect(Q.isInteger(-1)).toBe(true); });
+        it('with arg 0', function () { expect(Q.isInteger(0)).toBe(true); });
+        it('with positive integer arg', function () { expect(Q.isInteger(123)).toBe(true); });
+        it('with negative integer arg', function () { expect(Q.isInteger(-8)).toBe(true); });
+        it('with positive fractional arg', function () { expect(Q.isInteger(0.5)).toBe(false); });
+        it('with negative fractional arg', function () { expect(Q.isInteger(-8.1)).toBe(false); });
+        it(
+            'on instance',
+            function ()
+            {
+                expect(Q(4).isInteger()).toBe(true);
+                expect(Q(-75 / 28).isInteger()).toBe(false);
+            }
+        );
+        it(
+            'on constructor with Q arg',
+            function ()
+            {
+                expect(Q.isInteger(Q(4))).toBe(true);
+                expect(Q.isInteger(Q(-75 / 28))).toBe(false);
+            }
+        );
+        it(
+            'on constructor with decimal string arg',
+            function ()
+            {
+                expect(Q.isInteger('0')).toBe(true);
+                expect(Q.isInteger('0.1')).toBe(false);
+            }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.isInteger(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
+    'isPrime',
+    function ()
+    {
+        it('with arg 1', function () { expect(Q.isPrime(1)).toBe(false); });
+        it('with arg -1', function () { expect(Q.isPrime(-1)).toBe(false); });
+        it('with arg 0', function () { expect(Q.isPrime(0)).toBe(false); });
+        it('with prime arg', function () { expect(Q.isPrime(101)).toBe(true); });
+        it('with composite arg', function () { expect(Q.isPrime(100)).toBe(false); });
+        it('with positive fractional arg', function () { expect(Q.isPrime(3 / 5)).toBe(false); });
+        it('with negative arg', function () { expect(Q.isPrime(-7)).toBe(false); });
+        it(
+            'on instance',
+            function ()
+            {
+                expect(Q(2).isPrime()).toBe(true);
+                expect(Q(4).isPrime()).toBe(false);
+            }
+        );
+        it(
+            'on constructor with Q arg',
+            function ()
+            {
+                expect(Q.isPrime(Q(2))).toBe(true);
+                expect(Q.isPrime(Q(4))).toBe(false);
+            }
+        );
+        it(
+            'on constructor with decimal string arg',
+            function ()
+            {
+                expect(Q.isPrime('2')).toBe(true);
+                expect(Q.isPrime('4')).toBe(false);
+            }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.isPrime(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
     'multiply',
     function ()
     {
