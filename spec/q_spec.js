@@ -1162,8 +1162,16 @@ describe(
                 expect(Q.toString('-0.1', {mode: 'fraction' })).toBe('-1/10');
             }
         );
-        it('uses mode "factor" as default mode', function () { expect(Q.toString(4)).toBe('2²'); });
         it('on constructor without args', function () { expect(Q.toString()).toBeString(); });
+        it('uses mode "factor" as default mode', function () { expect(Q.toString(4)).toBe('2²'); });
+        it(
+            'converts mode to a string',
+            function ()
+            {
+                var options = { mode: { valueOf: function () { return 'fraction'; } } };
+                expect(Q.toString(4.5, options)).toBe('9/2');
+            }
+        );
     }
 );
 

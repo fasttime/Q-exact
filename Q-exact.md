@@ -28,9 +28,9 @@ The numeric value of a `Q` is immutable.
   * [q.negate()](#Q#negate)
   * [Q.negate(operand)](#Q.negate)
   * [q.over(divisor)](#Q#over)
+  * [q.plus(addend)](#Q#plus)
   * [q.pow(exp)](#Q#pow)
   * [Q.pow(base, exp)](#Q.pow)
-  * [q.plus(addend)](#Q#plus)
   * [q.sign()](#Q#sign)
   * [Q.sign(operand)](#Q.sign)
   * [q.subtract(subtrahend)](#Q#subtract)
@@ -273,6 +273,14 @@ A synonym of [divide](#Q#divide).
 
 - divisor   
 
+<a name="Q#plus"></a>
+##q.plus(addend)
+A synonym of [add](#Q#add).
+
+**Params**
+
+- addend   
+
 <a name="Q#pow"></a>
 ##q.pow(exp)
 Returns this rational raised to the power of a specified exponent.
@@ -314,14 +322,6 @@ This includes the following cases:
 
 If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
 error is thrown.  
-<a name="Q#plus"></a>
-##q.plus(addend)
-A synonym of [add](#Q#add).
-
-**Params**
-
-- addend   
-
 <a name="Q#sign"></a>
 ##q.sign()
 Returns the sign of this rational.
