@@ -4,6 +4,8 @@
 
 * [class: Q](#Q)
   * [new Q(value)](#new_Q)
+  * [q.abs()](#Q#abs)
+  * [Q.abs(operand)](#Q.abs)
   * [q.add(addend)](#Q#add)
   * [Q.add([...addends])](#Q.add)
   * [Q.compare(comparand1, comparand2)](#Q.compare)
@@ -56,6 +58,8 @@ The numeric value of a `Q` is immutable.
 
 * [class: Q](#Q)
   * [new Q(value)](#new_Q)
+  * [q.abs()](#Q#abs)
+  * [Q.abs(operand)](#Q.abs)
   * [q.add(addend)](#Q#add)
   * [Q.add([...addends])](#Q.add)
   * [Q.compare(comparand1, comparand2)](#Q.compare)
@@ -107,6 +111,20 @@ The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)
 The constructor throws an "Invalid argument" error if the argument cannot be converted to a
 finite numeric value.  
 
+<a name="Q#abs"></a>
+##q.abs()
+Returns the absolute value of this rational.
+
+**Returns**: [Q](#Q) - The absolute value.  
+<a name="Q.abs"></a>
+##Q.abs(operand)
+Returns the absolute value of a specified operand.
+
+**Params**
+
+- operand <code>[Rational](#Rational)</code> - The operand.  
+
+**Returns**: [Q](#Q) - The absolute value.  
 <a name="Q#add"></a>
 ##q.add(addend)
 Returns the sum of this rational and a specified addend.

@@ -445,6 +445,31 @@ describe(
 );
 
 describe(
+    'abs',
+    function ()
+    {
+        it('with arg 1', function () { expect(Q.abs(1)).toBeQ(1); });
+        it('with arg -1', function () { expect(Q.abs(-1)).toBeQ(1); });
+        it('with arg 0', function () { expect(Q.abs(0)).toBeQ(0); });
+        it('with positive rational arg', function () { expect(Q.abs(123)).toBeQ(123); });
+        it('with negative rational arg', function () { expect(Q.abs(-Math.PI)).toBeQ(Math.PI); });
+        it('on instance', function () { expect(Q(-75 / 28).abs()).toBeQ(75 / 28); });
+        it(
+            'on constructor with Q arg',
+            function () { expect(Q.abs(Q(75 / 28))).toBeQ(75 / 28); }
+        );
+        it(
+            'on constructor with decimal string arg',
+            function () { expect(Q.abs('0.1')).toBeQ(0.1); }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.abs(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
     'add',
     function ()
     {
