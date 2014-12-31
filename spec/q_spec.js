@@ -150,7 +150,7 @@ beforeEach(
                     }
                     var sign = actual._sign;
                     var factors = actual._factors;
-                    if (sign === 0)
+                    if (Object.is(sign, 0))
                     {
                         if (factors !== void 0)
                         {
@@ -1016,6 +1016,273 @@ describe(
         it(
             'on constructor without args',
             function () { expect(function () { Q.negate(); }).toThrow(InvalidArgumentError); }
+        );
+    }
+);
+
+describe(
+    'round',
+    function ()
+    {
+        function test(description, value, matches)
+        {
+            describe(
+                description,
+                function ()
+                {
+                    Object.keys(matches).forEach(
+                        function (mode)
+                        {
+                            var expected = matches[mode];
+                            it(
+                                ' in "' + mode + '" mode',
+                                function () { expect(Q.round(value, mode)).toBeQ(expected); }
+                            );
+                        }
+                    );
+                }
+            );
+        }
+        
+        test(
+            '1',
+            1,
+            {
+                'up': 1,
+                'down': 1,
+                'ceiling': 1,
+                'floor': 1,
+                'half up': 1,
+                'half down': 1,
+                'half even': 1
+            }
+        );
+        
+        test(
+            '-1',
+            -1,
+            {
+                'up': -1,
+                'down': -1,
+                'ceiling': -1,
+                'floor': -1,
+                'half up': -1,
+                'half down': -1,
+                'half even': -1
+            }
+        );
+        
+        test(
+            '0',
+            0,
+            {
+                'up': 0,
+                'down': 0,
+                'ceiling': 0,
+                'floor': 0,
+                'half up': 0,
+                'half down': 0,
+                'half even': 0
+            }
+        );
+        
+        test(
+            '5.5',
+            5.5,
+            {
+                'up': 6,
+                'down': 5,
+                'ceiling': 6,
+                'floor': 5,
+                'half up': 6,
+                'half down': 5,
+                'half even': 6
+            }
+        );
+        
+        test(
+            '2.5',
+            2.5,
+            {
+                'up': 3,
+                'down': 2,
+                'ceiling': 3,
+                'floor': 2,
+                'half up': 3,
+                'half down': 2,
+                'half even': 2
+            }
+        );
+        
+        test(
+            '1.6',
+            1.6,
+            {
+                'up': 2,
+                'down': 1,
+                'ceiling': 2,
+                'floor': 1,
+                'half up': 2,
+                'half down': 2,
+                'half even': 2
+            }
+        );
+        
+        test(
+            '1.1',
+            1.1,
+            {
+                'up': 2,
+                'down': 1,
+                'ceiling': 2,
+                'floor': 1,
+                'half up': 1,
+                'half down': 1,
+                'half even': 1
+            }
+        );
+        
+        test(
+            '-1.1',
+            -1.1,
+            {
+                'up': -2,
+                'down': -1,
+                'ceiling': -1,
+                'floor': -2,
+                'half up': -1,
+                'half down': -1,
+                'half even': -1
+            }
+        );
+        
+        test(
+            '-1.6',
+            -1.6,
+            {
+                'up': -2,
+                'down': -1,
+                'ceiling': -1,
+                'floor': -2,
+                'half up': -2,
+                'half down': -2,
+                'half even': -2
+            }
+        );
+        
+        test(
+            '-2.5',
+            -2.5,
+            {
+                'up': -3,
+                'down': -2,
+                'ceiling': -2,
+                'floor': -3,
+                'half up': -3,
+                'half down': -2,
+                'half even': -2
+            }
+        );
+        
+        test(
+            '-5.5',
+            -5.5,
+            {
+                'up': -6,
+                'down': -5,
+                'ceiling': -5,
+                'floor': -6,
+                'half up': -6,
+                'half down': -5,
+                'half even': -6
+            }
+        );
+        
+        test(
+            'very small positive',
+            Math.pow(2, -52),
+            {
+                'up': 1,
+                'down': 0,
+                'ceiling': 1,
+                'floor': 0,
+                'half up': 0,
+                'half down': 0,
+                'half even': 0
+            }
+        );
+        
+        test(
+            'very small negative',
+            -Math.pow(2, -52),
+            {
+                'up': -1,
+                'down': 0,
+                'ceiling': 0,
+                'floor': -1,
+                'half up': 0,
+                'half down': 0,
+                'half even': 0
+            }
+        );
+        
+        it(
+            'too small positive',
+            function ()
+            {
+                expect(function () { Q.round(Number.MIN_VALUE); }).toThrow(ArithmeticOverflowError);
+            }
+        );
+        it(
+            'too small negative',
+            function ()
+            {
+                expect(function () { Q.round(-Number.MIN_VALUE); }).toThrow(
+                    ArithmeticOverflowError
+                );
+            }
+        );
+        it(
+            'too large positive',
+            function ()
+            {
+                expect(function () { Q.round(Number.MAX_VALUE); }).toThrow(ArithmeticOverflowError);
+            }
+        );
+        it(
+            'too large negative',
+            function ()
+            {
+                expect(function () { Q.round(-Number.MAX_VALUE); }).toThrow(
+                    ArithmeticOverflowError
+                );
+            }
+        );
+        it('on instance', function () { expect(Q(-2 / 3).round()).toBeQ(-1); });
+        it('on constructor with Q arg', function () { expect(Q.round(Q(5.1))).toBeQ(5); });
+        it(
+            'on constructor with decimal string arg',
+            function () { expect(Q.round('1.5')).toBeQ(2); }
+        );
+        it(
+            'on constructor without args',
+            function () { expect(function () { Q.round(); }).toThrow(InvalidArgumentError); }
+        );
+        it(
+            'uses mode "half even" as default mode',
+            function ()
+            {
+                expect(Q.round(2.5)).toBeQ(2);
+                expect(Q.round(3.5)).toBeQ(4);
+            }
+        );
+        it(
+            'converts mode to a string',
+            function ()
+            {
+                var mode = { valueOf: function () { return 'up'; } };
+                expect(Q.round(1.2, mode)).toBeQ(2);
+            }
         );
     }
 );

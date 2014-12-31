@@ -1,3 +1,50 @@
+#Index
+
+**Classes**
+
+* [class: Q](#Q)
+  * [new Q(value)](#new_Q)
+  * [q.add(addend)](#Q#add)
+  * [Q.add([...addends])](#Q.add)
+  * [Q.compare(comparand1, comparand2)](#Q.compare)
+  * [q.compareTo(comparand)](#Q#compareTo)
+  * [q.divide(divisor)](#Q#divide)
+  * [Q.divide(dividend, divisor)](#Q.divide)
+  * [q.equals(comparand)](#Q#equals)
+  * [Q.equals([...comparands])](#Q.equals)
+  * [q.invert()](#Q#invert)
+  * [Q.invert(operand)](#Q.invert)
+  * [q.isInteger()](#Q#isInteger)
+  * [Q.isInteger(operand)](#Q.isInteger)
+  * [q.isPrime()](#Q#isPrime)
+  * [Q.isPrime(operand)](#Q.isPrime)
+  * [q.minus(subtrahend)](#Q#minus)
+  * [q.multiply(factor)](#Q#multiply)
+  * [Q.multiply([...factors])](#Q.multiply)
+  * [q.negate()](#Q#negate)
+  * [Q.negate(operand)](#Q.negate)
+  * [q.over(divisor)](#Q#over)
+  * [q.plus(addend)](#Q#plus)
+  * [q.pow(exp)](#Q#pow)
+  * [Q.pow(base, exp)](#Q.pow)
+  * [q.round([mode])](#Q#round)
+  * [Q.round(operand, [mode])](#Q.round)
+  * [q.sign()](#Q#sign)
+  * [Q.sign(operand)](#Q.sign)
+  * [q.subtract(subtrahend)](#Q#subtract)
+  * [Q.subtract(minuend, subtrahend)](#Q.subtract)
+  * [q.times(factor)](#Q#times)
+  * [q.toString([options])](#Q#toString)
+  * [Q.toString(q, [options])](#Q.toString)
+  * [q.valueOf()](#Q#valueOf)
+  * [const: Q.MAX_EXP](#Q.MAX_EXP)
+  * [const: Q.MAX_PRIME](#Q.MAX_PRIME)
+  * [const: Q.MIN_EXP](#Q.MIN_EXP)
+
+**Typedefs**
+
+* [type: RoundingMode](#RoundingMode)
+ 
 <a name="Q"></a>
 #class: Q
 Represents a rational number.
@@ -31,6 +78,8 @@ The numeric value of a `Q` is immutable.
   * [q.plus(addend)](#Q#plus)
   * [q.pow(exp)](#Q#pow)
   * [Q.pow(base, exp)](#Q.pow)
+  * [q.round([mode])](#Q#round)
+  * [Q.round(operand, [mode])](#Q.round)
   * [q.sign()](#Q#sign)
   * [Q.sign(operand)](#Q.sign)
   * [q.subtract(subtrahend)](#Q#subtract)
@@ -322,6 +371,35 @@ This includes the following cases:
 
 If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
 error is thrown.  
+<a name="Q#round"></a>
+##q.round([mode])
+Rounds this rational to an integer.
+
+**Params**
+
+- \[mode="half even"\] <code>[RoundingMode](#RoundingMode)</code>  
+
+**Returns**: [Q](#Q) - The rounding result.
+
+**Errors**
+
+If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.  
+<a name="Q.round"></a>
+##Q.round(operand, [mode])
+Rounds a specified operand to an integer.
+
+**Params**
+
+- operand <code>[Q](#Q)</code> - The operand.  
+- \[mode="half even"\] <code>[RoundingMode](#RoundingMode)</code>  
+
+**Returns**: [Q](#Q) - The rounding result.
+
+**Errors**
+
+If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.  
 <a name="Q#sign"></a>
 ##q.sign()
 Returns the sign of this rational.
@@ -380,9 +458,8 @@ Returns a string representation of this rational.
 **Params**
 
 - \[options\] `object` - Optional formatting options.  
-  - \[mode\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
-"fraction" for a fractional representation (e.g. "18/5").
-The default is "factor".  
+  - \[mode="factor"\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
+"fraction" for a fractional representation (e.g. "18/5").  
 
 **Returns**: `string` - A string.
 In "fraction" mode, if an intermediate calculation results in an overflow, this function
@@ -395,9 +472,8 @@ Returns a string representation of a specified rational.
 
 - q <code>[Q](#Q)</code> - The rational.  
 - \[options\] `object` - Optional formatting options.  
-  - \[mode\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
-"fraction" for a fractional representation (e.g. "18/5").
-The default is "factor".  
+  - \[mode="factor"\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
+"fraction" for a fractional representation (e.g. "18/5").  
 
 **Returns**: `string` - A string.
 In "fraction" mode, if an intermediate calculation results in an overflow, this function
@@ -444,3 +520,19 @@ An attempt to instanciate such a number will typically result in an "Arithmetic 
 error.
 
 **Type**: `number`  
+<a name="RoundingMode"></a>
+#type: RoundingMode
+A string specifying how fractional {Q}s are rounded.
+- "up" - Rounding away from zero.
+- "down" - Rounding towards zero.
+- "ceiling" - Rounding towards positive infinity.
+- "floor" - Rounding towards negative infinity.
+- "half up" -
+  Rounding towards the nearest integer, or away from zero if two neighbors are equidistant.
+- "half down" -
+  Rounding towards the nearest integer, or towards zero if two neighbors are equidistant.
+- "half even" -
+  Rounding towards the nearest integer, or towards the even neighbor if two neighbors are
+  equidistant.
+
+**Type**: `string`  
