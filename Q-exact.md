@@ -43,6 +43,7 @@
 
 **Typedefs**
 
+* [type: Rational](#Rational)
 * [type: RoundingMode](#RoundingMode)
  
 <a name="Q"></a>
@@ -94,12 +95,12 @@ The numeric value of a `Q` is immutable.
 
 <a name="new_Q"></a>
 ##new Q(value)
-Creates a new instance of `Q` with a specified value.
+Creates a new instance of a `Q` with a specified value.
 The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)` or `Q(2.5)`.
 
 **Params**
 
-- value  - The numeric value of the object being created.
+- value `number` - The numeric value of the object being created.
 
 **Errors**
 
@@ -112,7 +113,7 @@ Returns the sum of this rational and a specified addend.
 
 **Params**
 
-- addend <code>[Q](#Q)</code> - The addend.  
+- addend <code>[Rational](#Rational)</code> - The addend.  
 
 **Returns**: [Q](#Q) - The sum.
 
@@ -126,7 +127,7 @@ Returns the sum of the specified addends.
 
 **Params**
 
-- \[...addends\] <code>[Q](#Q)</code> - Optional addends.  
+- \[...addends\] <code>[Rational](#Rational)</code> - Optional addends.  
 
 **Returns**: [Q](#Q) - The sum.
 If this function is called without arguments, the return value is 0.
@@ -141,8 +142,8 @@ Compares two specified comparands for order.
 
 **Params**
 
-- comparand1 <code>[Q](#Q)</code> - The first comparand.  
-- comparand2 <code>[Q](#Q)</code> - The second comparand.  
+- comparand1 <code>[Rational](#Rational)</code> - The first comparand.  
+- comparand2 <code>[Rational](#Rational)</code> - The second comparand.  
 
 **Returns**: `number` - -1, 0, or 1 as the first comparand is less than, equal to, or greater than the second
 comparand.
@@ -157,7 +158,7 @@ Compares this rational and a specified comparand for order.
 
 **Params**
 
-- comparand <code>[Q](#Q)</code> - The comparand.  
+- comparand <code>[Rational](#Rational)</code> - The comparand.  
 
 **Returns**: `number` - -1, 0, or 1 as this rational is less than, equal to, or greater than the comparand.
 
@@ -171,7 +172,7 @@ Returns the quotient of this rational and a specified divisor.
 
 **Params**
 
-- divisor <code>[Q](#Q)</code> - The divisor.  
+- divisor <code>[Rational](#Rational)</code> - The divisor.  
 
 **Returns**: [Q](#Q) - The quotient.
 
@@ -186,8 +187,8 @@ Returns the quotient of the specified dividend and divisor.
 
 **Params**
 
-- dividend <code>[Q](#Q)</code> - The dividend.  
-- divisor <code>[Q](#Q)</code> - The divisor.  
+- dividend <code>[Rational](#Rational)</code> - The dividend.  
+- divisor <code>[Rational](#Rational)</code> - The divisor.  
 
 **Returns**: [Q](#Q) - The quotient.
 
@@ -202,7 +203,7 @@ Compares this rational and a specified comparand for equality.
 
 **Params**
 
-- comparand <code>[Q](#Q)</code> - The comparand.  
+- comparand <code>[Rational](#Rational)</code> - The comparand.  
 
 **Returns**: `boolean` - `true` if this rational and the comparand are equal; otherwise, `false`.  
 <a name="Q.equals"></a>
@@ -211,7 +212,7 @@ Compares the specified comparands for equality.
 
 **Params**
 
-- \[...comparands\] <code>[Q](#Q)</code> - Optional comparands.  
+- \[...comparands\] <code>[Rational](#Rational)</code> - Optional comparands.  
 
 **Returns**: `boolean` - `true` if all comparands are equal; otherwise, `false`.
 If this function is called with one or no arguments, the return value is `true`.  
@@ -230,7 +231,7 @@ Returns the reciprocal of a specified operand.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 
 **Returns**: [Q](#Q) - The reciprocal.
 
@@ -248,7 +249,7 @@ Determines whether a specified operand is integer.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 
 **Returns**: `boolean` - `true` if the operand is integer; otherwise, `false`.  
 <a name="Q#isPrime"></a>
@@ -262,7 +263,7 @@ Determines whether a specified operand is a prime number.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 
 **Returns**: `boolean` - `true` if the operand is a prime number; otherwise, `false`.  
 <a name="Q#minus"></a>
@@ -279,7 +280,7 @@ Returns the product of this rational and a specified factor.
 
 **Params**
 
-- factor <code>[Q](#Q)</code> - The factor.  
+- factor <code>[Rational](#Rational)</code> - The factor.  
 
 **Returns**: [Q](#Q) - The product.
 
@@ -292,7 +293,7 @@ Returns the product of the specified factors.
 
 **Params**
 
-- \[...factors\] <code>[Q](#Q)</code> - Optional factors.  
+- \[...factors\] <code>[Rational](#Rational)</code> - Optional factors.  
 
 **Returns**: [Q](#Q) - The product.
 If this function is called without arguments, the return value is 1.
@@ -311,7 +312,7 @@ Returns the additive inverse of a specified operand.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 
 **Returns**: [Q](#Q) - The additive inverse.  
 <a name="Q#over"></a>
@@ -336,7 +337,7 @@ Returns this rational raised to the power of a specified exponent.
 
 **Params**
 
-- exp <code>[Q](#Q)</code> - The exponent.  
+- exp <code>[Rational](#Rational)</code> - The exponent.  
 
 **Returns**: [Q](#Q) - The result of the exponentiation.
 
@@ -356,8 +357,8 @@ Returns a specified base raised to the power of a specified exponent.
 
 **Params**
 
-- base <code>[Q](#Q)</code> - The base.  
-- exp <code>[Q](#Q)</code> - The exponent.  
+- base <code>[Rational](#Rational)</code> - The base.  
+- exp <code>[Rational](#Rational)</code> - The exponent.  
 
 **Returns**: [Q](#Q) - The result of the exponentiation.
 
@@ -391,7 +392,7 @@ Rounds a specified operand to an integer.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 - \[mode="half even"\] <code>[RoundingMode](#RoundingMode)</code>  
 
 **Returns**: [Q](#Q) - The rounding result.
@@ -411,7 +412,7 @@ Returns the sign of a specified operand.
 
 **Params**
 
-- operand <code>[Q](#Q)</code> - The operand.  
+- operand <code>[Rational](#Rational)</code> - The operand.  
 
 **Returns**: `number` - -1, 0, or 1 as the operand is negative, zero, or positive.  
 <a name="Q#subtract"></a>
@@ -420,7 +421,7 @@ Returns the difference of this rational and a specified subtrahend.
 
 **Params**
 
-- subtrahend <code>[Q](#Q)</code> - The subtrahend.  
+- subtrahend <code>[Rational](#Rational)</code> - The subtrahend.  
 
 **Returns**: [Q](#Q) - The difference.
 
@@ -434,8 +435,8 @@ Returns the difference of the specified minuend and subtrahend.
 
 **Params**
 
-- minuend <code>[Q](#Q)</code> - The minuend.  
-- subtrahend <code>[Q](#Q)</code> - The subtrahend.  
+- minuend <code>[Rational](#Rational)</code> - The minuend.  
+- subtrahend <code>[Rational](#Rational)</code> - The subtrahend.  
 
 **Returns**: [Q](#Q) - The difference.
 
@@ -470,7 +471,7 @@ Returns a string representation of a specified rational.
 
 **Params**
 
-- q <code>[Q](#Q)</code> - The rational.  
+- q <code>[Rational](#Rational)</code> - The rational.  
 - \[options\] `object` - Optional formatting options.  
   - \[mode="factor"\] `string` - "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or
 "fraction" for a fractional representation (e.g. "18/5").  
@@ -520,9 +521,14 @@ An attempt to instanciate such a number will typically result in an "Arithmetic 
 error.
 
 **Type**: `number`  
+<a name="Rational"></a>
+#type: Rational
+A number or an instance of a `Q`.
+
+**Type**: [Q](#Q) | `number`  
 <a name="RoundingMode"></a>
 #type: RoundingMode
-A string specifying how fractional {Q}s are rounded.
+A string specifying how fractional values are rounded.
 - "up" - Rounding away from zero.
 - "down" - Rounding towards zero.
 - "ceiling" - Rounding towards positive infinity.
