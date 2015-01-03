@@ -105,7 +105,21 @@ The numeric value of a `Q` is immutable.
 <a name="new_Q"></a>
 ##new Q(value)
 Creates a new instance of a `Q` with a specified value.
-The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)` or `Q(2.5)`.
+The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)` or
+`Q(2.5)`.
+
+All fractions with integer numerator up to 4000 and integer denominator up to 50 can be
+safely instantiated passing their numeric value to the constructor.
+```js
+var q = Q(2015 / 37);
+```
+
+For fractions of larger numerators or denominators, this may yield incorrect results due to
+the limited precision of floating point numbers, e.g. 2/67.
+In those cases, the exact fraction can be obtained from a division.
+```js
+var q = Q.divide(2, 67);
+```
 
 **Params**
 
@@ -553,7 +567,7 @@ The maximum exponent for a prime factor.
 Rationals whose prime factorization contains an exponent greater than this number cannot be
 represented.
 
-An attempt to instanciate such a number will typically result in an "Arithmetic overflow"
+An attempt to instantiate such a number will typically result in an "Arithmetic overflow"
 error.
 
 **Type**: `number`  
@@ -564,7 +578,7 @@ The largest exponent for a prime factor.
 Rationals whose prime factorization contains a prime larger than this number cannot be
 represented.
 
-An attempt to instanciate such a number will typically result in an "Arithmetic overflow"
+An attempt to instantiate such a number will typically result in an "Arithmetic overflow"
 error.
 
 **Type**: `number`  
@@ -575,7 +589,7 @@ The minimum exponent for a prime factor.
 Rationals whose prime factorization contains an exponent less than this number cannot be
 represented.
 
-An attempt to instanciate such a number will typically result in an "Arithmetic overflow"
+An attempt to instantiate such a number will typically result in an "Arithmetic overflow"
 error.
 
 **Type**: `number`  
