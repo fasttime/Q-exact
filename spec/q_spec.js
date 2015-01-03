@@ -11,6 +11,10 @@ var NoRationalResultError = new Error('No rational result');
 var ERR_NR = { };
 var ERR_AO = { };
 
+var expectToBe = function (actual, expected) { expect(actual).toBe(expected); };
+
+var expectToBeQ = function (actual, expected) { expect(actual).toBeQ(expected); };
+
 function compareFactors(factors1, factors2)
 {
     var result;
@@ -35,7 +39,7 @@ function compareFactors(factors1, factors2)
     return result;
 }
 
-function createTestCall(operationName, symmetric, asQ)
+function createTestCall(operationName, symmetric)
 {
     function test(description, op1, op2, expected)
     {
@@ -95,7 +99,7 @@ function createTestCall(operationName, symmetric, asQ)
         }
         else
         {
-            var matcherName = asQ ? 'toBeQ' : 'toBe';
+            var expectation = test.expectation;
             if (symmetric && op1 !== op2)
             {
                 var expected1 = expected;
@@ -103,14 +107,13 @@ function createTestCall(operationName, symmetric, asQ)
                 testCase =
                     function ()
                     {
-                        expect(Q[operationName](op1, op2))[matcherName](expected1);
-                        expect(Q[operationName](op2, op1))[matcherName](expected2);
+                        expectation(Q[operationName](op1, op2), expected1);
+                        expectation(Q[operationName](op2, op1), expected2);
                     };
             }
             else
             {
-                testCase =
-                    function () { expect(Q[operationName](op1, op2))[matcherName](expected); };
+                testCase = function () { expectation(Q[operationName](op1, op2), expected); };
             }
         }
         
@@ -118,6 +121,7 @@ function createTestCall(operationName, symmetric, asQ)
     }
     
     test.flipResult = function (expected) { return expected; };
+    test.expectation = expectToBe;
     
     return test;
 }
@@ -271,7 +275,8 @@ describe(
     'pow',
     function ()
     {
-        var test = createTestCall('pow', false, true);
+        var test = createTestCall('pow', false);
+        test.expectation = expectToBeQ;
         
         function setBase(base)
         {
@@ -473,7 +478,8 @@ describe(
     'add',
     function ()
     {
-        var test = createTestCall('add', true, true);
+        var test = createTestCall('add', true);
+        test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         
@@ -528,7 +534,7 @@ describe(
     'compare/compareTo',
     function ()
     {
-        var test = createTestCall('compare', true, false);
+        var test = createTestCall('compare', true);
         test.flipResult = function (expected) { return -expected; };
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
@@ -635,7 +641,8 @@ describe(
     'divide',
     function ()
     {
-        var test = createTestCall('divide', false, true);
+        var test = createTestCall('divide', false);
+        test.expectation = expectToBeQ;
         
         function setDividend(dividend)
         {
@@ -769,10 +776,120 @@ describe(
 );
 
 describe(
+    'divideAndRemainder',
+    function ()
+    {
+        var test = createTestCall('divideAndRemainder', false);
+        var expectation =
+            function (actual, expected)
+            {
+                expect(actual.quotient).toBeQ(expected[0]);
+                expect(actual.remainder).toBeQ(expected[1]);
+            };
+        test.expectation = expectation;
+        
+        function setDividend(dividend)
+        {
+            var result =
+                function (description, divisor, expected)
+                {
+                    test(description, dividend, divisor, expected);
+                };
+            return result;
+        }
+        
+        var maxPow2 = Q(2).pow(Q.MAX_EXP);
+        var maxPow2Times3 = maxPow2.times(3);
+        var maxPow2Times5 = maxPow2.times(5);
+        var minPow2 = Q(2).pow(Q.MIN_EXP);
+        
+        describe(
+            '0',
+            function ()
+            {
+                var test = setDividend(0);
+                test('by 0', 0, ERR_NR);
+                test('by positive rational', 75 / 28, [0, 0]);
+                test('by negative rational', -75 / 28, [0, 0]);
+                test('by very large', maxPow2, [0, 0]);
+                test('by very small', minPow2, [0, 0]);
+            }
+        );
+        
+        describe(
+            'positive rational',
+            function ()
+            {
+                var test = setDividend(12.5);
+                test('by 0', 0, ERR_NR);
+                test('by 1', 1, [12, 0.5]);
+                test('by positive integer', 6, [2, 0.5]);
+                test('by negative integer', -6, [-2, 0.5]);
+                test('by positive fractional', 11 / 7, [7, 1.5]);
+                test('by negative fractional', -11 / 7, [-7, 1.5]);
+            }
+        );
+        
+        describe(
+            'negative rational',
+            function ()
+            {
+                var test = setDividend(-12.5);
+                test('by 0', 0, ERR_NR);
+                test('by 1', 1, [-12, -0.5]);
+                test('by positive integer', 6, [-2, -0.5]);
+                test('by negative integer', -6, [2, -0.5]);
+                test('by positive fractional', 11 / 7, [-7, -1.5]);
+                test('by negative fractional', -11 / 7, [7, -1.5]);
+            }
+        );
+        
+        test('too large by rational', Number.MAX_VALUE, 8 / 7, ERR_AO);
+        test('too small by rational', Number.MIN_VALUE, 8 / 7, ERR_AO);
+        test('fails if a remainder exp would be too large', maxPow2Times5, maxPow2Times3, ERR_AO);
+        it(
+            'on instance with numeric arg',
+            function () { expectation(Q(8).divideAndRemainder(-3), [-2, 2]); }
+        );
+        it(
+            'on instance with Q arg',
+            function () { expectation(Q(8).divideAndRemainder(Q(-3)), [-2, 2]); }
+        );
+        it(
+            'on instance with decimal string arg',
+            function () { expectation(Q(8).divideAndRemainder('-3'), [-2, 2]); }
+        );
+        it(
+            'on instance without args',
+            function ()
+            {
+                expect(function () { Q(1).divideAndRemainder(); }).toThrow(InvalidArgumentError);
+            }
+        );
+        test('on constructor with Q args', Q(8), Q(-3), [-2, 2]);
+        test('on constructor with decimal string args', '8', '-3', [-2, 2]);
+        it(
+            'on constructor without args',
+            function ()
+            {
+                expect(function () { Q.divideAndRemainder(); }).toThrow(InvalidArgumentError);
+            }
+        );
+        it(
+            'on constructor with one arg',
+            function ()
+            {
+                expect(function () { Q.divideAndRemainder(1); }).toThrow(InvalidArgumentError);
+            }
+        );
+    }
+);
+
+describe(
     'equals',
     function ()
     {
-        var test = createTestCall('equals', true, false);
+        var test = createTestCall('equals', true);
         
         test('1 = 1', 1, 1, true);
         test('-1 = -1', -1, -1, true);
@@ -959,7 +1076,8 @@ describe(
     'multiply',
     function ()
     {
-        var test = createTestCall('multiply', true, true);
+        var test = createTestCall('multiply', true);
+        test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var maxPow2Third = Q(2 / 3).pow(Q.MAX_EXP);
@@ -1341,7 +1459,8 @@ describe(
     'subtract',
     function ()
     {
-        var test = createTestCall('subtract', false, true);
+        var test = createTestCall('subtract', false);
+        test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var maxPowMinus2 = Q(-2).pow(Q.MAX_EXP);

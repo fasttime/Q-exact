@@ -12,6 +12,8 @@
   * [q.compareTo(comparand)](#Q#compareTo)
   * [q.divide(divisor)](#Q#divide)
   * [Q.divide(dividend, divisor)](#Q.divide)
+  * [q.divideAndRemainder(dividend, divisor)](#Q#divideAndRemainder)
+  * [Q.divideAndRemainder(dividend, divisor)](#Q.divideAndRemainder)
   * [q.equals(comparand)](#Q#equals)
   * [Q.equals([...comparands])](#Q.equals)
   * [q.invert()](#Q#invert)
@@ -45,6 +47,7 @@
 
 **Typedefs**
 
+* [type: QuotientAndRemainder](#QuotientAndRemainder)
 * [type: Rational](#Rational)
 * [type: RoundingMode](#RoundingMode)
  
@@ -66,6 +69,8 @@ The numeric value of a `Q` is immutable.
   * [q.compareTo(comparand)](#Q#compareTo)
   * [q.divide(divisor)](#Q#divide)
   * [Q.divide(dividend, divisor)](#Q.divide)
+  * [q.divideAndRemainder(dividend, divisor)](#Q#divideAndRemainder)
+  * [Q.divideAndRemainder(dividend, divisor)](#Q.divideAndRemainder)
   * [q.equals(comparand)](#Q#equals)
   * [Q.equals([...comparands])](#Q.equals)
   * [q.invert()](#Q#invert)
@@ -186,7 +191,7 @@ If an intermediate calculation results in an overflow, an "Arithmetic overflow" 
 thrown.  
 <a name="Q#divide"></a>
 ##q.divide(divisor)
-Returns the quotient of this rational and a specified divisor.
+Divides a this rational by a specified divisor, returning the exact quotient.
 
 **Params**
 
@@ -201,7 +206,7 @@ If the divisor is 0, a "No rational result" error is thrown.
 If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
 <a name="Q.divide"></a>
 ##Q.divide(dividend, divisor)
-Returns the quotient of the specified dividend and divisor.
+Divides a specified dividend by a specified divisor, returning the exact quotient.
 
 **Params**
 
@@ -215,6 +220,41 @@ Returns the quotient of the specified dividend and divisor.
 If the divisor is 0, a "No rational result" error is thrown.
 
 If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
+<a name="Q#divideAndRemainder"></a>
+##q.divideAndRemainder(dividend, divisor)
+Divides this rational by a specified divisor, returning integer quotient and remainder.
+
+**Params**
+
+- dividend <code>[Rational](#Rational)</code> - The dividend.  
+- divisor <code>[Rational](#Rational)</code> - The divisor.  
+
+**Returns**: [QuotientAndRemainder](#QuotientAndRemainder) - Integer quotient and remainder.
+
+**Errors**
+
+If the divisor is 0, a "No rational result" error is thrown.
+
+If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.  
+<a name="Q.divideAndRemainder"></a>
+##Q.divideAndRemainder(dividend, divisor)
+Divides a specified dividend by a specified divisor, returning integer quotient and
+remainder.
+
+**Params**
+
+- dividend <code>[Rational](#Rational)</code> - The dividend.  
+- divisor <code>[Rational](#Rational)</code> - The divisor.  
+
+**Returns**: [QuotientAndRemainder](#QuotientAndRemainder) - Integer quotient and remainder.
+
+**Errors**
+
+If the divisor is 0, a "No rational result" error is thrown.
+
+If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.  
 <a name="Q#equals"></a>
 ##q.equals(comparand)
 Compares this rational and a specified comparand for equality.
@@ -539,6 +579,16 @@ An attempt to instanciate such a number will typically result in an "Arithmetic 
 error.
 
 **Type**: `number`  
+<a name="QuotientAndRemainder"></a>
+#type: QuotientAndRemainder
+Contains integer quotient and remainder of a division.
+
+**Properties**
+
+- quotient <code>[Q](#Q)</code> - The quotient.  
+- remainder <code>[Q](#Q)</code> - The remainder.  
+
+**Type**: `object`  
 <a name="Rational"></a>
 #type: Rational
 A number or an instance of a `Q`.
