@@ -249,6 +249,16 @@ describe(
         itShouldBeQ('with arg 1', 1, { });
         itShouldBeQ('with arg -1', -1, { });
         itShouldBeQ('with arg 0', 0);
+        itShouldBeQ(
+            'with composite positive arg',
+            6469693230,
+            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1 }
+        );
+        itShouldBeQ(
+            'with composite negative arg',
+            -6469693230,
+            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1 }
+        );
         itShouldBeQ('with repeating positive arg', 75 / 28, { 2: -2, 3: 1, 5: 2, 7: -1 });
         itShouldBeQ('with repeating negative arg', -75 / 28, { 2: -2, 3: 1, 5: 2, 7: -1 });
         itShouldBeQ('with very small positive arg', Number.MIN_VALUE);
