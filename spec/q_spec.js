@@ -1,4 +1,4 @@
-/* global beforeEach, describe, expect, it */
+/* jshint jasmine: true */
 
 'use strict';
 
@@ -39,7 +39,74 @@ function compareFactors(factors1, factors2)
     return result;
 }
 
-function createTestCall(operationName, symmetric)
+function createTestCall1(operationName)
+{
+    function test(description, op, expected)
+    {
+        var testCase;
+        
+        if (expected === ERR_NR)
+        {
+            testCase =
+                function ()
+                {
+                    expect(function () { Q[operationName](op); }).toThrow(NoRationalResultError);
+                };
+        }
+        else if (expected === ERR_AO)
+        {
+            testCase =
+                function ()
+                {
+                    expect(function () { Q[operationName](op); }).toThrow(ArithmeticOverflowError);
+                };
+        }
+        else
+        {
+            var expectation = test.expectation;
+            testCase = function () { expectation(Q[operationName](op), expected); };
+        }
+        
+        it(description, testCase);
+    }
+    
+    test.onConstructor =
+        function (op, expected)
+        {
+            var expectation = test.expectation;
+            it(
+                'on constructor with Q arg',
+                function () { expectation(Q[operationName](Q(op)), expected); }
+            );
+            it(
+                'on constructor with decimal string arg',
+                function () { expectation(Q[operationName](op + ''), expected); }
+            );
+            it(
+                'on constructor without args',
+                function ()
+                {
+                    expect(function () { Q[operationName](); }).toThrow(InvalidArgumentError);
+                }
+            );
+        };
+    
+    test.onInstance =
+        function (op, expected)
+        {
+            var expectation = test.expectation;
+            it(
+                'on instance with numeric arg',
+                function () { expectation(op[operationName](), expected); }
+            );
+        };
+    
+    test.expectation = expectToBe;
+    
+    return test;
+}
+
+function createTestCall2(operationName, symmetric)
 {
     function test(description, op1, op2, expected)
     {
@@ -367,24 +434,16 @@ describe(
     'abs',
     function ()
     {
-        it('with arg 1', function () { expect(Q.abs(1)).toBeQ(1); });
-        it('with arg -1', function () { expect(Q.abs(-1)).toBeQ(1); });
-        it('with arg 0', function () { expect(Q.abs(0)).toBeQ(0); });
-        it('with positive rational arg', function () { expect(Q.abs(123)).toBeQ(123); });
-        it('with negative rational arg', function () { expect(Q.abs(-Math.PI)).toBeQ(Math.PI); });
-        it('on instance', function () { expect(Q(-75 / 28).abs()).toBeQ(75 / 28); });
-        it(
-            'on constructor with Q arg',
-            function () { expect(Q.abs(Q(75 / 28))).toBeQ(75 / 28); }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function () { expect(Q.abs('0.1')).toBeQ(0.1); }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.abs(); }).toThrow(InvalidArgumentError); }
-        );
+        var test = createTestCall1('abs');
+        test.expectation = expectToBeQ;
+        
+        test('with arg 1', 1, 1);
+        test('with arg -1', -1, 1);
+        test('with arg 0', 0, 0);
+        test('with positive rational arg', 123, 123);
+        test('with negative rational arg', -2 / 7, 2 / 7);
+        test.onInstance(Q(-75 / 28), 75 / 28);
+        test.onConstructor(0.1, 0.1);
     }
 );
 
@@ -392,7 +451,7 @@ describe(
     'add',
     function ()
     {
-        var test = createTestCall('add', true);
+        var test = createTestCall2('add', true);
         test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
@@ -429,7 +488,7 @@ describe(
     'compare/compareTo',
     function ()
     {
-        var test = createTestCall('compare', true);
+        var test = createTestCall2('compare', true);
         test.flipResult = function (expected) { return -expected; };
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
@@ -536,7 +595,7 @@ describe(
     'divide',
     function ()
     {
-        var test = createTestCall('divide', false);
+        var test = createTestCall2('divide', false);
         test.expectation = expectToBeQ;
         
         function setDividend(dividend)
@@ -656,7 +715,7 @@ describe(
     'divideAndRemainder',
     function ()
     {
-        var test = createTestCall('divideAndRemainder', false);
+        var test = createTestCall2('divideAndRemainder', false);
         var expectation =
             function (actual, expected)
             {
@@ -733,7 +792,7 @@ describe(
     'equals',
     function ()
     {
-        var test = createTestCall('equals', true);
+        var test = createTestCall2('equals', true);
         
         test('1 = 1', 1, 1, true);
         test('-1 = -1', -1, -1, true);
@@ -808,27 +867,16 @@ describe(
     'invert',
     function ()
     {
-        it('1', function () { expect(Q.invert(1)).toBeQ(1); });
-        it('-1', function () { expect(Q.invert(-1)).toBeQ(-1); });
-        it(
-            '0',
-            function () { expect(function () { Q.invert(0); }).toThrow(NoRationalResultError); }
-        );
-        it('positive rational', function () { expect(Q.invert(75 / 28)).toBeQ(28 / 75); });
-        it('negative rational', function () { expect(Q.invert(-75 / 28)).toBeQ(-28 / 75); });
-        it('on instance', function () { expect(Q(-2 / 3).invert()).toBeQ(-3 / 2); });
-        it(
-            'on constructor with Q arg',
-            function () { expect(Q.invert(Q(75 / 28))).toBeQ(28 / 75); }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function () { expect(Q.invert('0.1')).toBeQ(10); }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.invert(); }).toThrow(InvalidArgumentError); }
-        );
+        var test = createTestCall1('invert');
+        test.expectation = expectToBeQ;
+        
+        test('1', 1, 1);
+        test('-1', -1, -1);
+        test('0', 0, ERR_NR);
+        test('positive rational', 75 / 28, 28 / 75);
+        test('negative rational', -75 / 28, -28 / 75);
+        test.onInstance(Q(-2 / 3), -3 / 2);
+        test.onConstructor(0.1, 10);
     }
 );
 
@@ -836,13 +884,15 @@ describe(
     'isInteger',
     function ()
     {
-        it('with arg 1', function () { expect(Q.isInteger(1)).toBe(true); });
-        it('with arg -1', function () { expect(Q.isInteger(-1)).toBe(true); });
-        it('with arg 0', function () { expect(Q.isInteger(0)).toBe(true); });
-        it('with positive integer arg', function () { expect(Q.isInteger(123)).toBe(true); });
-        it('with negative integer arg', function () { expect(Q.isInteger(-8)).toBe(true); });
-        it('with positive fractional arg', function () { expect(Q.isInteger(0.5)).toBe(false); });
-        it('with negative fractional arg', function () { expect(Q.isInteger(-8.1)).toBe(false); });
+        var test = createTestCall1('isInteger');
+        
+        test('with arg 1', 1, true);
+        test('with arg -1', -1, true);
+        test('with arg 0', 0, true);
+        test('with positive integer arg', 123, true);
+        test('with negative integer arg', -8, true);
+        test('with positive fractional arg', 0.5, false);
+        test('with negative fractional arg', -8.1, false);
         it(
             'on instance',
             function ()
@@ -878,13 +928,15 @@ describe(
     'isPrime',
     function ()
     {
-        it('with arg 1', function () { expect(Q.isPrime(1)).toBe(false); });
-        it('with arg -1', function () { expect(Q.isPrime(-1)).toBe(false); });
-        it('with arg 0', function () { expect(Q.isPrime(0)).toBe(false); });
-        it('with prime arg', function () { expect(Q.isPrime(101)).toBe(true); });
-        it('with composite arg', function () { expect(Q.isPrime(100)).toBe(false); });
-        it('with positive fractional arg', function () { expect(Q.isPrime(3 / 5)).toBe(false); });
-        it('with negative arg', function () { expect(Q.isPrime(-7)).toBe(false); });
+        var test = createTestCall1('isPrime');
+        
+        test('with arg 1', 1, false);
+        test('with arg -1', -1, false);
+        test('with arg 0', 0, false);
+        test('with prime arg', 101, true);
+        test('with composite arg', 100, false);
+        test('with positive fractional arg', 3 / 5, false);
+        test('with negative arg', -7, false);
         it(
             'on instance',
             function ()
@@ -920,7 +972,7 @@ describe(
     'multiply',
     function ()
     {
-        var test = createTestCall('multiply', true);
+        var test = createTestCall2('multiply', true);
         test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
@@ -961,24 +1013,16 @@ describe(
     'negate',
     function ()
     {
-        it('1', function () { expect(Q.negate(1)).toBeQ(-1); });
-        it('-1', function () { expect(Q.negate(-1)).toBeQ(1); });
-        it('0', function () { expect(Q.negate(0)).toBeQ(0); });
-        it('positive rational', function () { expect(Q.negate(123)).toBeQ(-123); });
-        it('negative rational', function () { expect(Q.negate(-Math.PI)).toBeQ(Math.PI); });
-        it('on instance', function () { expect(Q(-75 / 28).negate()).toBeQ(75 / 28); });
-        it(
-            'on constructor with Q arg',
-            function () { expect(Q.negate(Q(75 / 28))).toBeQ(-75 / 28); }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function () { expect(Q.negate('0.1')).toBeQ(-0.1); }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.negate(); }).toThrow(InvalidArgumentError); }
-        );
+        var test = createTestCall1('negate');
+        test.expectation = expectToBeQ;
+        
+        test('1', 1, -1);
+        test('-1', -1, 1);
+        test('0', 0, 0);
+        test('positive rational', 123, -123);
+        test('negative rational', -7 / 2, 7 / 2);
+        test.onInstance(Q(-75 / 28), 75 / 28);
+        test.onConstructor(0.1, -0.1);
     }
 );
 
@@ -986,7 +1030,7 @@ describe(
     'pow',
     function ()
     {
-        var test = createTestCall('pow', false);
+        var test = createTestCall2('pow', false);
         test.expectation = expectToBeQ;
         
         function setBase(base)
@@ -1146,7 +1190,10 @@ describe(
     'round',
     function ()
     {
-        function test(description, value, matches)
+        var test = createTestCall1('round');
+        test.expectation = expectToBeQ;
+        
+        function testMany(description, value, matches)
         {
             describe(
                 description,
@@ -1166,7 +1213,7 @@ describe(
             );
         }
         
-        test(
+        testMany(
             '1',
             1,
             {
@@ -1180,7 +1227,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '-1',
             -1,
             {
@@ -1194,7 +1241,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '0',
             0,
             {
@@ -1208,7 +1255,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '5.5',
             5.5,
             {
@@ -1222,7 +1269,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '2.5',
             2.5,
             {
@@ -1236,7 +1283,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '1.6',
             1.6,
             {
@@ -1250,7 +1297,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '1.1',
             1.1,
             {
@@ -1264,7 +1311,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '-1.1',
             -1.1,
             {
@@ -1278,7 +1325,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '-1.6',
             -1.6,
             {
@@ -1292,7 +1339,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '-2.5',
             -2.5,
             {
@@ -1306,7 +1353,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             '-5.5',
             -5.5,
             {
@@ -1320,7 +1367,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             'very small positive',
             Math.pow(2, -52),
             {
@@ -1334,7 +1381,7 @@ describe(
             }
         );
         
-        test(
+        testMany(
             'very small negative',
             -Math.pow(2, -52),
             {
@@ -1348,48 +1395,12 @@ describe(
             }
         );
         
-        it(
-            'too small positive',
-            function ()
-            {
-                expect(function () { Q.round(Number.MIN_VALUE); }).toThrow(ArithmeticOverflowError);
-            }
-        );
-        it(
-            'too small negative',
-            function ()
-            {
-                expect(function () { Q.round(-Number.MIN_VALUE); }).toThrow(
-                    ArithmeticOverflowError
-                );
-            }
-        );
-        it(
-            'too large positive',
-            function ()
-            {
-                expect(function () { Q.round(Number.MAX_VALUE); }).toThrow(ArithmeticOverflowError);
-            }
-        );
-        it(
-            'too large negative',
-            function ()
-            {
-                expect(function () { Q.round(-Number.MAX_VALUE); }).toThrow(
-                    ArithmeticOverflowError
-                );
-            }
-        );
-        it('on instance', function () { expect(Q(-2 / 3).round()).toBeQ(-1); });
-        it('on constructor with Q arg', function () { expect(Q.round(Q(5.1))).toBeQ(5); });
-        it(
-            'on constructor with decimal string arg',
-            function () { expect(Q.round('1.5')).toBeQ(2); }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.round(); }).toThrow(InvalidArgumentError); }
-        );
+        test('too small positive', Number.MIN_VALUE, ERR_AO);
+        test('too small negative', -Number.MIN_VALUE, ERR_AO);
+        test('too large positive', Number.MAX_VALUE, ERR_AO);
+        test('too large negative', -Number.MAX_VALUE, ERR_AO);
+        test.onInstance(Q(-2 / 3), -1);
+        test.onConstructor(5.1, 5);
         it(
             'uses mode "half even" as default mode',
             function ()
@@ -1413,24 +1424,15 @@ describe(
     'sign',
     function ()
     {
-        it('of 1', function () { expect(Q.sign(1)).toBe(1); });
-        it('of -1', function () { expect(Q.sign(-1)).toBe(-1); });
-        it('of 0', function () { expect(Q.sign(0)).toBe(0); });
-        it('of positive rational', function () { expect(Q.sign(75 / 28)).toBe(1); });
-        it('of negative rational', function () { expect(Q.sign(-75 / 28)).toBe(-1); });
-        it('on instance', function () { expect(Q(-75 / 28).sign()).toBe(-1); });
-        it(
-            'on constructor with Q arg',
-            function () { expect(Q.sign(Q(75 / 28))).toBe(1); }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function () { expect(Q.sign('0.1')).toBe(1); }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.sign(); }).toThrow(InvalidArgumentError); }
-        );
+        var test = createTestCall1('sign');
+        
+        test('of 1', 1, 1);
+        test('of -1', -1, -1);
+        test('of 0', 0, 0);
+        test('of positive rational', 75 / 28, 1);
+        test('of negative rational', -75 / 28, -1);
+        test.onInstance(Q(-75 / 28), -1);
+        test.onConstructor(0.1, 1);
     }
 );
 
@@ -1438,7 +1440,7 @@ describe(
     'subtract',
     function ()
     {
-        var test = createTestCall('subtract', false);
+        var test = createTestCall2('subtract', false);
         test.expectation = expectToBeQ;
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
