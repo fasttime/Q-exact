@@ -1,7 +1,20 @@
 {
   "name": "q-exact",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A library for exact calculations with rational numbers",
+  "keywords": [
+    "arithmetic",
+    "exact",
+    "math",
+    "q",
+    "rational"
+  ],
+  "homepage": "https://github.com/fasttime/Q-exact",
+  "bugs": {
+    "url": "https://github.com/fasttime/Q-exact/issues"
+  },
+  "license": "ISC",
+  "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "main": "lib/q.js",
   "repository": {
     "type": "git",
