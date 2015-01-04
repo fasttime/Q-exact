@@ -120,8 +120,90 @@ function createTestCall(operationName, symmetric)
         it(description, testCase);
     }
     
-    test.flipResult = function (expected) { return expected; };
+    test.onConstructor =
+        function (op1, op2, expected)
+        {
+            var expectation = test.expectation;
+            it(
+                'on constructor with Q args',
+                function () { expectation(Q[operationName](Q(op1), Q(op2)), expected); }
+            );
+            it(
+                'on constructor with decimal string args',
+                function () { expectation(Q[operationName](op1 + '', op2 + ''), expected); }
+            );
+            it(
+                'on constructor without args',
+                function ()
+                {
+                    expect(function () { Q[operationName](); }).toThrow(InvalidArgumentError);
+                }
+            );
+            it(
+                'on constructor with one arg',
+                function ()
+                {
+                    expect(function () { Q[operationName](op1); }).toThrow(InvalidArgumentError);
+                }
+            );
+        };
+    
+    test.onConstructorVarargs =
+        function (op1, op2, op3, expected0, expected1, expected2, expected3)
+        {
+            var expectation = test.expectation;
+            it(
+                'on constructor with Q args',
+                function () { expectation(Q[operationName](Q(op1), Q(op2)), expected2); }
+            );
+            it(
+                'on constructor with decimal string args',
+                function () { expectation(Q[operationName](op1 + '', op2 + ''), expected2); }
+            );
+            it(
+                'on constructor without args',
+                function () { expectation(Q[operationName](), expected0); }
+            );
+            it(
+                'on constructor with one arg',
+                function () { expectation(Q[operationName](op1), expected1); }
+            );
+            it(
+                'on constructor with several args',
+                function () { expectation(Q[operationName](op1, op2, op3), expected3); }
+            );
+        };
+    
+    test.onInstance =
+        function (op1, op2, expected)
+        {
+            var expectation = test.expectation;
+            var numeric = op2;
+            var q = Q(op2);
+            var decimalString = op2 + '';
+            it(
+                'on instance with numeric arg',
+                function () { expectation(op1[operationName](numeric), expected); }
+            );
+            it(
+                'on instance with Q arg',
+                function () { expectation(op1[operationName](q), expected); }
+            );
+            it(
+                'on instance with decimal string arg',
+                function () { expectation(op1[operationName](decimalString), expected); }
+            );
+            it(
+                'on instance without args',
+                function ()
+                {
+                    expect(function () { op1[operationName](); }).toThrow(InvalidArgumentError);
+                }
+            );
+        };
+    
     test.expectation = expectToBe;
+    test.flipResult = function (expected) { return expected; };
     
     return test;
 }
@@ -282,184 +364,6 @@ describe(
 );
 
 describe(
-    'pow',
-    function ()
-    {
-        var test = createTestCall('pow', false);
-        test.expectation = expectToBeQ;
-        
-        function setBase(base)
-        {
-            var result =
-                function (description, exp, expected) { test(description, base, exp, expected); };
-            return result;
-        }
-        
-        describe(
-            'with base 1',
-            function ()
-            {
-                var test = setBase(1);
-                test('and exp 1', 1, 1);
-                test('and exp -1', -1, 1);
-                test('and exp 0', 0, 1);
-                test('and positive rational exp', 75 / 28, 1);
-                test('and negative rational exp', -75 / 28, 1);
-                test('and very large positive exp', Number.MAX_VALUE, 1);
-                test('and very large negative exp', -Number.MAX_VALUE, 1);
-            }
-        );
-        
-        describe(
-            'with base -1',
-            function ()
-            {
-                var test = setBase(-1);
-                test('and exp 1', 1, -1);
-                test('and exp -1', -1, -1);
-                test('and exp 0', 0, 1);
-                test('and positive odd exp', 7, -1);
-                test('and negative odd exp', -7, -1);
-                test('and positive even exp', 8, 1);
-                test('and negative even exp', -8, 1);
-                test('and positive fractional exp', 1.5, ERR_NR);
-                test('and negative fractional exp', -1.5, ERR_NR);
-                test('and very large positive exp', Number.MAX_VALUE, 1);
-                test('and very large negative exp', -Number.MAX_VALUE, 1);
-            }
-        );
-        
-        describe(
-            'with base 0',
-            function ()
-            {
-                var test = setBase(0);
-                test('and exp 1', 1, 0);
-                test('and exp -1', -1, ERR_NR);
-                test('and exp 0', 0, ERR_NR);
-                test('and positive rational exp', 75 / 28, 0);
-                test('and negative rational exp', -75 / 28, ERR_NR);
-                test('and very large positive exp', Number.MAX_VALUE, 0);
-                test('and very large negative exp', -Number.MAX_VALUE, ERR_NR);
-            }
-        );
-        
-        describe(
-            'with positive rational base',
-            function ()
-            {
-                var test = setBase(2 / 3);
-                test('and exp 1', 1, 2 / 3);
-                test('and exp -1', -1, 3 / 2);
-                test('and exp 0', 0, 1);
-                test('and positive integer exp', 6, { _sign: 1, _factors: { 2: 6, 3: -6 } });
-                test('and negative integer exp', -6, { _sign: 1, _factors: { 2: -6, 3: 6 } });
-                test('and positive fractional exp', 1.5, ERR_NR);
-                test('and negative fractional exp', -1.5, ERR_NR);
-                test(
-                    'and very large positive exp',
-                    Q.MAX_EXP,
-                    { _sign: 1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
-                );
-                test(
-                    'and very large negative exp',
-                    Q.MIN_EXP,
-                    { _sign: 1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
-                );
-                
-                describe(
-                    'with prime numerator and denominator',
-                    function ()
-                    {
-                        var test = setBase(2 / 3);
-                        test('and too large positive exp', Q.MAX_EXP + 1, ERR_AO);
-                        test('and too large negative exp', Q.MIN_EXP - 1, ERR_AO);
-                    }
-                );
-                
-                describe(
-                    'composite',
-                    function ()
-                    {
-                        var test = setBase(4);
-                        test('and too large positive exp', Q.MAX_EXP, ERR_AO);
-                        test('and too large negative exp', Q.MIN_EXP, ERR_AO);
-                    }
-                );
-            }
-        );
-        
-        describe(
-            'with negative rational base',
-            function ()
-            {
-                var test = setBase(-2 / 3);
-                test('and exp 1', 1, -2 / 3);
-                test('and exp -1', -1, -3 / 2);
-                test('and exp 0', 0, 1);
-                test('and positive odd exp', 7, { _sign: -1, _factors: { 2: 7, 3: -7 } });
-                test('and negative odd exp', -7, { _sign: -1, _factors: { 2: -7, 3: 7 } });
-                test('and positive even exp', 8, { _sign: 1, _factors: { 2: 8, 3: -8 } });
-                test('and negative even exp', -8, { _sign: 1, _factors: { 2: -8, 3: 8 } });
-                test('and positive fractional exp', 1.5, ERR_NR);
-                test('and negative fractional exp', -1.5, ERR_NR);
-                test(
-                    'and very large positive exp',
-                    Q.MAX_EXP,
-                    { _sign: -1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
-                );
-                test(
-                    'and very large negative exp',
-                    Q.MIN_EXP,
-                    { _sign: -1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
-                );
-                
-                describe(
-                    'with prime numerator and denominator',
-                    function ()
-                    {
-                        var test = setBase(-2 / 3);
-                        test('and too large positive exp', Q.MAX_EXP + 1, ERR_AO);
-                        test('and too large negative exp', Q.MIN_EXP - 1, ERR_AO);
-                    }
-                );
-                
-                describe(
-                    'composite',
-                    function ()
-                    {
-                        var test = setBase(-4);
-                        test('and too large positive exp', Q.MAX_EXP, ERR_AO);
-                        test('and too large negative exp', Q.MIN_EXP, ERR_AO);
-                    }
-                );
-            }
-        );
-        
-        it('on instance with numeric arg', function () { expect(Q(2).pow(-2)).toBeQ(0.25); });
-        it('on instance with Q arg', function () { expect(Q(2).pow(Q(-2))).toBeQ(0.25); });
-        it(
-            'on instance with decimal string arg',
-            function () { expect(Q(2).pow('-2')).toBeQ(0.25); }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).pow(); }).toThrow(InvalidArgumentError); }
-        );
-        test('on constructor with Q args', Q(-0.1), Q(2), 0.01);
-        test('on constructor with decimal string args', '-0.1', '2', 0.01);
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.pow(); }).toThrow(InvalidArgumentError); }
-        );
-        it(
-            'on constructor with one arg',
-            function () { expect(function () { Q.pow(1); }).toThrow(InvalidArgumentError); }
-        );
-    }
-);
-
-describe(
     'abs',
     function ()
     {
@@ -516,27 +420,8 @@ describe(
             ERR_AO
         );
         test('fails if an exp would be too large', maxPow2, maxPow2, ERR_AO);
-        it(
-            'on instance with numeric arg',
-            function () { expect(Q(2).add(-0.3333333333333333)).toBeQ(5 / 3); }
-        );
-        it(
-            'on instance with Q arg',
-            function () { expect(Q(2).add(Q(-0.3333333333333333))).toBeQ(5 / 3); }
-        );
-        it(
-            'on instance with decimal string arg',
-            function () { expect(Q(2).add('-0.3333333333333333')).toBeQ(5 / 3); }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).add(); }).toThrow(InvalidArgumentError); }
-        );
-        test('on constructor with Q args', Q(-0.1), Q(2), 1.9);
-        test('on constructor with decimal string args', '-0.1', '2', 1.9);
-        it('on constructor without args', function () { expect(Q.add()).toBeQ(0); });
-        it('on constructor with one arg', function () { expect(Q.add(-2 / 3)).toBeQ(-2 / 3); });
-        it('on constructor with several args', function () { expect(Q.add(1, 2, 3)).toBeQ(6); });
+        test.onInstance(Q(2), -0.3333333333333333, 5 / 3);
+        test.onConstructorVarargs(-0.1, 2, 10, 0, -0.1, 1.9, 11.9);
     }
 );
 
@@ -762,26 +647,8 @@ describe(
         
         test('too small by rational', minPow2, 2 / 3, ERR_AO);
         test('too large by rational', maxPow2, 3 / 2, ERR_AO);
-        it('on instance with numeric arg', function () { expect(Q(2).divide(-2)).toBeQ(-1); });
-        it('on instance with Q arg', function () { expect(Q(2).divide(Q(-2))).toBeQ(-1); });
-        it(
-            'on instance with decimal string arg',
-            function () { expect(Q(2).divide('-2')).toBeQ(-1); }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).divide(); }).toThrow(InvalidArgumentError); }
-        );
-        test('on constructor with Q args', Q(-0.1), Q(2), -0.05);
-        test('on constructor with decimal string args', '-0.1', '2', -0.05);
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.divide(); }).toThrow(InvalidArgumentError); }
-        );
-        it(
-            'on constructor with one arg',
-            function () { expect(function () { Q.divide(1); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance(Q(2), -2, -1);
+        test.onConstructor(-0.1, 2, -0.05);
     }
 );
 
@@ -857,41 +724,8 @@ describe(
         test('too large by rational', Number.MAX_VALUE, 8 / 7, ERR_AO);
         test('too small by rational', Number.MIN_VALUE, 8 / 7, ERR_AO);
         test('fails if a remainder exp would be too large', maxPow2Times5, maxPow2Times3, ERR_AO);
-        it(
-            'on instance with numeric arg',
-            function () { expectation(Q(8).divideAndRemainder(-3), [-2, 2]); }
-        );
-        it(
-            'on instance with Q arg',
-            function () { expectation(Q(8).divideAndRemainder(Q(-3)), [-2, 2]); }
-        );
-        it(
-            'on instance with decimal string arg',
-            function () { expectation(Q(8).divideAndRemainder('-3'), [-2, 2]); }
-        );
-        it(
-            'on instance without args',
-            function ()
-            {
-                expect(function () { Q(1).divideAndRemainder(); }).toThrow(InvalidArgumentError);
-            }
-        );
-        test('on constructor with Q args', Q(8), Q(-3), [-2, 2]);
-        test('on constructor with decimal string args', '8', '-3', [-2, 2]);
-        it(
-            'on constructor without args',
-            function ()
-            {
-                expect(function () { Q.divideAndRemainder(); }).toThrow(InvalidArgumentError);
-            }
-        );
-        it(
-            'on constructor with one arg',
-            function ()
-            {
-                expect(function () { Q.divideAndRemainder(1); }).toThrow(InvalidArgumentError);
-            }
-        );
+        test.onInstance(Q(8), -3, [-2, 2]);
+        test.onConstructor(8, -3, [-2, 2]);
     }
 );
 
@@ -1118,33 +952,8 @@ describe(
         test('very small × very large', minPow3, maxPow2, maxPow2Third);
         test('fails if an exp would be too small', minPow2, 3 / 2, ERR_AO);
         test('fails if an exp would be too large', maxPow3, 3 / 2, ERR_AO);
-        it(
-            'on instance with numeric arg',
-            function () { expect(Q(2).multiply(-0.3333333333333333)).toBeQ(-2 / 3); }
-        );
-        it(
-            'on instance with Q arg',
-            function () { expect(Q(2).multiply(Q(-0.3333333333333333))).toBeQ(-2 / 3); }
-        );
-        it(
-            'on instance with decimal string arg',
-            function () { expect(Q(2).multiply('-0.3333333333333333')).toBeQ(-2 / 3); }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).multiply(); }).toThrow(InvalidArgumentError); }
-        );
-        test('on constructor with Q args', Q(-0.1), Q(2), -0.2);
-        test('on constructor with decimal string args', '-0.1', '2', -0.2);
-        it('on constructor without args', function () { expect(Q.multiply()).toBeQ(1); });
-        it(
-            'on constructor with one arg',
-            function () { expect(Q.multiply(-2 / 3)).toBeQ(-2 / 3); }
-        );
-        it(
-            'on constructor with several args',
-            function () { expect(Q.multiply(2, 3, 4 / 5)).toBeQ(24 / 5); }
-        );
+        test.onInstance(Q(2), -0.3333333333333333, -2 / 3);
+        test.onConstructorVarargs(-0.1, 2, 10, 1, -0.1, -0.2, -2);
     }
 );
 
@@ -1170,6 +979,166 @@ describe(
             'on constructor without args',
             function () { expect(function () { Q.negate(); }).toThrow(InvalidArgumentError); }
         );
+    }
+);
+
+describe(
+    'pow',
+    function ()
+    {
+        var test = createTestCall('pow', false);
+        test.expectation = expectToBeQ;
+        
+        function setBase(base)
+        {
+            var result =
+                function (description, exp, expected) { test(description, base, exp, expected); };
+            return result;
+        }
+        
+        describe(
+            'with base 1',
+            function ()
+            {
+                var test = setBase(1);
+                test('and exp 1', 1, 1);
+                test('and exp -1', -1, 1);
+                test('and exp 0', 0, 1);
+                test('and positive rational exp', 75 / 28, 1);
+                test('and negative rational exp', -75 / 28, 1);
+                test('and very large positive exp', Number.MAX_VALUE, 1);
+                test('and very large negative exp', -Number.MAX_VALUE, 1);
+            }
+        );
+        
+        describe(
+            'with base -1',
+            function ()
+            {
+                var test = setBase(-1);
+                test('and exp 1', 1, -1);
+                test('and exp -1', -1, -1);
+                test('and exp 0', 0, 1);
+                test('and positive odd exp', 7, -1);
+                test('and negative odd exp', -7, -1);
+                test('and positive even exp', 8, 1);
+                test('and negative even exp', -8, 1);
+                test('and positive fractional exp', 1.5, ERR_NR);
+                test('and negative fractional exp', -1.5, ERR_NR);
+                test('and very large positive exp', Number.MAX_VALUE, 1);
+                test('and very large negative exp', -Number.MAX_VALUE, 1);
+            }
+        );
+        
+        describe(
+            'with base 0',
+            function ()
+            {
+                var test = setBase(0);
+                test('and exp 1', 1, 0);
+                test('and exp -1', -1, ERR_NR);
+                test('and exp 0', 0, ERR_NR);
+                test('and positive rational exp', 75 / 28, 0);
+                test('and negative rational exp', -75 / 28, ERR_NR);
+                test('and very large positive exp', Number.MAX_VALUE, 0);
+                test('and very large negative exp', -Number.MAX_VALUE, ERR_NR);
+            }
+        );
+        
+        describe(
+            'with positive rational base',
+            function ()
+            {
+                var test = setBase(2 / 3);
+                test('and exp 1', 1, 2 / 3);
+                test('and exp -1', -1, 3 / 2);
+                test('and exp 0', 0, 1);
+                test('and positive integer exp', 6, { _sign: 1, _factors: { 2: 6, 3: -6 } });
+                test('and negative integer exp', -6, { _sign: 1, _factors: { 2: -6, 3: 6 } });
+                test('and positive fractional exp', 1.5, ERR_NR);
+                test('and negative fractional exp', -1.5, ERR_NR);
+                test(
+                    'and very large positive exp',
+                    Q.MAX_EXP,
+                    { _sign: 1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
+                );
+                test(
+                    'and very large negative exp',
+                    Q.MIN_EXP,
+                    { _sign: 1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
+                );
+                
+                describe(
+                    'with prime numerator and denominator',
+                    function ()
+                    {
+                        var test = setBase(2 / 3);
+                        test('and too large positive exp', Q.MAX_EXP + 1, ERR_AO);
+                        test('and too large negative exp', Q.MIN_EXP - 1, ERR_AO);
+                    }
+                );
+                
+                describe(
+                    'composite',
+                    function ()
+                    {
+                        var test = setBase(4);
+                        test('and too large positive exp', Q.MAX_EXP, ERR_AO);
+                        test('and too large negative exp', Q.MIN_EXP, ERR_AO);
+                    }
+                );
+            }
+        );
+        
+        describe(
+            'with negative rational base',
+            function ()
+            {
+                var test = setBase(-2 / 3);
+                test('and exp 1', 1, -2 / 3);
+                test('and exp -1', -1, -3 / 2);
+                test('and exp 0', 0, 1);
+                test('and positive odd exp', 7, { _sign: -1, _factors: { 2: 7, 3: -7 } });
+                test('and negative odd exp', -7, { _sign: -1, _factors: { 2: -7, 3: 7 } });
+                test('and positive even exp', 8, { _sign: 1, _factors: { 2: 8, 3: -8 } });
+                test('and negative even exp', -8, { _sign: 1, _factors: { 2: -8, 3: 8 } });
+                test('and positive fractional exp', 1.5, ERR_NR);
+                test('and negative fractional exp', -1.5, ERR_NR);
+                test(
+                    'and very large positive exp',
+                    Q.MAX_EXP,
+                    { _sign: -1, _factors: { 2: Q.MAX_EXP, 3: -Q.MAX_EXP } }
+                );
+                test(
+                    'and very large negative exp',
+                    Q.MIN_EXP,
+                    { _sign: -1, _factors: { 2: Q.MIN_EXP, 3: -Q.MIN_EXP } }
+                );
+                
+                describe(
+                    'with prime numerator and denominator',
+                    function ()
+                    {
+                        var test = setBase(-2 / 3);
+                        test('and too large positive exp', Q.MAX_EXP + 1, ERR_AO);
+                        test('and too large negative exp', Q.MIN_EXP - 1, ERR_AO);
+                    }
+                );
+                
+                describe(
+                    'composite',
+                    function ()
+                    {
+                        var test = setBase(-4);
+                        test('and too large positive exp', Q.MAX_EXP, ERR_AO);
+                        test('and too large negative exp', Q.MIN_EXP, ERR_AO);
+                    }
+                );
+            }
+        );
+        
+        test.onInstance(Q(2), -2, 0.25);
+        test.onConstructor(-0.1, 2, 0.01);
     }
 );
 
@@ -1507,26 +1476,8 @@ describe(
             ERR_AO
         );
         test('fails if an exp would be too large', maxPow2, maxPowMinus2, ERR_AO);
-        it('on instance with numeric arg', function () { expect(Q(2).subtract(-2)).toBeQ(4); });
-        it('on instance with Q arg', function () { expect(Q(2).subtract(Q(-2))).toBeQ(4); });
-        it(
-            'on instance with decimal string arg',
-            function () { expect(Q(2).subtract('-2')).toBeQ(4); }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).subtract(); }).toThrow(InvalidArgumentError); }
-        );
-        test('on constructor with Q args', Q(-0.1), Q(2), -2.1);
-        test('on constructor with decimal string args', '-0.1', '2', -2.1);
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.subtract(); }).toThrow(InvalidArgumentError); }
-        );
-        it(
-            'on constructor with one arg',
-            function () { expect(function () { Q.subtract(1); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance(Q(2), -2, 4);
+        test.onConstructor(-0.1, 2, -2.1);
     }
 );
 
