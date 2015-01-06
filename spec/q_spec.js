@@ -70,17 +70,37 @@ function createTestCall1(operationName)
         it(description, testCase);
     }
     
-    test.onConstructor =
-        function (op, expected)
+    test.onConstructor = function (op, expected) { test.onConstructor.many([op], [expected]); };
+    
+    test.onConstructor.many =
+        function (opList, expectedList)
         {
             var expectation = test.expectation;
             it(
                 'on constructor with Q arg',
-                function () { expectation(Q[operationName](Q(op)), expected); }
+                function ()
+                {
+                    opList.forEach(
+                        function (op, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(Q[operationName](Q(op)), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on constructor with decimal string arg',
-                function () { expectation(Q[operationName](op + ''), expected); }
+                function ()
+                {
+                    opList.forEach(
+                        function (op, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(Q[operationName](op + ''), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on constructor without args',
@@ -91,13 +111,24 @@ function createTestCall1(operationName)
             );
         };
     
-    test.onInstance =
-        function (op, expected)
+    test.onInstance = function (op, expected) { test.onInstance.many([op], [expected]); };
+    
+    test.onInstance.many =
+        function (opList, expectedList)
         {
             var expectation = test.expectation;
             it(
                 'on instance with numeric arg',
-                function () { expectation(op[operationName](), expected); }
+                function ()
+                {
+                    opList.forEach(
+                        function (op, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(op[operationName](), expected);
+                        }
+                    );
+                }
             );
         };
     
@@ -188,16 +219,39 @@ function createTestCall2(operationName, symmetric)
     }
     
     test.onConstructor =
-        function (op1, op2, expected)
+        function (op1, op2, expected) { test.onConstructor.many([op1], [op2], [expected]); };
+    
+    test.onConstructor.many =
+        function (op1List, op2List, expectedList)
         {
             var expectation = test.expectation;
             it(
                 'on constructor with Q args',
-                function () { expectation(Q[operationName](Q(op1), Q(op2)), expected); }
+                function ()
+                {
+                    op1List.forEach(
+                        function (op1, index)
+                        {
+                            var op2 = op2List[index];
+                            var expected = expectedList[index];
+                            expectation(Q[operationName](Q(op1), Q(op2)), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on constructor with decimal string args',
-                function () { expectation(Q[operationName](op1 + '', op2 + ''), expected); }
+                function ()
+                {
+                    op1List.forEach(
+                        function (op1, index)
+                        {
+                            var op2 = op2List[index];
+                            var expected = expectedList[index];
+                            expectation(Q[operationName](op1 + '', op2 + ''), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on constructor without args',
@@ -210,7 +264,9 @@ function createTestCall2(operationName, symmetric)
                 'on constructor with one arg',
                 function ()
                 {
-                    expect(function () { Q[operationName](op1); }).toThrow(InvalidArgumentError);
+                    expect(function () { Q[operationName](op1List[0]); }).toThrow(
+                        InvalidArgumentError
+                    );
                 }
             );
         };
@@ -242,23 +298,51 @@ function createTestCall2(operationName, symmetric)
         };
     
     test.onInstance =
-        function (op1, op2, expected)
+        function (op1, op2, expected) { test.onInstance.many(op1, [op2], [expected]); };
+    
+    test.onInstance.many =
+        function (op1, op2List, expectedList)
         {
             var expectation = test.expectation;
-            var numeric = op2;
-            var q = Q(op2);
-            var decimalString = op2 + '';
+            var operationName = test.methodName;
             it(
                 'on instance with numeric arg',
-                function () { expectation(op1[operationName](numeric), expected); }
+                function ()
+                {
+                    op2List.forEach(
+                        function (op2, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(op1[operationName](op2), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on instance with Q arg',
-                function () { expectation(op1[operationName](q), expected); }
+                function ()
+                {
+                    op2List.forEach(
+                        function (op2, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(op1[operationName](Q(op2)), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on instance with decimal string arg',
-                function () { expectation(op1[operationName](decimalString), expected); }
+                function ()
+                {
+                    op2List.forEach(
+                        function (op2, index)
+                        {
+                            var expected = expectedList[index];
+                            expectation(op1[operationName](op2 + ''), expected);
+                        }
+                    );
+                }
             );
             it(
                 'on instance without args',
@@ -271,6 +355,7 @@ function createTestCall2(operationName, symmetric)
     
     test.expectation = expectToBe;
     test.flipResult = function (expected) { return expected; };
+    test.methodName = operationName;
     
     return test;
 }
@@ -400,13 +485,13 @@ describe(
         itShouldBeQ('with arg 0', 0);
         itShouldBeQ(
             'with composite positive arg',
-            6469693230,
-            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1 }
+            200560490130,
+            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1, 31: 1 }
         );
         itShouldBeQ(
             'with composite negative arg',
-            -6469693230,
-            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1 }
+            -200560490130,
+            { 2: 1, 3: 1, 5: 1, 7: 1, 11: 1, 13: 1, 17: 1, 19: 1, 23: 1, 29: 1, 31: 1 }
         );
         itShouldBeQ('with repeating positive arg', 75 / 28, { 2: -2, 3: 1, 5: 2, 7: -1 });
         itShouldBeQ('with repeating negative arg', -75 / 28, { 2: -2, 3: 1, 5: 2, 7: -1 });
@@ -490,6 +575,7 @@ describe(
     {
         var test = createTestCall2('compare', true);
         test.flipResult = function (expected) { return -expected; };
+        test.methodName = 'compareTo';
         
         var maxPow2 = Q(2).pow(Q.MAX_EXP);
         var maxPow3 = Q(3).pow(Q.MAX_EXP);
@@ -531,63 +617,8 @@ describe(
         
         test('fails if both decomposition norms are too large', q5Pow23, q3Pow34, ERR_AO);
         
-        it(
-            'on instance with numeric arg',
-            function ()
-            {
-                expect(Q(2).compareTo(1)).toBe(1);
-                expect(Q(2).compareTo(7)).toBe(-1);
-                expect(Q(2).compareTo(2)).toBe(0);
-            }
-        );
-        it(
-            'on instance with Q arg',
-            function ()
-            {
-                expect(Q(2).compareTo(Q(1))).toBe(1);
-                expect(Q(2).compareTo(Q(7))).toBe(-1);
-                expect(Q(2).compareTo(Q(2))).toBe(0);
-            }
-        );
-        it(
-            'on instance with decimal string arg',
-            function ()
-            {
-                expect(Q(2).compareTo('1')).toBe(1);
-                expect(Q(2).compareTo('7')).toBe(-1);
-                expect(Q(2).compareTo('2')).toBe(0);
-            }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).compareTo(); }).toThrow(InvalidArgumentError); }
-        );
-        it(
-            'on constructor with Q args',
-            function ()
-            {
-                expect(Q.compare(Q(8), Q(7))).toBe(1);
-                expect(Q.compare(Q(7), Q(8))).toBe(-1);
-                expect(Q.compare(Q(7), Q(7))).toBe(0);
-            }
-        );
-        it(
-            'on constructor with decimal string args',
-            function ()
-            {
-                expect(Q.compare('8', '7')).toBe(1);
-                expect(Q.compare('7', '8')).toBe(-1);
-                expect(Q.compare('7', '7')).toBe(0);
-            }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.compare(); }).toThrow(InvalidArgumentError); }
-        );
-        it(
-            'on constructor with one arg',
-            function () { expect(function () { Q.compare(1); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance.many(Q(2), [1, 7, 2], [1, -1, 0]);
+        test.onConstructor.many([8, 7, 7], [7, 8, 7], [1, -1, 0]);
     }
 );
 
@@ -806,34 +837,7 @@ describe(
         test('with different negative rationals', -75 / 28, -3 / 2, false);
         test('1 ≠ positive rational', 1, 2 / 3, false);
         test('-1 ≠ negative rational', -1, -2 / 3, false);
-        it(
-            'on instance with numeric arg',
-            function ()
-            {
-                expect(Q(2).equals(2)).toBe(true);
-                expect(Q(2).equals(7)).toBe(false);
-            }
-        );
-        it(
-            'on instance with Q arg',
-            function ()
-            {
-                expect(Q(2).equals(Q(2))).toBe(true);
-                expect(Q(2).equals(Q(7))).toBe(false);
-            }
-        );
-        it(
-            'on instance with decimal string arg',
-            function ()
-            {
-                expect(Q(2).equals('2')).toBe(true);
-                expect(Q(2).equals('7')).toBe(false);
-            }
-        );
-        it(
-            'on instance without args',
-            function () { expect(function () { Q(1).equals(); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance.many(Q(2), [2, 7], [true, false]);
         it(
             'on constructor with Q args',
             function ()
@@ -893,34 +897,8 @@ describe(
         test('with negative integer arg', -8, true);
         test('with positive fractional arg', 0.5, false);
         test('with negative fractional arg', -8.1, false);
-        it(
-            'on instance',
-            function ()
-            {
-                expect(Q(4).isInteger()).toBe(true);
-                expect(Q(-75 / 28).isInteger()).toBe(false);
-            }
-        );
-        it(
-            'on constructor with Q arg',
-            function ()
-            {
-                expect(Q.isInteger(Q(4))).toBe(true);
-                expect(Q.isInteger(Q(-75 / 28))).toBe(false);
-            }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function ()
-            {
-                expect(Q.isInteger('0')).toBe(true);
-                expect(Q.isInteger('0.1')).toBe(false);
-            }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.isInteger(); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance.many([Q(4), Q(-75 / 28)], [true, false]);
+        test.onConstructor.many([4, -75 / 28], [true, false]);
     }
 );
 
@@ -937,34 +915,8 @@ describe(
         test('with composite arg', 100, false);
         test('with positive fractional arg', 3 / 5, false);
         test('with negative arg', -7, false);
-        it(
-            'on instance',
-            function ()
-            {
-                expect(Q(2).isPrime()).toBe(true);
-                expect(Q(4).isPrime()).toBe(false);
-            }
-        );
-        it(
-            'on constructor with Q arg',
-            function ()
-            {
-                expect(Q.isPrime(Q(2))).toBe(true);
-                expect(Q.isPrime(Q(4))).toBe(false);
-            }
-        );
-        it(
-            'on constructor with decimal string arg',
-            function ()
-            {
-                expect(Q.isPrime('2')).toBe(true);
-                expect(Q.isPrime('4')).toBe(false);
-            }
-        );
-        it(
-            'on constructor without args',
-            function () { expect(function () { Q.isPrime(); }).toThrow(InvalidArgumentError); }
-        );
+        test.onInstance.many([Q(2), Q(4)], [true, false]);
+        test.onConstructor.many([2, 4], [true, false]);
     }
 );
 
