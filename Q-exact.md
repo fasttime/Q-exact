@@ -100,7 +100,7 @@ var q = Q.divide(2, 67);
 ```
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | value | <code>number</code> | The numeric value of the object being created. |
 
 **Throws**:
@@ -118,7 +118,7 @@ Returns the absolute value of this rational.
 Returns the sum of this rational and a specified addend.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | addend | <code>[Rational](#Rational)</code> | The addend. |
 
 **Returns**: <code>[Q](#Q)</code> - The sum.  
@@ -132,7 +132,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 Compares this rational and a specified comparand for order.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
 **Returns**: <code>number</code> - -1, 0, or 1 as this rational is less than, equal to, or greater than the comparand.  
@@ -146,7 +146,7 @@ thrown.
 Divides a this rational by a specified divisor, returning the exact quotient.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
 **Returns**: <code>[Q](#Q)</code> - The quotient.  
@@ -160,7 +160,7 @@ Divides a this rational by a specified divisor, returning the exact quotient.
 Divides this rational by a specified divisor, returning integer quotient and remainder.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | dividend | <code>[Rational](#Rational)</code> | The dividend. |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
@@ -176,7 +176,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 Compares this rational and a specified comparand for equality.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
 **Returns**: <code>boolean</code> - `true` if this rational and the comparand are equal; otherwise, `false`.  
@@ -203,16 +203,16 @@ Determines whether this rational is a prime number.
 ###q.minus(subtrahend)
 A synonym of [subtract](#Q#subtract).
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| subtrahend |  |  |
+| Param |
+| --- |
+| subtrahend | 
 
 <a name="Q#multiply"></a>
 ###q.multiply(factor) ⇒ <code>[Q](#Q)</code>
 Returns the product of this rational and a specified factor.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | factor | <code>[Rational](#Rational)</code> | The factor. |
 
 **Returns**: <code>[Q](#Q)</code> - The product.  
@@ -229,24 +229,24 @@ Returns the additive inverse of this rational.
 ###q.over(divisor)
 A synonym of [divide](#Q#divide).
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| divisor |  |  |
+| Param |
+| --- |
+| divisor | 
 
 <a name="Q#plus"></a>
 ###q.plus(addend)
 A synonym of [add](#Q#add).
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| addend |  |  |
+| Param |
+| --- |
+| addend | 
 
 <a name="Q#pow"></a>
 ###q.pow(exp) ⇒ <code>[Q](#Q)</code>
 Returns this rational raised to the power of a specified exponent.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | exp | <code>[Rational](#Rational)</code> | The exponent. |
 
 **Returns**: <code>[Q](#Q)</code> - The result of the exponentiation.  
@@ -264,9 +264,9 @@ error is thrown.
 ###q.round([mode]) ⇒ <code>[Q](#Q)</code>
 Rounds this rational to an integer.
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[mode=<code>&quot;half even&quot;</code>\] | <code>[RoundingMode](#RoundingMode)</code> |  |
+| Param | Type | Default |
+| --- | --- | --- |
+| [mode] | <code>[RoundingMode](#RoundingMode)</code> | <code>&quot;half even&quot;</code> | 
 
 **Returns**: <code>[Q](#Q)</code> - The rounding result.  
 **Throws**:
@@ -284,7 +284,7 @@ Returns the sign of this rational.
 Returns the difference of this rational and a specified subtrahend.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | subtrahend | <code>[Rational](#Rational)</code> | The subtrahend. |
 
 **Returns**: <code>[Q](#Q)</code> - The difference.  
@@ -297,18 +297,18 @@ an overflow, an "Arithmetic overflow" error is thrown.
 ###q.times(factor)
 A synonym of [multiply](#Q#multiply).
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| factor |  |  |
+| Param |
+| --- |
+| factor | 
 
 <a name="Q#toString"></a>
 ###q.toString([options]) ⇒ <code>string</code>
 Returns a string representation of this rational.
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[options\] | <code>object</code> | Optional formatting options. |
-| \[options.mode=<code>&quot;factor&quot;</code>\] | <code>string</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>object</code> |  | Optional formatting options. |
+| [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 **Returns**: <code>string</code> - A string.
 In "fraction" mode, if an intermediate calculation results in an overflow, this function
@@ -327,7 +327,7 @@ rationals are rounded to ±0.
 Returns the absolute value of a specified operand.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>[Q](#Q)</code> - The absolute value.  
@@ -336,8 +336,8 @@ Returns the absolute value of a specified operand.
 Returns the sum of the specified addends.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[...addends\] | <code>[Rational](#Rational)</code> | Optional addends. |
+| --- | --- | --- |
+| [...addends] | <code>[Rational](#Rational)</code> | Optional addends. |
 
 **Returns**: <code>[Q](#Q)</code> - The sum.
 If this function is called without arguments, the return value is 0.  
@@ -351,7 +351,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 Compares two specified comparands for order.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | comparand1 | <code>[Rational](#Rational)</code> | The first comparand. |
 | comparand2 | <code>[Rational](#Rational)</code> | The second comparand. |
 
@@ -367,7 +367,7 @@ thrown.
 Divides a specified dividend by a specified divisor, returning the exact quotient.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | dividend | <code>[Rational](#Rational)</code> | The dividend. |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
@@ -383,7 +383,7 @@ Divides a specified dividend by a specified divisor, returning integer quotient 
 remainder.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | dividend | <code>[Rational](#Rational)</code> | The dividend. |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
@@ -399,8 +399,8 @@ overflow, an "Arithmetic overflow" error is thrown.
 Compares the specified comparands for equality.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[...comparands\] | <code>[Rational](#Rational)</code> | Optional comparands. |
+| --- | --- | --- |
+| [...comparands] | <code>[Rational](#Rational)</code> | Optional comparands. |
 
 **Returns**: <code>boolean</code> - `true` if all comparands are equal; otherwise, `false`.
 If this function is called with one or no arguments, the return value is `true`.  
@@ -409,7 +409,7 @@ If this function is called with one or no arguments, the return value is `true`.
 Returns the reciprocal of a specified operand.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>[Q](#Q)</code> - The reciprocal.  
@@ -422,7 +422,7 @@ Returns the reciprocal of a specified operand.
 Determines whether a specified operand is integer.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>boolean</code> - `true` if the operand is integer; otherwise, `false`.  
@@ -431,7 +431,7 @@ Determines whether a specified operand is integer.
 Determines whether a specified operand is a prime number.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>boolean</code> - `true` if the operand is a prime number; otherwise, `false`.  
@@ -440,8 +440,8 @@ Determines whether a specified operand is a prime number.
 Returns the product of the specified factors.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
-| \[...factors\] | <code>[Rational](#Rational)</code> | Optional factors. |
+| --- | --- | --- |
+| [...factors] | <code>[Rational](#Rational)</code> | Optional factors. |
 
 **Returns**: <code>[Q](#Q)</code> - The product.
 If this function is called without arguments, the return value is 1.  
@@ -454,7 +454,7 @@ If this function is called without arguments, the return value is 1.
 Returns the additive inverse of a specified operand.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>[Q](#Q)</code> - The additive inverse.  
@@ -463,7 +463,7 @@ Returns the additive inverse of a specified operand.
 Returns a specified base raised to the power of a specified exponent.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | base | <code>[Rational](#Rational)</code> | The base. |
 | exp | <code>[Rational](#Rational)</code> | The exponent. |
 
@@ -482,10 +482,10 @@ error is thrown.
 ###Q.round(operand, [mode]) ⇒ <code>[Q](#Q)</code>
 Rounds a specified operand to an integer.
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| operand | <code>[Rational](#Rational)</code> | The operand. |
-| \[mode=<code>&quot;half even&quot;</code>\] | <code>[RoundingMode](#RoundingMode)</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| operand | <code>[Rational](#Rational)</code> |  | The operand. |
+| [mode] | <code>[RoundingMode](#RoundingMode)</code> | <code>&quot;half even&quot;</code> |  |
 
 **Returns**: <code>[Q](#Q)</code> - The rounding result.  
 **Throws**:
@@ -498,7 +498,7 @@ thrown.
 Returns the sign of a specified operand.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 **Returns**: <code>number</code> - -1, 0, or 1 as the operand is negative, zero, or positive.  
@@ -507,7 +507,7 @@ Returns the sign of a specified operand.
 Returns the difference of the specified minuend and subtrahend.
 
 | Param | Type | Description |
-| ----- | ---- | ----------- |
+| --- | --- | --- |
 | minuend | <code>[Rational](#Rational)</code> | The minuend. |
 | subtrahend | <code>[Rational](#Rational)</code> | The subtrahend. |
 
@@ -521,11 +521,11 @@ an overflow, an "Arithmetic overflow" error is thrown.
 ###Q.toString(q, [options]) ⇒ <code>string</code>
 Returns a string representation of a specified rational.
 
-| Param | Type | Description |
-| ----- | ---- | ----------- |
-| q | <code>[Rational](#Rational)</code> | The rational. |
-| \[options\] | <code>object</code> | Optional formatting options. |
-| \[options.mode=<code>&quot;factor&quot;</code>\] | <code>string</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| q | <code>[Rational](#Rational)</code> |  | The rational. |
+| [options] | <code>object</code> |  | Optional formatting options. |
+| [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 **Returns**: <code>string</code> - A string.
 In "fraction" mode, if an intermediate calculation results in an overflow, this function
@@ -566,10 +566,10 @@ Contains integer quotient and remainder of a division.
 
 **Properties**
 
-| Name | Type | Default | Description |
-| ---- | ---- | ------- |----------- |
-| quotient | <code>[Q](#Q)</code> |  | The quotient. |
-| remainder | <code>[Q](#Q)</code> |  | The remainder. |
+| Name | Type | Description |
+| --- | --- | --- |
+| quotient | <code>[Q](#Q)</code> | The quotient. |
+| remainder | <code>[Q](#Q)</code> | The remainder. |
 
 <a name="Rational"></a>
 ##type: Rational → <code>[Q](#Q)</code> \| <code>number</code>
