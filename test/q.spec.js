@@ -340,69 +340,24 @@ function createTestCall2(operationName, symmetric)
 }
 
 describe(
-    'No enumerable own properties in',
-    function ()
+    'Q',
+    function()
     {
-        it('constructor', function () { expect(Object.keys(Q).length).toBe(0); });
-        it('prototype', function () { expect(Object.keys(Q.prototype).length).toBe(0); });
-    }
-);
-
-describe(
-    'log2',
-    function ()
-    {
-        var log2a = Q.debug.log2;
-        var log2b;
-        var descriptor = Object.getOwnPropertyDescriptor(Math, 'log2');
-        delete Math.log2;
-        try
-        {
-            log2b = Q.debug.log2;
-        }
-        finally
-        {
-            Object.defineProperty(Math, 'log2', descriptor);
-        }
-        
         it(
-            'has two different implementations',
+            'is set up correctly',
             function ()
             {
-                expect(log2a).toBe(Math.log2);
-                expect(log2b).not.toBe(Math.log2);
+                var self = { };
+                Q.debug.setUp(self);
+                expect(self.Q).toBe(Q);
             }
         );
         describe(
-            'calculates the binary logarithm of',
+            'has no enumerable own properties in',
             function ()
             {
-                function test(base, expected)
-                {
-                    describe(
-                        base,
-                        function ()
-                        {
-                            it(
-                                'with implementation A',
-                                function ()
-                                {
-                                    expect(log2a(base)).toBeCloseTo(expected, 13);
-                                }
-                            );
-                            it(
-                                'with implementation B',
-                                function ()
-                                {
-                                    expect(log2b(base)).toBeCloseTo(expected, 13);
-                                }
-                            );
-                        }
-                    );
-                }
-                
-                test(Math.pow(2, 53) - 1, 53);
-                test(Math.pow(2, -55), -55);
+                it('constructor', function () { expect(Object.keys(Q).length).toBe(0); });
+                it('prototype', function () { expect(Object.keys(Q.prototype).length).toBe(0); });
             }
         );
     }
@@ -1477,5 +1432,130 @@ describe(
         test('with very small negative arg', Q(-3 / 2).pow(Q.MIN_EXP), 0);
         test('with very large positive arg', Q(3 / 2).pow(Q.MAX_EXP), Infinity);
         test('with very large negative arg', Q(-3 / 2).pow(Q.MAX_EXP), -Infinity);
+    }
+);
+
+describe(
+    'log2',
+    function ()
+    {
+        var log2A = Q.debug.log2;
+        var log2B;
+        var descriptor = Object.getOwnPropertyDescriptor(Math, 'log2');
+        delete Math.log2;
+        try
+        {
+            log2B = Q.debug.log2;
+        }
+        finally
+        {
+            Object.defineProperty(Math, 'log2', descriptor);
+        }
+        
+        it(
+            'has two different implementations',
+            function ()
+            {
+                expect(log2A).toBe(Math.log2);
+                expect(log2B).not.toBe(Math.log2);
+            }
+        );
+        describe(
+            'calculates the binary logarithm of',
+            function ()
+            {
+                function test(base, expected)
+                {
+                    describe(
+                        base,
+                        function ()
+                        {
+                            it(
+                                'with implementation A',
+                                function ()
+                                {
+                                    expect(log2A(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                            it(
+                                'with implementation B',
+                                function ()
+                                {
+                                    expect(log2B(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                        }
+                    );
+                }
+                
+                test(Math.pow(2, 53) - 1, 53);
+                test(Math.pow(2, -55), -55);
+            }
+        );
+    }
+);
+
+describe(
+    'isSafeInteger',
+    function ()
+    {
+        var isSafeIntegerA = Q.debug.isSafeInteger;
+        var isSafeIntegerB;
+        var descriptor = Object.getOwnPropertyDescriptor(Number, 'isSafeInteger');
+        delete Number.isSafeInteger;
+        try
+        {
+            isSafeIntegerB = Q.debug.isSafeInteger;
+        }
+        finally
+        {
+            Object.defineProperty(Number, 'isSafeInteger', descriptor);
+        }
+        
+        it(
+            'has two different implementations',
+            function ()
+            {
+                expect(isSafeIntegerA).toBe(Number.isSafeInteger);
+                expect(isSafeIntegerB).not.toBe(Number.isSafeInteger);
+            }
+        );
+        describe(
+            'when called',
+            function ()
+            {
+                function test(argDescription, arg, expected)
+                {
+                    describe(
+                        argDescription + ' returns ' + expected,
+                        function ()
+                        {
+                            it(
+                                'with implementation A',
+                                function ()
+                                {
+                                    expect(isSafeIntegerA(arg)).toBe(expected);
+                                }
+                            );
+                            it(
+                                'with implementation B',
+                                function ()
+                                {
+                                    expect(isSafeIntegerB(arg)).toBe(expected);
+                                }
+                            );
+                        }
+                    );
+                }
+                
+                test('with string arg', '2', false);
+                test('with object arg', { valueOf: function () { return 2; } }, false);
+                test('with non-integer', 2.5, false);
+                test('with too large positive arg', Math.pow(2, 53), false);
+                test('with very large positive arg', Math.pow(2, 53) - 1, true);
+                test('with too large negative arg', -Math.pow(2, 53), false);
+                test('with very large negative arg', -Math.pow(2, 53) + 1, true);
+            }
+        );
     }
 );
