@@ -1,8 +1,11 @@
-/* jshint jasmine: true */
+/* global expect */
+/* jshint mocha: true, node: true */
 
 'use strict';
 
 var Q = require('../lib/q');
+require('expectations');
+require('./matcher_helpers.js')(Q);
 
 var ArithmeticOverflowError = new Error('Arithmetic overflow');
 var InvalidArgumentError = new Error('Invalid argument');
@@ -14,30 +17,6 @@ var ERR_AO = { };
 var expectToBe = function (actual, expected) { expect(actual).toBe(expected); };
 
 var expectToBeQ = function (actual, expected) { expect(actual).toBeQ(expected); };
-
-function compareFactors(factors1, factors2)
-{
-    var result;
-    if (factors1 === factors2)
-    {
-        result = true;
-    }
-    else
-    {
-        var keys1 = Object.getOwnPropertyNames(factors1).sort();
-        var keys2 = Object.getOwnPropertyNames(factors2).sort();
-        if (keys1.length !== keys2.length)
-        {
-            result = false;
-        }
-        else
-        {
-            result =
-                keys1.every(function (factor) { return factors1[factor] === factors2[factor]; });
-        }
-    }
-    return result;
-}
 
 function createTestCall1(operationName)
 {
@@ -360,94 +339,72 @@ function createTestCall2(operationName, symmetric)
     return test;
 }
 
-beforeEach(
-    function()
-    {
-        this.addMatchers(
-            {
-                toBeQ:
-                function (expected)
-                {
-                    var message;
-                    this.message = function () { return message; };
-                    var actual = this.actual;
-                    if (!(actual instanceof Q))
-                    {
-                        message = 'Expected an instance of Q';
-                        return false;
-                    }
-                    if (Object.keys(actual).length)
-                    {
-                        message = 'Unexpected enumerable properties set';
-                        return false;
-                    }
-                    if (!('_factors' in actual))
-                    {
-                        message = 'Expected factors property not set';
-                        return false;
-                    }
-                    var sign = actual._sign;
-                    var factors = actual._factors;
-                    if (Object.is(sign, 0))
-                    {
-                        if (factors !== void 0)
-                        {
-                            message = 'Expected factors to be undefined, but was ' + factors;
-                            return false;
-                        }
-                    }
-                    else if (sign === 1 || sign === -1)
-                    {
-                        if (Object.prototype.toString.call(factors) !== '[object Object]')
-                        {
-                            message =
-                                'Expected factors property to be an object, but was ' + factors;
-                            return false;
-                        }
-                        if (1 in factors)
-                        {
-                            message = 'Found unexpected factor 1';
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        message = 'Expected sign to be 0, 1, or -1, but was ' + sign;
-                        return false;
-                    }
-                    if (expected != null)
-                    {
-                        var expectedQ = typeof expected === 'number' ? Q(expected) : expected;
-                        if (
-                            sign !== expectedQ._sign ||
-                            expectedQ._factors && !compareFactors(factors, expectedQ._factors))
-                        {
-                            message =
-                                'Expected ' +
-                                (typeof expected === 'number' ? expected : 'a different Q');
-                            return false;
-                        }
-                    }
-                    return true;
-                },
-                toBeString:
-                function ()
-                {
-                    var actual = this.actual;
-                    var result = Object.prototype.toString.call(actual) === '[object String]';
-                    return result;
-                }
-            }
-        );
-    }
-);
-
 describe(
     'No enumerable own properties in',
     function ()
     {
         it('constructor', function () { expect(Object.keys(Q).length).toBe(0); });
         it('prototype', function () { expect(Object.keys(Q.prototype).length).toBe(0); });
+    }
+);
+
+describe(
+    'log2',
+    function ()
+    {
+        var log2a = Q.debug.log2;
+        var log2b;
+        var descriptor = Object.getOwnPropertyDescriptor(Math, 'log2');
+        delete Math.log2;
+        try
+        {
+            log2b = Q.debug.log2;
+        }
+        finally
+        {
+            Object.defineProperty(Math, 'log2', descriptor);
+        }
+        
+        it(
+            'has two different implementations',
+            function ()
+            {
+                expect(log2a).toBe(Math.log2);
+                expect(log2b).not.toBe(Math.log2);
+            }
+        );
+        describe(
+            'calculates the binary logarithm of',
+            function ()
+            {
+                function test(base, expected)
+                {
+                    describe(
+                        base,
+                        function ()
+                        {
+                            it(
+                                'with implementation A',
+                                function ()
+                                {
+                                    expect(log2a(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                            it(
+                                'with implementation B',
+                                function ()
+                                {
+                                    expect(log2b(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                        }
+                    );
+                }
+                
+                test(Math.pow(2, 53) - 1, 53);
+                test(Math.pow(2, -55), -55);
+            }
+        );
     }
 );
 
