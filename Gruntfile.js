@@ -91,6 +91,7 @@ module.exports =
                         noarg: true,
                         noempty: true,
                         quotmark: true,
+                        singleGroups: true,
                         strict: true,
                         trailing: true,
                         undef: true,
@@ -102,7 +103,7 @@ module.exports =
                         evil: true,
                         validthis: true,
                         '-W018': true,
-                    },
+                    }
                 },
                 mocha_istanbul: ['test/**/*.spec.js'],
                 uglify:
