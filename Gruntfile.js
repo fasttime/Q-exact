@@ -11,7 +11,7 @@ module.exports =
                 clean: ['coverage', 'lib/**/*.min.js'],
                 jscs:
                 {
-                    main: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
+                    default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                     options:
                     {
                         disallowMixedSpacesAndTabs: true,
@@ -74,12 +74,12 @@ module.exports =
                 },
                 jsdoc2md:
                 {
-                    main: { dest: 'Q-exact.md', src: 'lib/q.js' },
+                    default: { dest: 'Q-exact.md', src: 'lib/q.js' },
                     options: { }
                 },
                 jshint:
                 {
-                    main: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
+                    default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                     options:
                     {
                         curly: true,
@@ -108,7 +108,7 @@ module.exports =
                 mocha_istanbul: ['test/**/*.spec.js'],
                 uglify:
                 {
-                    main: { files: { 'lib/q.min.js': 'lib/q.js' } },
+                    default: { files: { 'lib/q.min.js': 'lib/q.js' } },
                     options: { compress: { global_defs: { DEBUG: false }, hoist_vars: true } }
                 }
             }
