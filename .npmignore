@@ -2,4 +2,4 @@
 .npmignore
 Gruntfile.js
 coverage/
-spec/
+test/

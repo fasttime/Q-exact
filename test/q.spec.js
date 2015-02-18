@@ -1,8 +1,11 @@
-/* jshint jasmine: true */
+/* global expect */
+/* jshint mocha: true, node: true */
 
 'use strict';
 
 var Q = require('../lib/q');
+require('expectations');
+require('./matcher_helpers.js')(Q);
 
 var ArithmeticOverflowError = new Error('Arithmetic overflow');
 var InvalidArgumentError = new Error('Invalid argument');
@@ -14,30 +17,6 @@ var ERR_AO = { };
 var expectToBe = function (actual, expected) { expect(actual).toBe(expected); };
 
 var expectToBeQ = function (actual, expected) { expect(actual).toBeQ(expected); };
-
-function compareFactors(factors1, factors2)
-{
-    var result;
-    if (factors1 === factors2)
-    {
-        result = true;
-    }
-    else
-    {
-        var keys1 = Object.getOwnPropertyNames(factors1).sort();
-        var keys2 = Object.getOwnPropertyNames(factors2).sort();
-        if (keys1.length !== keys2.length)
-        {
-            result = false;
-        }
-        else
-        {
-            result =
-                keys1.every(function (factor) { return factors1[factor] === factors2[factor]; });
-        }
-    }
-    return result;
-}
 
 function createTestCall1(operationName)
 {
@@ -360,94 +339,27 @@ function createTestCall2(operationName, symmetric)
     return test;
 }
 
-beforeEach(
-    function()
-    {
-        this.addMatchers(
-            {
-                toBeQ:
-                function (expected)
-                {
-                    var message;
-                    this.message = function () { return message; };
-                    var actual = this.actual;
-                    if (!(actual instanceof Q))
-                    {
-                        message = 'Expected an instance of Q';
-                        return false;
-                    }
-                    if (Object.keys(actual).length)
-                    {
-                        message = 'Unexpected enumerable properties set';
-                        return false;
-                    }
-                    if (!('_factors' in actual))
-                    {
-                        message = 'Expected factors property not set';
-                        return false;
-                    }
-                    var sign = actual._sign;
-                    var factors = actual._factors;
-                    if (Object.is(sign, 0))
-                    {
-                        if (factors !== void 0)
-                        {
-                            message = 'Expected factors to be undefined, but was ' + factors;
-                            return false;
-                        }
-                    }
-                    else if (sign === 1 || sign === -1)
-                    {
-                        if (Object.prototype.toString.call(factors) !== '[object Object]')
-                        {
-                            message =
-                                'Expected factors property to be an object, but was ' + factors;
-                            return false;
-                        }
-                        if (1 in factors)
-                        {
-                            message = 'Found unexpected factor 1';
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        message = 'Expected sign to be 0, 1, or -1, but was ' + sign;
-                        return false;
-                    }
-                    if (expected != null)
-                    {
-                        var expectedQ = typeof expected === 'number' ? Q(expected) : expected;
-                        if (
-                            sign !== expectedQ._sign ||
-                            expectedQ._factors && !compareFactors(factors, expectedQ._factors))
-                        {
-                            message =
-                                'Expected ' +
-                                (typeof expected === 'number' ? expected : 'a different Q');
-                            return false;
-                        }
-                    }
-                    return true;
-                },
-                toBeString:
-                function ()
-                {
-                    var actual = this.actual;
-                    var result = Object.prototype.toString.call(actual) === '[object String]';
-                    return result;
-                }
-            }
-        );
-    }
-);
-
 describe(
-    'No enumerable own properties in',
+    'Q',
     function ()
     {
-        it('constructor', function () { expect(Object.keys(Q).length).toBe(0); });
-        it('prototype', function () { expect(Object.keys(Q.prototype).length).toBe(0); });
+        it(
+            'is set up correctly',
+            function ()
+            {
+                var self = { };
+                Q.debug.setUp(self);
+                expect(self.Q).toBe(Q);
+            }
+        );
+        describe(
+            'has no enumerable own properties in',
+            function ()
+            {
+                it('constructor', function () { expect(Object.keys(Q).length).toBe(0); });
+                it('prototype', function () { expect(Object.keys(Q.prototype).length).toBe(0); });
+            }
+        );
     }
 );
 
@@ -1445,8 +1357,8 @@ describe(
                 description,
                 function ()
                 {
-                    expect(Q.toString(value, {mode: 'factor' })).toBe(factorsModeExpected);
-                    expect(Q.toString(value, {mode: 'fraction' })).toBe(fractionModeExpected);
+                    expect(Q.toString(value, { mode: 'factor' })).toBe(factorsModeExpected);
+                    expect(Q.toString(value, { mode: 'fraction' })).toBe(fractionModeExpected);
                 }
             );
         }
@@ -1467,8 +1379,8 @@ describe(
             function ()
             {
                 var q = Q(-2 / 3);
-                expect(q.toString({mode: 'factor' })).toBe('-2⋅3⁻¹');
-                expect(q.toString({mode: 'fraction' })).toBe('-2/3');
+                expect(q.toString({ mode: 'factor' })).toBe('-2⋅3⁻¹');
+                expect(q.toString({ mode: 'fraction' })).toBe('-2/3');
             }
         );
         it(
@@ -1476,16 +1388,16 @@ describe(
             function ()
             {
                 var q = Q(-0.1);
-                expect(Q.toString(q, {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
-                expect(Q.toString(q, {mode: 'fraction' })).toBe('-1/10');
+                expect(Q.toString(q, { mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString(q, { mode: 'fraction' })).toBe('-1/10');
             }
         );
         it(
             'on constructor with decimal string arg',
             function ()
             {
-                expect(Q.toString('-0.1', {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
-                expect(Q.toString('-0.1', {mode: 'fraction' })).toBe('-1/10');
+                expect(Q.toString('-0.1', { mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString('-0.1', { mode: 'fraction' })).toBe('-1/10');
             }
         );
         it('on constructor without args', function () { expect(Q.toString()).toBeString(); });
@@ -1520,5 +1432,130 @@ describe(
         test('with very small negative arg', Q(-3 / 2).pow(Q.MIN_EXP), 0);
         test('with very large positive arg', Q(3 / 2).pow(Q.MAX_EXP), Infinity);
         test('with very large negative arg', Q(-3 / 2).pow(Q.MAX_EXP), -Infinity);
+    }
+);
+
+describe(
+    'log2',
+    function ()
+    {
+        var log2A = Q.debug.log2;
+        var log2B;
+        var descriptor = Object.getOwnPropertyDescriptor(Math, 'log2');
+        delete Math.log2;
+        try
+        {
+            log2B = Q.debug.log2;
+        }
+        finally
+        {
+            Object.defineProperty(Math, 'log2', descriptor);
+        }
+        
+        it(
+            'has two different implementations',
+            function ()
+            {
+                expect(log2A).toBe(Math.log2);
+                expect(log2B).not.toBe(Math.log2);
+            }
+        );
+        describe(
+            'calculates the binary logarithm of',
+            function ()
+            {
+                function test(base, expected)
+                {
+                    describe(
+                        base,
+                        function ()
+                        {
+                            it(
+                                'with implementation A',
+                                function ()
+                                {
+                                    expect(log2A(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                            it(
+                                'with implementation B',
+                                function ()
+                                {
+                                    expect(log2B(base)).toBeCloseTo(expected, 13);
+                                }
+                            );
+                        }
+                    );
+                }
+                
+                test(Math.pow(2, 53) - 1, 53);
+                test(Math.pow(2, -55), -55);
+            }
+        );
+    }
+);
+
+describe(
+    'isSafeInteger',
+    function ()
+    {
+        var isSafeIntegerA = Q.debug.isSafeInteger;
+        var isSafeIntegerB;
+        var descriptor = Object.getOwnPropertyDescriptor(Number, 'isSafeInteger');
+        delete Number.isSafeInteger;
+        try
+        {
+            isSafeIntegerB = Q.debug.isSafeInteger;
+        }
+        finally
+        {
+            Object.defineProperty(Number, 'isSafeInteger', descriptor);
+        }
+        
+        it(
+            'has two different implementations',
+            function ()
+            {
+                expect(isSafeIntegerA).toBe(Number.isSafeInteger);
+                expect(isSafeIntegerB).not.toBe(Number.isSafeInteger);
+            }
+        );
+        describe(
+            'when called',
+            function ()
+            {
+                function test(argDescription, arg, expected)
+                {
+                    describe(
+                        argDescription + ' returns ' + expected,
+                        function ()
+                        {
+                            it(
+                                'with implementation A',
+                                function ()
+                                {
+                                    expect(isSafeIntegerA(arg)).toBe(expected);
+                                }
+                            );
+                            it(
+                                'with implementation B',
+                                function ()
+                                {
+                                    expect(isSafeIntegerB(arg)).toBe(expected);
+                                }
+                            );
+                        }
+                    );
+                }
+                
+                test('with string arg', '2', false);
+                test('with object arg', { valueOf: function () { return 2; } }, false);
+                test('with non-integer', 2.5, false);
+                test('with too large positive arg', Math.pow(2, 53), false);
+                test('with very large positive arg', Math.pow(2, 53) - 1, true);
+                test('with too large negative arg', -Math.pow(2, 53), false);
+                test('with very large negative arg', -Math.pow(2, 53) + 1, true);
+            }
+        );
     }
 );
