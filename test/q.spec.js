@@ -341,7 +341,7 @@ function createTestCall2(operationName, symmetric)
 
 describe(
     'Q',
-    function()
+    function ()
     {
         it(
             'is set up correctly',
@@ -1357,8 +1357,8 @@ describe(
                 description,
                 function ()
                 {
-                    expect(Q.toString(value, {mode: 'factor' })).toBe(factorsModeExpected);
-                    expect(Q.toString(value, {mode: 'fraction' })).toBe(fractionModeExpected);
+                    expect(Q.toString(value, { mode: 'factor' })).toBe(factorsModeExpected);
+                    expect(Q.toString(value, { mode: 'fraction' })).toBe(fractionModeExpected);
                 }
             );
         }
@@ -1379,8 +1379,8 @@ describe(
             function ()
             {
                 var q = Q(-2 / 3);
-                expect(q.toString({mode: 'factor' })).toBe('-2⋅3⁻¹');
-                expect(q.toString({mode: 'fraction' })).toBe('-2/3');
+                expect(q.toString({ mode: 'factor' })).toBe('-2⋅3⁻¹');
+                expect(q.toString({ mode: 'fraction' })).toBe('-2/3');
             }
         );
         it(
@@ -1388,16 +1388,16 @@ describe(
             function ()
             {
                 var q = Q(-0.1);
-                expect(Q.toString(q, {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
-                expect(Q.toString(q, {mode: 'fraction' })).toBe('-1/10');
+                expect(Q.toString(q, { mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString(q, { mode: 'fraction' })).toBe('-1/10');
             }
         );
         it(
             'on constructor with decimal string arg',
             function ()
             {
-                expect(Q.toString('-0.1', {mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
-                expect(Q.toString('-0.1', {mode: 'fraction' })).toBe('-1/10');
+                expect(Q.toString('-0.1', { mode: 'factor' })).toBe('-2⁻¹⋅5⁻¹');
+                expect(Q.toString('-0.1', { mode: 'fraction' })).toBe('-1/10');
             }
         );
         it('on constructor without args', function () { expect(Q.toString()).toBeString(); });
