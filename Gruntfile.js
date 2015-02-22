@@ -8,7 +8,7 @@ module.exports =
         // Project configuration.
         grunt.initConfig(
             {
-                clean: ['coverage', 'lib/**/*.min.js'],
+                clean: { default: ['coverage', 'lib/**/*.min.js', 'Q-exact.md'] },
                 jscs:
                 {
                     default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
@@ -72,11 +72,7 @@ module.exports =
                         validateParameterSeparator: ', '
                     }
                 },
-                jsdoc2md:
-                {
-                    default: { dest: 'Q-exact.md', src: 'lib/q.js' },
-                    options: { }
-                },
+                jsdoc2md: { default: { dest: 'Q-exact.md', src: 'lib/q.js' } },
                 jshint:
                 {
                     default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
@@ -105,7 +101,7 @@ module.exports =
                         '-W018': true,
                     }
                 },
-                mocha_istanbul: ['test/**/*.spec.js'],
+                mocha_istanbul: { default: 'test/**/*.spec.js' },
                 uglify:
                 {
                     default: { files: { 'lib/q.min.js': 'lib/q.js' } },
