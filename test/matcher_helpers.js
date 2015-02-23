@@ -59,7 +59,7 @@
             }
             
             var actual = this.value;
-            var message = this.generateMessage(actual, this.expr, 'to be close to ' + expected);
+            var message = this.generateMessage(actual, this.expr, 'to be close to', expected);
             var pass = Math.abs(expected - actual) < Math.pow(10, -precision) / 2;
             this.assertions[pass ? 'pass' : 'fail'](message);
         },
