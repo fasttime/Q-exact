@@ -18,6 +18,12 @@
     "url": "https://github.com/fasttime/Q-exact/blob/master/LICENSE.txt"
   },
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
+  "files": [
+    "lib",
+    "LICENSE.txt",
+    "package.json",
+    "*.md"
+  ],
   "main": "lib/q.js",
   "repository": {
     "type": "git",
