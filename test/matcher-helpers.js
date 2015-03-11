@@ -51,18 +51,6 @@
     
     var MATCHERS =
     {
-        toBeCloseTo: function (expected, precision)
-        {
-            if (precision !== 0)
-            {
-                precision = precision || 2;
-            }
-            
-            var actual = this.value;
-            var message = this.generateMessage(actual, this.expr, 'to be close to', expected);
-            var pass = Math.abs(expected - actual) < Math.pow(10, -precision) / 2;
-            this.assertions[pass ? 'pass' : 'fail'](message);
-        },
         toBeQ: function (expected)
         {
             var message;
