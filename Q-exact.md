@@ -350,7 +350,7 @@ returns the string "(OVERFLOW)".
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | [options] | <code>object</code> |  | Optional formatting options. |
-| [options.mode] | <code>string</code> | <code>&quot;\&quot;factor\&quot;&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
+| [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 <a name="Q#valueOf"></a>
 ### q.valueOf() ⇒ <code>number</code>
@@ -633,7 +633,7 @@ returns the string "(OVERFLOW)".
 | --- | --- | --- | --- |
 | q | <code>[Rational](#Rational)</code> |  | The rational. |
 | [options] | <code>object</code> |  | Optional formatting options. |
-| [options.mode] | <code>string</code> | <code>&quot;\&quot;factor\&quot;&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
+| [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 <a name="QuotientAndRemainder"></a>
 ## QuotientAndRemainder : <code>object</code>
