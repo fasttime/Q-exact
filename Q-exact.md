@@ -103,10 +103,15 @@ In those cases, the exact fraction can be obtained from a division.
 var q = Q.divide(2, 67);
 ```
 
+**Throws**:
+
+- The constructor throws an "Invalid argument" error if the argument cannot be converted to a
+finite numeric value.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
-| value | <code>number</code> | The numeric value of the object being created. **Errors** The constructor throws an "Invalid argument" error if the argument cannot be converted to a finite numeric value. |
+| value | <code>number</code> | The numeric value of the object being created. |
 
 <a name="Q#abs"></a>
 ### q.abs() ⇒ <code>[Q](#Q)</code>
@@ -119,12 +124,12 @@ Returns the absolute value of this rational.
 Returns the sum of this rational and a specified addend.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The sum.
+**Returns**: <code>[Q](#Q)</code> - The sum.  
+**Throws**:
 
-**Errors**
+- If the sum cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.
 
-If the sum cannot be represented as a `Q`, or an intermediate calculation results in an
-overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -135,12 +140,12 @@ overflow, an "Arithmetic overflow" error is thrown.
 Compares this rational and a specified comparand for order.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>number</code> - -1, 0, or 1 as this rational is less than, equal to, or greater than the comparand.
+**Returns**: <code>number</code> - -1, 0, or 1 as this rational is less than, equal to, or greater than the comparand.  
+**Throws**:
 
-**Errors**
+- If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.
 
-If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
-thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -151,13 +156,12 @@ thrown.
 Divides a this rational by a specified divisor, returning the exact quotient.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The quotient.
+**Returns**: <code>[Q](#Q)</code> - The quotient.  
+**Throws**:
 
-**Errors**
+- If the divisor is 0, a "No rational result" error is thrown.
+- If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.
 
-If the divisor is 0, a "No rational result" error is thrown.
-
-If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -168,14 +172,13 @@ If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error i
 Divides this rational by a specified divisor, returning integer quotient and remainder.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[QuotientAndRemainder](#QuotientAndRemainder)</code> - Integer quotient and remainder.
+**Returns**: <code>[QuotientAndRemainder](#QuotientAndRemainder)</code> - Integer quotient and remainder.  
+**Throws**:
 
-**Errors**
+- If the divisor is 0, a "No rational result" error is thrown.
+- If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.
 
-If the divisor is 0, a "No rational result" error is thrown.
-
-If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
-overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -198,11 +201,11 @@ Compares this rational and a specified comparand for equality.
 Returns the reciprocal of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The reciprocal.
+**Returns**: <code>[Q](#Q)</code> - The reciprocal.  
+**Throws**:
 
-**Errors**
+- If this rational is 0, a "No rational result" error is thrown.
 
-If this rational is 0, a "No rational result" error is thrown.  
 <a name="Q#isInteger"></a>
 ### q.isInteger() ⇒ <code>boolean</code>
 Determines whether this rational is integer.
@@ -230,11 +233,11 @@ A synonym of [subtract](#Q#subtract).
 Returns the product of this rational and a specified factor.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The product.
+**Returns**: <code>[Q](#Q)</code> - The product.  
+**Throws**:
 
-**Errors**
+- If the product cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.
 
-If the product cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -271,18 +274,17 @@ A synonym of [add](#Q#add).
 Returns this rational raised to the power of a specified exponent.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The result of the exponentiation.
+**Returns**: <code>[Q](#Q)</code> - The result of the exponentiation.  
+**Throws**:
 
-**Errors**
-
-If the exponentiation has no rational result, a "No rational result" error is thrown.
+- If the exponentiation has no rational result, a "No rational result" error is thrown.
 This includes the following cases:
 - The base is positive and the result is irrational (e.g. with base 2 and exponent 1/2).
 - The base is negative and the exponent is not integer.
 - The base is 0 and the exponent is nonpositive.
+- If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
+error is thrown.
 
-If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
-error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -293,12 +295,12 @@ error is thrown.
 Rounds this rational to an integer.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The rounding result.
+**Returns**: <code>[Q](#Q)</code> - The rounding result.  
+**Throws**:
 
-**Errors**
+- If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.
 
-If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
-thrown.  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -315,12 +317,12 @@ Returns the sign of this rational.
 Returns the difference of this rational and a specified subtrahend.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The difference.
+**Returns**: <code>[Q](#Q)</code> - The difference.  
+**Throws**:
 
-**Errors**
+- If the difference cannot be represented as a `Q`, or an intermediate calculation results in
+an overflow, an "Arithmetic overflow" error is thrown.
 
-If the difference cannot be represented as a `Q`, or an intermediate calculation results in
-an overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -410,12 +412,12 @@ Returns the sum of the specified addends.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The sum.
-If this function is called without arguments, the return value is 0.
+If this function is called without arguments, the return value is 0.  
+**Throws**:
 
-**Errors**
+- If the sum cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.
 
-If the sum cannot be represented as a `Q`, or an intermediate calculation results in an
-overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -427,12 +429,12 @@ Compares two specified comparands for order.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
 **Returns**: <code>number</code> - -1, 0, or 1 as the first comparand is less than, equal to, or greater than the second
-comparand.
+comparand.  
+**Throws**:
 
-**Errors**
+- If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.
 
-If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
-thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -444,13 +446,12 @@ thrown.
 Divides a specified dividend by a specified divisor, returning the exact quotient.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The quotient.
+**Returns**: <code>[Q](#Q)</code> - The quotient.  
+**Throws**:
 
-**Errors**
+- If the divisor is 0, a "No rational result" error is thrown.
+- If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.
 
-If the divisor is 0, a "No rational result" error is thrown.
-
-If the quotient cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -463,14 +464,13 @@ Divides a specified dividend by a specified divisor, returning integer quotient 
 remainder.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[QuotientAndRemainder](#QuotientAndRemainder)</code> - Integer quotient and remainder.
+**Returns**: <code>[QuotientAndRemainder](#QuotientAndRemainder)</code> - Integer quotient and remainder.  
+**Throws**:
 
-**Errors**
+- If the divisor is 0, a "No rational result" error is thrown.
+- If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.
 
-If the divisor is 0, a "No rational result" error is thrown.
-
-If the quotient cannot be represented as a `Q`, or an intermediate calculation results in an
-overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -494,11 +494,11 @@ If this function is called with one or no arguments, the return value is `true`.
 Returns the reciprocal of a specified operand.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The reciprocal.
+**Returns**: <code>[Q](#Q)</code> - The reciprocal.  
+**Throws**:
 
-**Errors**
+- If the operand is 0, a "No rational result" error is thrown.
 
-If the operand is 0, a "No rational result" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -532,11 +532,11 @@ Returns the product of the specified factors.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The product.
-If this function is called without arguments, the return value is 1.
+If this function is called without arguments, the return value is 1.  
+**Throws**:
 
-**Errors**
+- If the product cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.
 
-If the product cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -558,18 +558,17 @@ Returns the additive inverse of a specified operand.
 Returns a specified base raised to the power of a specified exponent.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The result of the exponentiation.
+**Returns**: <code>[Q](#Q)</code> - The result of the exponentiation.  
+**Throws**:
 
-**Errors**
-
-If the exponentiation has no rational result, a "No rational result" error is thrown.
+- If the exponentiation has no rational result, a "No rational result" error is thrown.
 This includes the following cases:
 - The base is positive and the result is irrational (e.g. with base 2 and exponent 1/2).
 - The base is negative and the exponent is not integer.
 - The base is 0 and the exponent is nonpositive.
+- If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
+error is thrown.
 
-If the result of the exponentiation cannot be represented as a `Q`, an "Arithmetic overflow"
-error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -581,12 +580,12 @@ error is thrown.
 Rounds a specified operand to an integer.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The rounding result.
+**Returns**: <code>[Q](#Q)</code> - The rounding result.  
+**Throws**:
 
-**Errors**
+- If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
+thrown.
 
-If an intermediate calculation results in an overflow, an "Arithmetic overflow" error is
-thrown.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -609,12 +608,12 @@ Returns the sign of a specified operand.
 Returns the difference of the specified minuend and subtrahend.
 
 **Kind**: static method of <code>[Q](#Q)</code>  
-**Returns**: <code>[Q](#Q)</code> - The difference.
+**Returns**: <code>[Q](#Q)</code> - The difference.  
+**Throws**:
 
-**Errors**
+- If the difference cannot be represented as a `Q`, or an intermediate calculation results in
+an overflow, an "Arithmetic overflow" error is thrown.
 
-If the difference cannot be represented as a `Q`, or an intermediate calculation results in
-an overflow, an "Arithmetic overflow" error is thrown.  
 
 | Param | Type | Description |
 | --- | --- | --- |
