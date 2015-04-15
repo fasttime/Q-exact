@@ -47,7 +47,6 @@ module.exports =
                         requireSpaceAfterKeywords: true,
                         requireSpaceAfterLineComment: true,
                         requireSpaceBeforeBinaryOperators: true,
-                        requireSpaceBeforeBlockStatements: true,
                         requireSpaceBeforeKeywords:
                         [
                             'delete',
