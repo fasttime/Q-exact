@@ -14,6 +14,8 @@ module.exports =
                     default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                     options:
                     {
+                        // Encourage use of abbreviations: "char", "obj", "str".
+                        disallowIdentifierNames: ['character', 'object', 'string'],
                         disallowMixedSpacesAndTabs: true,
                         disallowSpaceAfterObjectKeys: true,
                         disallowSpaceAfterPrefixUnaryOperators: true,
@@ -83,7 +85,7 @@ module.exports =
                         curly: true,
                         eqeqeq: true,
                         immed: true,
-                        latedef: true,
+                        latedef: 'nofunc',
                         maxlen: 100,
                         newcap: false,
                         noarg: true,
