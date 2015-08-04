@@ -24,7 +24,10 @@
             {
                 result =
                     keys1.every(
-                        function (factor) { return factors1[factor] === factors2[factor]; }
+                        function (factor)
+                        {
+                            return factors1[factor] === factors2[factor];
+                        }
                     );
             }
         }
@@ -36,7 +39,10 @@
         var result =
             '{ ' +
             Object.keys(factors).sort(
-                function (factor1, factor2) { return factor1 - factor2; }
+                function (factor1, factor2)
+                {
+                    return factor1 - factor2;
+                }
             ).map(
                 function (factor)
                 {
@@ -137,5 +143,9 @@
         }
     );
     
-    module.exports = function (arg) { Q = arg; };
+    module.exports =
+        function (arg)
+        {
+            Q = arg;
+        };
 })();
