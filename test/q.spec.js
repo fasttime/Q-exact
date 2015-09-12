@@ -1650,38 +1650,29 @@ describe(
     'log2',
     function ()
     {
-        function describeTest(description, log2)
+        function test(implName, binLog)
         {
-            function test(arg, expected)
-            {
-                it(
-                    arg,
-                    function ()
-                    {
-                        expect(log2(arg)).toBeCloseTo(expected, 13);
-                    }
-                );
-            }
-            
-            describe(
-                description,
+            it(
+                implName + 'produces expected results',
                 function ()
                 {
-                    test(Math.pow(2, 53) - 1, 53);
-                    test(Math.pow(2, -55), -55);
+                    expect(binLog(8)).toBe(3);
                 }
             );
         }
         
+        var binLogA = Q.debug.binLog;
         var log2A = Q.debug.log2;
         var descriptor = Object.getOwnPropertyDescriptor(Math, 'log2');
         if (descriptor)
         {
             var log2B;
+            var binLogB;
             delete Math.log2;
             try
             {
                 log2B = Q.debug.log2;
+                binLogB = Q.debug.binLog;
             }
             finally
             {
@@ -1695,12 +1686,12 @@ describe(
                     expect(log2B).not.toBe(Math.log2);
                 }
             );
-            describeTest('implementation A calculates the binary logarithm of arg', log2A);
-            describeTest('implementation B calculates the binary logarithm of arg', log2B);
+            test('implementation A ', binLogA);
+            test('implementation B ', binLogB);
         }
         else
         {
-            describeTest('calculates the binary logarithm of arg', log2A);
+            test('', binLogA);
         }
     }
 );
