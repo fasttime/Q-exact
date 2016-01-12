@@ -1,4 +1,5 @@
 ## Classes
+
 <dl>
 <dt><a href="#Q">Q</a></dt>
 <dd><p>Represents a rational number.
@@ -6,7 +7,9 @@ All operations involving <code>Q</code>s are <em>exact</em>, unless explicitly n
 The numeric value of a <code>Q</code> is immutable.</p>
 </dd>
 </dl>
+
 ## Typedefs
+
 <dl>
 <dt><a href="#QuotientAndRemainder">QuotientAndRemainder</a> : <code>object</code></dt>
 <dd><p>Contains integer quotient and remainder of a division.</p>
@@ -31,6 +34,7 @@ equidistant.</li>
 </ul>
 </dd>
 </dl>
+
 <a name="Q"></a>
 ## Q
 Represents a rational number.
@@ -40,49 +44,49 @@ The numeric value of a `Q` is immutable.
 **Kind**: global class  
 
 * [Q](#Q)
-  * [new Q(value)](#new_Q_new)
-  * _instance_
-    * [.abs()](#Q#abs) ⇒ <code>[Q](#Q)</code>
-    * [.add(addend)](#Q#add) ⇒ <code>[Q](#Q)</code>
-    * [.compareTo(comparand)](#Q#compareTo) ⇒ <code>number</code>
-    * [.divide(divisor)](#Q#divide) ⇒ <code>[Q](#Q)</code>
-    * [.divideAndRemainder(dividend, divisor)](#Q#divideAndRemainder) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
-    * [.equals(comparand)](#Q#equals) ⇒ <code>boolean</code>
-    * [.invert()](#Q#invert) ⇒ <code>[Q](#Q)</code>
-    * [.isInteger()](#Q#isInteger) ⇒ <code>boolean</code>
-    * [.isPrime()](#Q#isPrime) ⇒ <code>boolean</code>
-    * [.minus(subtrahend)](#Q#minus)
-    * [.multiply(factor)](#Q#multiply) ⇒ <code>[Q](#Q)</code>
-    * [.negate()](#Q#negate) ⇒ <code>[Q](#Q)</code>
-    * [.over(divisor)](#Q#over)
-    * [.plus(addend)](#Q#plus)
-    * [.pow(exp)](#Q#pow) ⇒ <code>[Q](#Q)</code>
-    * [.round([mode])](#Q#round) ⇒ <code>[Q](#Q)</code>
-    * [.sign()](#Q#sign) ⇒ <code>number</code>
-    * [.subtract(subtrahend)](#Q#subtract) ⇒ <code>[Q](#Q)</code>
-    * [.times(factor)](#Q#times)
-    * [.toString([options])](#Q#toString) ⇒ <code>string</code>
-    * [.valueOf()](#Q#valueOf) ⇒ <code>number</code>
-  * _static_
-    * [.MAX_EXP](#Q.MAX_EXP) : <code>number</code>
-    * [.MAX_PRIME](#Q.MAX_PRIME) : <code>number</code>
-    * [.MIN_EXP](#Q.MIN_EXP) : <code>number</code>
-    * [.abs(operand)](#Q.abs) ⇒ <code>[Q](#Q)</code>
-    * [.add([...addends])](#Q.add) ⇒ <code>[Q](#Q)</code>
-    * [.compare(comparand1, comparand2)](#Q.compare) ⇒ <code>number</code>
-    * [.divide(dividend, divisor)](#Q.divide) ⇒ <code>[Q](#Q)</code>
-    * [.divideAndRemainder(dividend, divisor)](#Q.divideAndRemainder) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
-    * [.equals([...comparands])](#Q.equals) ⇒ <code>boolean</code>
-    * [.invert(operand)](#Q.invert) ⇒ <code>[Q](#Q)</code>
-    * [.isInteger(operand)](#Q.isInteger) ⇒ <code>boolean</code>
-    * [.isPrime(operand)](#Q.isPrime) ⇒ <code>boolean</code>
-    * [.multiply([...factors])](#Q.multiply) ⇒ <code>[Q](#Q)</code>
-    * [.negate(operand)](#Q.negate) ⇒ <code>[Q](#Q)</code>
-    * [.pow(base, exp)](#Q.pow) ⇒ <code>[Q](#Q)</code>
-    * [.round(operand, [mode])](#Q.round) ⇒ <code>[Q](#Q)</code>
-    * [.sign(operand)](#Q.sign) ⇒ <code>number</code>
-    * [.subtract(minuend, subtrahend)](#Q.subtract) ⇒ <code>[Q](#Q)</code>
-    * [.toString(q, [options])](#Q.toString) ⇒ <code>string</code>
+    * [new Q(value)](#new_Q_new)
+    * _instance_
+        * [.abs()](#Q+abs) ⇒ <code>[Q](#Q)</code>
+        * [.add(addend)](#Q+add) ⇒ <code>[Q](#Q)</code>
+        * [.compareTo(comparand)](#Q+compareTo) ⇒ <code>number</code>
+        * [.divide(divisor)](#Q+divide) ⇒ <code>[Q](#Q)</code>
+        * [.divideAndRemainder(dividend, divisor)](#Q+divideAndRemainder) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
+        * [.equals(comparand)](#Q+equals) ⇒ <code>boolean</code>
+        * [.invert()](#Q+invert) ⇒ <code>[Q](#Q)</code>
+        * [.isInteger()](#Q+isInteger) ⇒ <code>boolean</code>
+        * [.isPrime()](#Q+isPrime) ⇒ <code>boolean</code>
+        * [.minus(subtrahend)](#Q+minus)
+        * [.multiply(factor)](#Q+multiply) ⇒ <code>[Q](#Q)</code>
+        * [.negate()](#Q+negate) ⇒ <code>[Q](#Q)</code>
+        * [.over(divisor)](#Q+over)
+        * [.plus(addend)](#Q+plus)
+        * [.pow(exp)](#Q+pow) ⇒ <code>[Q](#Q)</code>
+        * [.round([mode])](#Q+round) ⇒ <code>[Q](#Q)</code>
+        * [.sign()](#Q+sign) ⇒ <code>number</code>
+        * [.subtract(subtrahend)](#Q+subtract) ⇒ <code>[Q](#Q)</code>
+        * [.times(factor)](#Q+times)
+        * [.toString([options])](#Q+toString) ⇒ <code>string</code>
+        * [.valueOf()](#Q+valueOf) ⇒ <code>number</code>
+    * _static_
+        * [.MAX_EXP](#Q.MAX_EXP) : <code>number</code>
+        * [.MAX_PRIME](#Q.MAX_PRIME) : <code>number</code>
+        * [.MIN_EXP](#Q.MIN_EXP) : <code>number</code>
+        * [.abs(operand)](#Q.abs) ⇒ <code>[Q](#Q)</code>
+        * [.add([...addends])](#Q.add) ⇒ <code>[Q](#Q)</code>
+        * [.compare(comparand1, comparand2)](#Q.compare) ⇒ <code>number</code>
+        * [.divide(dividend, divisor)](#Q.divide) ⇒ <code>[Q](#Q)</code>
+        * [.divideAndRemainder(dividend, divisor)](#Q.divideAndRemainder) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
+        * [.equals([...comparands])](#Q.equals) ⇒ <code>boolean</code>
+        * [.invert(operand)](#Q.invert) ⇒ <code>[Q](#Q)</code>
+        * [.isInteger(operand)](#Q.isInteger) ⇒ <code>boolean</code>
+        * [.isPrime(operand)](#Q.isPrime) ⇒ <code>boolean</code>
+        * [.multiply([...factors])](#Q.multiply) ⇒ <code>[Q](#Q)</code>
+        * [.negate(operand)](#Q.negate) ⇒ <code>[Q](#Q)</code>
+        * [.pow(base, exp)](#Q.pow) ⇒ <code>[Q](#Q)</code>
+        * [.round(operand, [mode])](#Q.round) ⇒ <code>[Q](#Q)</code>
+        * [.sign(operand)](#Q.sign) ⇒ <code>number</code>
+        * [.subtract(minuend, subtrahend)](#Q.subtract) ⇒ <code>[Q](#Q)</code>
+        * [.toString(q, [options])](#Q.toString) ⇒ <code>string</code>
 
 <a name="new_Q_new"></a>
 ### new Q(value)
@@ -113,13 +117,13 @@ finite numeric value.
 | --- | --- | --- |
 | value | <code>number</code> | The numeric value of the object being created. |
 
-<a name="Q#abs"></a>
+<a name="Q+abs"></a>
 ### q.abs() ⇒ <code>[Q](#Q)</code>
 Returns the absolute value of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The absolute value.  
-<a name="Q#add"></a>
+<a name="Q+add"></a>
 ### q.add(addend) ⇒ <code>[Q](#Q)</code>
 Returns the sum of this rational and a specified addend.
 
@@ -135,7 +139,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | --- | --- | --- |
 | addend | <code>[Rational](#Rational)</code> | The addend. |
 
-<a name="Q#compareTo"></a>
+<a name="Q+compareTo"></a>
 ### q.compareTo(comparand) ⇒ <code>number</code>
 Compares this rational and a specified comparand for order.
 
@@ -151,7 +155,7 @@ thrown.
 | --- | --- | --- |
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
-<a name="Q#divide"></a>
+<a name="Q+divide"></a>
 ### q.divide(divisor) ⇒ <code>[Q](#Q)</code>
 Divides a this rational by a specified divisor, returning the exact quotient.
 
@@ -167,7 +171,7 @@ Divides a this rational by a specified divisor, returning the exact quotient.
 | --- | --- | --- |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
-<a name="Q#divideAndRemainder"></a>
+<a name="Q+divideAndRemainder"></a>
 ### q.divideAndRemainder(dividend, divisor) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
 Divides this rational by a specified divisor, returning integer quotient and remainder.
 
@@ -185,7 +189,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | dividend | <code>[Rational](#Rational)</code> | The dividend. |
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
-<a name="Q#equals"></a>
+<a name="Q+equals"></a>
 ### q.equals(comparand) ⇒ <code>boolean</code>
 Compares this rational and a specified comparand for equality.
 
@@ -196,7 +200,7 @@ Compares this rational and a specified comparand for equality.
 | --- | --- | --- |
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
-<a name="Q#invert"></a>
+<a name="Q+invert"></a>
 ### q.invert() ⇒ <code>[Q](#Q)</code>
 Returns the reciprocal of this rational.
 
@@ -206,21 +210,21 @@ Returns the reciprocal of this rational.
 
 - If this rational is 0, a "No rational result" error is thrown.
 
-<a name="Q#isInteger"></a>
+<a name="Q+isInteger"></a>
 ### q.isInteger() ⇒ <code>boolean</code>
 Determines whether this rational is integer.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>boolean</code> - `true` if this rational is integer; otherwise, `false`.  
-<a name="Q#isPrime"></a>
+<a name="Q+isPrime"></a>
 ### q.isPrime() ⇒ <code>boolean</code>
 Determines whether this rational is a prime number.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>boolean</code> - `true` if this rational is a prime number; otherwise, `false`.  
-<a name="Q#minus"></a>
+<a name="Q+minus"></a>
 ### q.minus(subtrahend)
-A synonym of [subtract](#Q#subtract).
+A synonym of [subtract](#Q+subtract).
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 
@@ -228,7 +232,7 @@ A synonym of [subtract](#Q#subtract).
 | --- |
 | subtrahend | 
 
-<a name="Q#multiply"></a>
+<a name="Q+multiply"></a>
 ### q.multiply(factor) ⇒ <code>[Q](#Q)</code>
 Returns the product of this rational and a specified factor.
 
@@ -243,15 +247,15 @@ Returns the product of this rational and a specified factor.
 | --- | --- | --- |
 | factor | <code>[Rational](#Rational)</code> | The factor. |
 
-<a name="Q#negate"></a>
+<a name="Q+negate"></a>
 ### q.negate() ⇒ <code>[Q](#Q)</code>
 Returns the additive inverse of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The additive inverse.  
-<a name="Q#over"></a>
+<a name="Q+over"></a>
 ### q.over(divisor)
-A synonym of [divide](#Q#divide).
+A synonym of [divide](#Q+divide).
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 
@@ -259,9 +263,9 @@ A synonym of [divide](#Q#divide).
 | --- |
 | divisor | 
 
-<a name="Q#plus"></a>
+<a name="Q+plus"></a>
 ### q.plus(addend)
-A synonym of [add](#Q#add).
+A synonym of [add](#Q+add).
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 
@@ -269,7 +273,7 @@ A synonym of [add](#Q#add).
 | --- |
 | addend | 
 
-<a name="Q#pow"></a>
+<a name="Q+pow"></a>
 ### q.pow(exp) ⇒ <code>[Q](#Q)</code>
 Returns this rational raised to the power of a specified exponent.
 
@@ -290,7 +294,7 @@ error is thrown.
 | --- | --- | --- |
 | exp | <code>[Rational](#Rational)</code> | The exponent. |
 
-<a name="Q#round"></a>
+<a name="Q+round"></a>
 ### q.round([mode]) ⇒ <code>[Q](#Q)</code>
 Rounds this rational to an integer.
 
@@ -306,13 +310,13 @@ thrown.
 | --- | --- | --- |
 | [mode] | <code>[RoundingMode](#RoundingMode)</code> | <code>&quot;half even&quot;</code> | 
 
-<a name="Q#sign"></a>
+<a name="Q+sign"></a>
 ### q.sign() ⇒ <code>number</code>
 Returns the sign of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>number</code> - -1, 0, or 1 as this rational is negative, zero, or positive.  
-<a name="Q#subtract"></a>
+<a name="Q+subtract"></a>
 ### q.subtract(subtrahend) ⇒ <code>[Q](#Q)</code>
 Returns the difference of this rational and a specified subtrahend.
 
@@ -328,9 +332,9 @@ an overflow, an "Arithmetic overflow" error is thrown.
 | --- | --- | --- |
 | subtrahend | <code>[Rational](#Rational)</code> | The subtrahend. |
 
-<a name="Q#times"></a>
+<a name="Q+times"></a>
 ### q.times(factor)
-A synonym of [multiply](#Q#multiply).
+A synonym of [multiply](#Q+multiply).
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 
@@ -338,7 +342,7 @@ A synonym of [multiply](#Q#multiply).
 | --- |
 | factor | 
 
-<a name="Q#toString"></a>
+<a name="Q+toString"></a>
 ### q.toString([options]) ⇒ <code>string</code>
 Returns a string representation of this rational.
 
@@ -352,7 +356,7 @@ returns the string "(OVERFLOW)".
 | [options] | <code>object</code> |  | Optional formatting options. |
 | [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
-<a name="Q#valueOf"></a>
+<a name="Q+valueOf"></a>
 ### q.valueOf() ⇒ <code>number</code>
 Returns a numeric representation of this rational.
 
