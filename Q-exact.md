@@ -36,6 +36,7 @@ equidistant.</li>
 </dl>
 
 <a name="Q"></a>
+
 ## Q
 Represents a rational number.
 All operations involving `Q`s are *exact*, unless explicitly noted otherwise.
@@ -89,6 +90,7 @@ The numeric value of a `Q` is immutable.
         * [.toString(q, [options])](#Q.toString) ⇒ <code>string</code>
 
 <a name="new_Q_new"></a>
+
 ### new Q(value)
 Creates a new instance of a `Q` with a specified value.
 The constructor can be used with or without the `new` operator, e.g. `new Q(2.5)` or
@@ -118,12 +120,14 @@ finite numeric value.
 | value | <code>number</code> | The numeric value of the object being created. |
 
 <a name="Q+abs"></a>
+
 ### q.abs() ⇒ <code>[Q](#Q)</code>
 Returns the absolute value of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The absolute value.  
 <a name="Q+add"></a>
+
 ### q.add(addend) ⇒ <code>[Q](#Q)</code>
 Returns the sum of this rational and a specified addend.
 
@@ -140,6 +144,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | addend | <code>[Rational](#Rational)</code> | The addend. |
 
 <a name="Q+compareTo"></a>
+
 ### q.compareTo(comparand) ⇒ <code>number</code>
 Compares this rational and a specified comparand for order.
 
@@ -156,6 +161,7 @@ thrown.
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
 <a name="Q+divide"></a>
+
 ### q.divide(divisor) ⇒ <code>[Q](#Q)</code>
 Divides a this rational by a specified divisor, returning the exact quotient.
 
@@ -172,6 +178,7 @@ Divides a this rational by a specified divisor, returning the exact quotient.
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
 <a name="Q+divideAndRemainder"></a>
+
 ### q.divideAndRemainder(dividend, divisor) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
 Divides this rational by a specified divisor, returning integer quotient and remainder.
 
@@ -190,6 +197,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
 <a name="Q+equals"></a>
+
 ### q.equals(comparand) ⇒ <code>boolean</code>
 Compares this rational and a specified comparand for equality.
 
@@ -201,6 +209,7 @@ Compares this rational and a specified comparand for equality.
 | comparand | <code>[Rational](#Rational)</code> | The comparand. |
 
 <a name="Q+invert"></a>
+
 ### q.invert() ⇒ <code>[Q](#Q)</code>
 Returns the reciprocal of this rational.
 
@@ -211,18 +220,21 @@ Returns the reciprocal of this rational.
 - If this rational is 0, a "No rational result" error is thrown.
 
 <a name="Q+isInteger"></a>
+
 ### q.isInteger() ⇒ <code>boolean</code>
 Determines whether this rational is integer.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>boolean</code> - `true` if this rational is integer; otherwise, `false`.  
 <a name="Q+isPrime"></a>
+
 ### q.isPrime() ⇒ <code>boolean</code>
 Determines whether this rational is a prime number.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>boolean</code> - `true` if this rational is a prime number; otherwise, `false`.  
 <a name="Q+minus"></a>
+
 ### q.minus(subtrahend)
 A synonym of [subtract](#Q+subtract).
 
@@ -233,6 +245,7 @@ A synonym of [subtract](#Q+subtract).
 | subtrahend | 
 
 <a name="Q+multiply"></a>
+
 ### q.multiply(factor) ⇒ <code>[Q](#Q)</code>
 Returns the product of this rational and a specified factor.
 
@@ -248,12 +261,14 @@ Returns the product of this rational and a specified factor.
 | factor | <code>[Rational](#Rational)</code> | The factor. |
 
 <a name="Q+negate"></a>
+
 ### q.negate() ⇒ <code>[Q](#Q)</code>
 Returns the additive inverse of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>[Q](#Q)</code> - The additive inverse.  
 <a name="Q+over"></a>
+
 ### q.over(divisor)
 A synonym of [divide](#Q+divide).
 
@@ -264,6 +279,7 @@ A synonym of [divide](#Q+divide).
 | divisor | 
 
 <a name="Q+plus"></a>
+
 ### q.plus(addend)
 A synonym of [add](#Q+add).
 
@@ -274,6 +290,7 @@ A synonym of [add](#Q+add).
 | addend | 
 
 <a name="Q+pow"></a>
+
 ### q.pow(exp) ⇒ <code>[Q](#Q)</code>
 Returns this rational raised to the power of a specified exponent.
 
@@ -295,6 +312,7 @@ error is thrown.
 | exp | <code>[Rational](#Rational)</code> | The exponent. |
 
 <a name="Q+round"></a>
+
 ### q.round([mode]) ⇒ <code>[Q](#Q)</code>
 Rounds this rational to an integer.
 
@@ -311,12 +329,14 @@ thrown.
 | [mode] | <code>[RoundingMode](#RoundingMode)</code> | <code>&quot;half even&quot;</code> | 
 
 <a name="Q+sign"></a>
+
 ### q.sign() ⇒ <code>number</code>
 Returns the sign of this rational.
 
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>number</code> - -1, 0, or 1 as this rational is negative, zero, or positive.  
 <a name="Q+subtract"></a>
+
 ### q.subtract(subtrahend) ⇒ <code>[Q](#Q)</code>
 Returns the difference of this rational and a specified subtrahend.
 
@@ -333,6 +353,7 @@ an overflow, an "Arithmetic overflow" error is thrown.
 | subtrahend | <code>[Rational](#Rational)</code> | The subtrahend. |
 
 <a name="Q+times"></a>
+
 ### q.times(factor)
 A synonym of [multiply](#Q+multiply).
 
@@ -343,6 +364,7 @@ A synonym of [multiply](#Q+multiply).
 | factor | 
 
 <a name="Q+toString"></a>
+
 ### q.toString([options]) ⇒ <code>string</code>
 Returns a string representation of this rational.
 
@@ -357,6 +379,7 @@ returns the string "(OVERFLOW)".
 | [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 <a name="Q+valueOf"></a>
+
 ### q.valueOf() ⇒ <code>number</code>
 Returns a numeric representation of this rational.
 
@@ -367,6 +390,7 @@ rationals are rounded to ±0.
 **Kind**: instance method of <code>[Q](#Q)</code>  
 **Returns**: <code>number</code> - A number.  
 <a name="Q.MAX_EXP"></a>
+
 ### Q.MAX_EXP : <code>number</code>
 The maximum exponent for a prime factor.
 
@@ -378,6 +402,7 @@ error.
 
 **Kind**: static constant of <code>[Q](#Q)</code>  
 <a name="Q.MAX_PRIME"></a>
+
 ### Q.MAX_PRIME : <code>number</code>
 The largest exponent for a prime factor.
 
@@ -389,6 +414,7 @@ error.
 
 **Kind**: static constant of <code>[Q](#Q)</code>  
 <a name="Q.MIN_EXP"></a>
+
 ### Q.MIN_EXP : <code>number</code>
 The minimum exponent for a prime factor.
 
@@ -400,6 +426,7 @@ error.
 
 **Kind**: static constant of <code>[Q](#Q)</code>  
 <a name="Q.abs"></a>
+
 ### Q.abs(operand) ⇒ <code>[Q](#Q)</code>
 Returns the absolute value of a specified operand.
 
@@ -411,6 +438,7 @@ Returns the absolute value of a specified operand.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.add"></a>
+
 ### Q.add([...addends]) ⇒ <code>[Q](#Q)</code>
 Returns the sum of the specified addends.
 
@@ -428,6 +456,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | [...addends] | <code>[Rational](#Rational)</code> | Optional addends. |
 
 <a name="Q.compare"></a>
+
 ### Q.compare(comparand1, comparand2) ⇒ <code>number</code>
 Compares two specified comparands for order.
 
@@ -446,6 +475,7 @@ thrown.
 | comparand2 | <code>[Rational](#Rational)</code> | The second comparand. |
 
 <a name="Q.divide"></a>
+
 ### Q.divide(dividend, divisor) ⇒ <code>[Q](#Q)</code>
 Divides a specified dividend by a specified divisor, returning the exact quotient.
 
@@ -463,6 +493,7 @@ Divides a specified dividend by a specified divisor, returning the exact quotien
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
 <a name="Q.divideAndRemainder"></a>
+
 ### Q.divideAndRemainder(dividend, divisor) ⇒ <code>[QuotientAndRemainder](#QuotientAndRemainder)</code>
 Divides a specified dividend by a specified divisor, returning integer quotient and
 remainder.
@@ -482,6 +513,7 @@ overflow, an "Arithmetic overflow" error is thrown.
 | divisor | <code>[Rational](#Rational)</code> | The divisor. |
 
 <a name="Q.equals"></a>
+
 ### Q.equals([...comparands]) ⇒ <code>boolean</code>
 Compares the specified comparands for equality.
 
@@ -494,6 +526,7 @@ If this function is called with one or no arguments, the return value is `true`.
 | [...comparands] | <code>[Rational](#Rational)</code> | Optional comparands. |
 
 <a name="Q.invert"></a>
+
 ### Q.invert(operand) ⇒ <code>[Q](#Q)</code>
 Returns the reciprocal of a specified operand.
 
@@ -509,6 +542,7 @@ Returns the reciprocal of a specified operand.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.isInteger"></a>
+
 ### Q.isInteger(operand) ⇒ <code>boolean</code>
 Determines whether a specified operand is integer.
 
@@ -520,6 +554,7 @@ Determines whether a specified operand is integer.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.isPrime"></a>
+
 ### Q.isPrime(operand) ⇒ <code>boolean</code>
 Determines whether a specified operand is a prime number.
 
@@ -531,6 +566,7 @@ Determines whether a specified operand is a prime number.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.multiply"></a>
+
 ### Q.multiply([...factors]) ⇒ <code>[Q](#Q)</code>
 Returns the product of the specified factors.
 
@@ -539,7 +575,8 @@ Returns the product of the specified factors.
 If this function is called without arguments, the return value is 1.  
 **Throws**:
 
-- If the product cannot be represented as a `Q`, an "Arithmetic overflow" error is thrown.
+- If the product cannot be represented as a `Q`, or an intermediate calculation results in an
+overflow, an "Arithmetic overflow" error is thrown.
 
 
 | Param | Type | Description |
@@ -547,6 +584,7 @@ If this function is called without arguments, the return value is 1.
 | [...factors] | <code>[Rational](#Rational)</code> | Optional factors. |
 
 <a name="Q.negate"></a>
+
 ### Q.negate(operand) ⇒ <code>[Q](#Q)</code>
 Returns the additive inverse of a specified operand.
 
@@ -558,6 +596,7 @@ Returns the additive inverse of a specified operand.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.pow"></a>
+
 ### Q.pow(base, exp) ⇒ <code>[Q](#Q)</code>
 Returns a specified base raised to the power of a specified exponent.
 
@@ -580,6 +619,7 @@ error is thrown.
 | exp | <code>[Rational](#Rational)</code> | The exponent. |
 
 <a name="Q.round"></a>
+
 ### Q.round(operand, [mode]) ⇒ <code>[Q](#Q)</code>
 Rounds a specified operand to an integer.
 
@@ -597,6 +637,7 @@ thrown.
 | [mode] | <code>[RoundingMode](#RoundingMode)</code> | <code>&quot;half even&quot;</code> |  |
 
 <a name="Q.sign"></a>
+
 ### Q.sign(operand) ⇒ <code>number</code>
 Returns the sign of a specified operand.
 
@@ -608,6 +649,7 @@ Returns the sign of a specified operand.
 | operand | <code>[Rational](#Rational)</code> | The operand. |
 
 <a name="Q.subtract"></a>
+
 ### Q.subtract(minuend, subtrahend) ⇒ <code>[Q](#Q)</code>
 Returns the difference of the specified minuend and subtrahend.
 
@@ -625,6 +667,7 @@ an overflow, an "Arithmetic overflow" error is thrown.
 | subtrahend | <code>[Rational](#Rational)</code> | The subtrahend. |
 
 <a name="Q.toString"></a>
+
 ### Q.toString(q, [options]) ⇒ <code>string</code>
 Returns a string representation of a specified rational.
 
@@ -640,6 +683,7 @@ returns the string "(OVERFLOW)".
 | [options.mode] | <code>string</code> | <code>&quot;factor&quot;</code> | "factor" for a string representation as product of factors (e.g. "2⋅3²⋅5⁻¹" for 3.6), or "fraction" for a fractional representation (e.g. "18/5"). |
 
 <a name="QuotientAndRemainder"></a>
+
 ## QuotientAndRemainder : <code>object</code>
 Contains integer quotient and remainder of a division.
 
@@ -652,11 +696,13 @@ Contains integer quotient and remainder of a division.
 | remainder | <code>[Q](#Q)</code> | The remainder. |
 
 <a name="Rational"></a>
+
 ## Rational : <code>[Q](#Q)</code> &#124; <code>number</code>
 A number or an instance of a `Q`.
 
 **Kind**: global typedef  
 <a name="RoundingMode"></a>
+
 ## RoundingMode : <code>string</code>
 A string specifying how fractional values are rounded.
 - "up" - Rounding away from zero.
