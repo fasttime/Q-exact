@@ -5,7 +5,7 @@
 
 var Q = require('../lib/q');
 require('expectations');
-require('./matcher-helpers.js')(Q);
+require('./matcher-helpers')(Q);
 
 var ArithmeticOverflowError = new Error('Arithmetic overflow');
 var InvalidArgumentError = new Error('Invalid argument');

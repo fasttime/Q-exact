@@ -16,12 +16,10 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "lib",
-    "LICENSE.txt",
-    "package.json",
-    "*.md"
+    "*.md",
+    "lib"
   ],
-  "main": "lib/q.js",
+  "main": "lib/q",
   "repository": {
     "type": "git",
     "url": "https://github.com/fasttime/Q-exact.git"
