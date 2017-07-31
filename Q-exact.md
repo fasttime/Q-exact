@@ -383,7 +383,8 @@ returns the string "(OVERFLOW)".
 ### q.valueOf() ⇒ <code>number</code>
 Returns a numeric representation of this rational.
 
-The number returned by this function is subject to rounding: the result is *not exact*.
+The number returned by this function is *not exact*, it could differ from the exact value of
+this rational by more than 50%.
 Rationals with very large absolute value are represented as ±infinity, and very small
 rationals are rounded to ±0.
 
