@@ -19,25 +19,26 @@
     "*.md",
     "lib"
   ],
-  "main": "lib/q",
+  "main": "lib/q.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/fasttime/Q-exact.git"
   },
   "scripts": {
-    "build": "npm install && grunt"
+    "build": "npm install && gulp"
   },
   "devDependencies": {
-    "expectations": "~0.5.2",
-    "grunt": "~0.4.5",
-    "grunt-cli": "~0.1.13",
-    "grunt-contrib-clean": "~0.7.0",
-    "grunt-contrib-jshint": "~0.12.0",
-    "grunt-contrib-uglify": "~0.11.0",
-    "grunt-jscs": "~2.6.0",
-    "grunt-jsdoc-to-markdown": "~1.2.0",
-    "grunt-mocha-istanbul": "~3.0.1",
-    "istanbul": "~0.4.2",
-    "mocha": "~2.3.3"
+    "del": "~3.0.0",
+    "expectations": "~0.7.1",
+    "fs-then-native": "~2.0.0",
+    "gulp": "~4.0.0",
+    "gulp-fasttime-lint": "~0.6.0",
+    "gulp-rename": "~1.4.0",
+    "gulp-spawn-mocha": "~5.0.1",
+    "gulp-uglify": "~3.0.1",
+    "istanbul": "~0.4.5",
+    "jsdoc-to-markdown": "~4.0.1",
+    "mocha": "~3.5.3",
+    "mocha-bar": "~0.0.3"
   }
 }

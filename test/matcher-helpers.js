@@ -1,63 +1,64 @@
-/* global expect */
-/* jshint node: true */
+/* global expect, module */
+
+'use strict';
 
 (function ()
 {
-    'use strict';
-    
     function compareFactors(factors1, factors2)
     {
         var result;
         if (factors1 === factors2)
-        {
             result = true;
-        }
         else
         {
             var keys1 = Object.getOwnPropertyNames(factors1).sort();
             var keys2 = Object.getOwnPropertyNames(factors2).sort();
             if (keys1.length !== keys2.length)
-            {
                 result = false;
-            }
             else
             {
                 result =
-                    keys1.every(
-                        function (factor)
-                        {
-                            return factors1[factor] === factors2[factor];
-                        }
-                    );
+                keys1.every
+                (
+                    function (factor)
+                    {
+                        return factors1[factor] === factors2[factor];
+                    }
+                );
             }
         }
         return result;
     }
-    
+
     function printFactors(factors)
     {
         var result =
-            '{ ' +
-            Object.keys(factors).sort(
-                function (factor1, factor2)
-                {
-                    return factor1 - factor2;
-                }
-            ).map(
-                function (factor)
-                {
-                    var exp = factors[factor];
-                    var factorString = factor + ': ' + exp;
-                    return factorString;
-                }
-            ).join(', ') +
-            ' }';
+        '{ ' +
+        Object.keys(factors).sort
+        (
+            function (factor1, factor2)
+            {
+                return factor1 - factor2;
+            }
+        )
+        .map
+        (
+            function (factor)
+            {
+                var exp = factors[factor];
+                var factorString = factor + ': ' + exp;
+                return factorString;
+            }
+        )
+        .join(', ') +
+        ' }';
         return result;
     }
-    
+
     var MATCHERS =
     {
-        toBeQ: function (expected)
+        toBeQ:
+        function (expected)
         {
             var message;
             var actual = this.value;
@@ -124,28 +125,30 @@
             }
             this.assertions.pass(message);
         },
-        toBeString: function ()
+        toBeString:
+        function ()
         {
             var actual = this.value;
             var message = this.generateMessage(actual, this.expr, 'to be a string');
             var pass = typeof actual === 'string';
             this.assertions[pass ? 'pass' : 'fail'](message);
-        }
+        },
     };
-    
+
     var Q;
-    
-    Object.keys(MATCHERS).forEach(
+
+    Object.keys(MATCHERS).forEach
+    (
         function (name)
         {
             var matcher = MATCHERS[name];
             expect.addAssertion(name, matcher);
         }
     );
-    
+
     module.exports =
-        function (arg)
-        {
-            Q = arg;
-        };
+    function (arg)
+    {
+        Q = arg;
+    };
 })();
