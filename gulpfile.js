@@ -75,21 +75,24 @@ task
     'jsdoc2md',
     function ()
     {
-        var fsThen = require('fs-then-native');
-        var jsdoc2md = require('jsdoc-to-markdown');
+        var fs          = require('fs');
+        var jsdoc2md    = require('jsdoc-to-markdown');
+        var util        = require('util');
 
-        var stream =
+        var writeFile = util.promisify(fs.writeFile);
+
+        var promise =
         jsdoc2md
         .render({ files: 'lib/q.js' })
         .then
         (
             function (output)
             {
-                var promise = fsThen.writeFile('Q-exact.md', output);
+                var promise = writeFile('Q-exact.md', output);
                 return promise;
             }
         );
-        return stream;
+        return promise;
     }
 );
 

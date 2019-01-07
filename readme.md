@@ -1,5 +1,4 @@
-Q-exact
-=======
+# Q-exact · [![npm version][npm badge]][npm url]
 
 A library to make exact calculations with [rational numbers](http://mathworld.wolfram.com/RationalNumber.html) without rounding errors.
 
@@ -19,3 +18,6 @@ There is no way to represent [irrational numbers](http://mathworld.wolfram.com/I
 See the [**Q Class Reference**](Q-exact.md) for further informations.
 
 *This is a preliminary documentation and may be subject to change at any time.*
+
+[npm badge]: https://badge.fury.io/js/q-exact.svg
+[npm url]: https://www.npmjs.com/package/q-exact
